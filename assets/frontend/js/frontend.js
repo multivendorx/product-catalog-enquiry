@@ -156,20 +156,9 @@ jQuery( document ).ready( function ( $ ) {
 			'product-id-for-enquiry'
 		).value;
 
-		if (
-			typeof catalog_enquiry_front.settings_gen.form_captcha !=
-				'undefined' &&
-			typeof catalog_enquiry_front.settings_gen.form_captcha.is_enable !=
-				'undefined' &&
-			catalog_enquiry_front.settings_gen.form_captcha.is_enable !==
-				null &&
-			catalog_enquiry_front.settings_gen.form_captcha.is_enable ==
-				'Enable'
-		) {
-			var captcha = document.getElementById(
-				'woocommerce-catalog-captcha'
-			);
-		}
+		var captcha = document.getElementById(
+			'woocommerce-catalog-captcha'
+		);
 
 		if ( name == '' || name == ' ' ) {
 			document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
@@ -191,33 +180,23 @@ jQuery( document ).ready( function ( $ ) {
 			return false;
 		}
 
-		if (
-			typeof catalog_enquiry_front.settings_gen.form_captcha !=
-				'undefined' &&
-			typeof catalog_enquiry_front.settings_gen.form_captcha.is_enable !=
-				'undefined' &&
-			catalog_enquiry_front.settings_gen.form_captcha.is_enable !==
-				null &&
-			catalog_enquiry_front.settings_gen.form_captcha.is_enable ==
-				'Enable'
-		) {
-			if ( captcha.value == '' || captcha.value == ' ' ) {
-				document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
-					catalog_enquiry_front.error_levels.captcha_required;
-				document
-					.getElementById( 'woocommerce-catalog-captcha' )
-					.focus();
-				return false;
-			}
-			if ( captcha.value != catalog_enquiry_front.captcha ) {
-				document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
-					catalog_enquiry_front.error_levels.captcha_valid;
-				document
-					.getElementById( 'woocommerce-catalog-captcha' )
-					.focus();
-				return false;
-			}
+		if ( captcha.value == '' || captcha.value == ' ' ) {
+			document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
+				catalog_enquiry_front.error_levels.captcha_required;
+			document
+				.getElementById( 'woocommerce-catalog-captcha' )
+				.focus();
+			return false;
 		}
+		if ( captcha.value != catalog_enquiry_front.captcha ) {
+			document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
+				catalog_enquiry_front.error_levels.captcha_valid;
+			document
+				.getElementById( 'woocommerce-catalog-captcha' )
+				.focus();
+			return false;
+		}
+		
 		block( $( '#responsive' ) );
 		jQuery( '#loader-after-sumitting-the-form' ).show();
 		jQuery( '#msg-for-enquiry-error' ).html( '' );
