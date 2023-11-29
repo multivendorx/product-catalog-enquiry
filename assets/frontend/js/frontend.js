@@ -156,9 +156,11 @@ jQuery( document ).ready( function ( $ ) {
 			'product-id-for-enquiry'
 		).value;
 
-		var captcha = document.getElementById(
-			'woocommerce-catalog-captcha'
-		);
+		if ( catalog_enquiry_front.settings_gen.enquiry_form_fileds.find(([key]) => key === 'is-captcha_checkbox')[1] != 'undefined' ) {
+			var captcha = document.getElementById(
+				'woocommerce-catalog-captcha'
+			);
+		}
 
 		if ( name == '' || name == ' ' ) {
 			document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
@@ -180,21 +182,23 @@ jQuery( document ).ready( function ( $ ) {
 			return false;
 		}
 
-		if ( captcha.value == '' || captcha.value == ' ' ) {
-			document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
-				catalog_enquiry_front.error_levels.captcha_required;
-			document
-				.getElementById( 'woocommerce-catalog-captcha' )
-				.focus();
-			return false;
-		}
-		if ( captcha.value != catalog_enquiry_front.captcha ) {
-			document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
-				catalog_enquiry_front.error_levels.captcha_valid;
-			document
-				.getElementById( 'woocommerce-catalog-captcha' )
-				.focus();
-			return false;
+		if ( catalog_enquiry_front.settings_gen.enquiry_form_fileds.find(([key]) => key === 'is-captcha_checkbox')[1] != 'undefined' ) {
+			if ( captcha.value == '' || captcha.value == ' ' ) {
+				document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
+					catalog_enquiry_front.error_levels.captcha_required;
+				document
+					.getElementById( 'woocommerce-catalog-captcha' )
+					.focus();
+				return false;
+			}
+			if ( captcha.value != catalog_enquiry_front.captcha ) {
+				document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
+					catalog_enquiry_front.error_levels.captcha_valid;
+				document
+					.getElementById( 'woocommerce-catalog-captcha' )
+					.focus();
+				return false;
+			}
 		}
 		
 		block( $( '#responsive' ) );
