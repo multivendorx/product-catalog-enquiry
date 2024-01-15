@@ -1421,35 +1421,6 @@ export default class DynamicForm extends React.Component {
 										}
 									</div>
 								</div>
-								<div className="mvx-registration-from-content-and-description">
-									<input
-										type="text"
-										placeholder={
-											catalogappLocalizer
-												.settings_page_string
-												.registration_form_desc
-										}
-										value={
-											this.state
-												.mvx_registration_fileds_list[ 0 ]
-												.description
-										}
-										onChange={ ( e ) => {
-											this.OnRegistrationSelectChange(
-												e,
-												'',
-												'parent_description'
-											);
-										} }
-									/>
-									<div className="mvx-registration-form-description">
-										{
-											catalogappLocalizer
-												.settings_page_string
-												.registration1
-										}
-									</div>
-								</div>
 							</div>
 						) : (
 							''

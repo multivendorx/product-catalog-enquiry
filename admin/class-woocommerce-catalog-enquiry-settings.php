@@ -48,8 +48,6 @@ class Woocommerce_Catalog_Enquiry_Settings {
       $settings_page_string = array(
             'registration_form_title'       =>  __('Registration form title', 'woocommerce-catalog-enquiry'),
             'registration_form_title_desc'  =>  __('Type the form title you want the vendor to see. eg registrazione del venditore', 'woocommerce-catalog-enquiry'),
-            'registration_form_desc'        =>  __('Registration form description', 'woocommerce-catalog-enquiry'),
-            'registration1'                  =>  __('Introduce your marketplace or add instructions for registration', 'woocommerce-catalog-enquiry'),
             'registration2'                  =>  __('Write questions applicable to your marketplace', 'woocommerce-catalog-enquiry'),
             'registration3'                  =>  __('Select your preferred question format. Read doc to know more about each format.', 'woocommerce-catalog-enquiry'),
             'registration4'                  =>  __('Placeholder', 'woocommerce-catalog-enquiry'),
