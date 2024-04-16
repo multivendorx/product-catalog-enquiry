@@ -23,6 +23,8 @@ class Woocommerce_Catalog_Enquiry_Settings {
     }
     add_submenu_page( 'catalog', __( 'Settings', 'woocommerce-catalog-enquiry' ), __( 'Settings', 'woocommerce-catalog-enquiry' ), 'manage_woocommerce', 'catalog#&tab=settings&subtab=general', '__return_null' );
 
+    add_submenu_page( 'catalog', __( 'Modules', 'woocommerce-catalog-enquiry' ), __( 'Modules', 'woocommerce-catalog-enquiry' ), 'manage_woocommerce', 'catalog#&tab=modules', '__return_null' );
+
     if (apply_filters('mvx_catalog_free_only_active', true)) {
       $submenu[ $slug ][] = [ __( '<div id="upgrade-to-pro"><i class="mvx-catalog icon-upgrade-to-pro-tab"></i>Upgrade to pro</div>', 'woocommerce-catalog-enquiry' ), 'manage_woocommerce', 'https://multivendorx.com/woocommerce-request-a-quote-product-catalog/' ];
     }
@@ -43,8 +45,8 @@ class Woocommerce_Catalog_Enquiry_Settings {
     global $Woocommerce_Catalog_Enquiry;
 
     if (get_current_screen()->id == 'toplevel_page_catalog') {
-      wp_enqueue_style( 'mvx-catalog-style', $Woocommerce_Catalog_Enquiry->plugin_url . 'src/style/main.css' );
-      wp_enqueue_script( 'mvx-catalog-script', $Woocommerce_Catalog_Enquiry->plugin_url . 'build/index.js', array( 'wp-element' ), '1.0.0', true );
+      // wp_enqueue_style( 'mvx-catalog-style', $Woocommerce_Catalog_Enquiry->plugin_url . 'src/style/main.css' );
+      wp_enqueue_script( 'mvx-catalog-script', Catalog()->plugin_url . 'build/index.js', array( 'wp-element' ), '1.0.0', true );
       $settings_page_string = array(
             'registration_form_title'       =>  __('Registration form title', 'woocommerce-catalog-enquiry'),
             'registration_form_title_desc'  =>  __('Type the form title you want the vendor to see. eg registrazione del venditore', 'woocommerce-catalog-enquiry'),

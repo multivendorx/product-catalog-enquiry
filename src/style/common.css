@@ -1,0 +1,247 @@
+@font-face {
+  font-family: "admin-font";
+  src: url("fonts/admin-font.eot?r3umvz");
+  src: url("fonts/admin-font.eot?r3umvz#iefix") format("embedded-opentype"), url("fonts/admin-font.ttf?r3umvz") format("truetype"), url("fonts/admin-font.woff?r3umvz") format("woff"), url("fonts/admin-font.svg?r3umvz#admin-font") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+[class^=font-], [class*=" font-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "admin-font" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-resize:before {
+  content: "\e90e";
+}
+
+.font-arrow-down:before {
+  content: "\e90a";
+}
+
+.font-arrow-up:before {
+  content: "\e909";
+}
+
+.font-arrow-right:before {
+  content: "\e907";
+}
+
+.font-arrow-left:before {
+  content: "\e908";
+}
+
+.font-mailchimp:before {
+  content: "\e900";
+}
+
+.font-support:before {
+  content: "\e911";
+}
+
+.font-link:before {
+  content: "\e90d";
+}
+
+.font-crop-free:before {
+  content: "\e90f";
+}
+
+.font-text-fields:before {
+  content: "\e910";
+}
+
+.font-send:before {
+  content: "\e90c";
+}
+
+.font-menu:before {
+  content: "\e90b";
+}
+
+.font-cross:before {
+  content: "\e905";
+}
+
+.font-icon-yes:before {
+  content: "\e906";
+}
+
+.font-mail:before {
+  content: "\e901";
+}
+
+.font-file-submission:before {
+  content: "\e902";
+}
+
+.font-submission-message:before {
+  content: "\e903";
+}
+
+.font-settings:before {
+  content: "\e904";
+}
+
+input, textarea {
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+
+#admin-stockmanager {
+  margin-top: 5px;
+}
+
+.woo-module-popup span.font-cross {
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.woo-container {
+  background-color: #f2eff5;
+  padding: 2rem 1.5rem;
+  min-height: 54rem;
+}
+
+.woo-search-and-multistatus-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 2rem 0;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.woo-search-and-multistatus-wrap .woo-multistatus-ul {
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.woo-search-and-multistatus-wrap .woo-multistatus-ul .woo-multistatus-item.status-active {
+  color: #65438f;
+}
+.woo-search-and-multistatus-wrap .woo-multistatus-ul .woo-multistatus-item {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #5e5d60;
+}
+.woo-search-and-multistatus-wrap .woo-multistatus-ul .woo-multistatus-item button {
+  padding: 0;
+}
+.woo-search-and-multistatus-wrap .woo-multistatus-ul .woo-divider {
+  width: 0.051rem;
+  background-color: #5e5d60;
+  margin: 0 0.4rem;
+  height: 1rem;
+}
+
+.woo-wrap-bulk-all-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem 0.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.5rem;
+}
+
+.woo-page-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+  justify-content: space-between;
+}
+.woo-page-title p {
+  font-size: 1.5rem;
+  color: #181718;
+  margin-right: 0.7rem;
+}
+.woo-page-title .pull-right {
+  margin: 0.4rem 0 0 auto;
+}
+.woo-page-title .pull-right .woo-btn.btn-purple {
+  background-color: #65438f;
+  border: none;
+  color: #f9f8fb;
+  transition: all 0.3s ease;
+  border-radius: 0.25rem;
+  padding: 0.594rem 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+.woo-page-title .pull-right .woo-btn.btn-purple:hover {
+  background-color: #795b9d;
+  color: #f9f8fb;
+}
+.woo-page-title .pull-right .woo-btn.btn-purple:hover {
+  text-decoration: none;
+}
+
+#adminmenu .wp-submenu a {
+  position: relative;
+}
+#adminmenu .wp-submenu li a .stock-manager-pro-tag {
+  right: 0.25rem;
+  padding: 0.125rem 0.5rem !important;
+}
+
+.stock-manager-popup-cross {
+  text-align: right;
+  cursor: pointer;
+}
+
+.woo-middle-container-wrapper {
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.313rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.12);
+}
+
+.mvx-container a {
+  color: #65438f;
+  line-height: 1rem;
+  text-decoration: none;
+}
+.mvx-container code {
+  background: #fbf5f8;
+  color: #b74f82;
+  font-style: normal;
+}
+.mvx-container p.mvx-settings-metabox-description-code {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  background: #fdf9fb;
+  color: #b74f82;
+  border-radius: 0.25rem;
+  position: relative;
+}
+.mvx-container p.mvx-settings-metabox-description-code::before {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 0;
+  width: 0.25rem;
+  border-radius: 0.25rem;
+  background-color: #dfb1c7;
+  height: 100%;
+}/*# sourceMappingURL=common.css.map */
