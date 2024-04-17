@@ -71,14 +71,14 @@ class Module {
                 if ( !$product->managing_stock() && !$product->is_in_stock()) {
                 ?>
                 <br/>
-                <button class="woocommerce-catalog-enquiry-btn button demo btn btn-primary btn-large" style="<?php echo $button_css; ?>" href="#responsive"><?php echo 'Enquiry'; ?></button>
+                <button class="woocommerce-catalog-enquiry-btn button demo btn btn-primary btn-large" style="<?php echo $button_css; ?>" href="#responsive"><?php echo esc_html( $settings_array[ 'button_text' ] ); ?></button>
                 <?php
                 } 
             } 
             else {
                 ?>
                 <br/>
-                <button class="woocommerce-catalog-enquiry-btn button demo btn btn-primary btn-large" style="<?php echo $button_css; ?>" href="#responsive"><?php echo 'Send an enquiry'; ?></button>
+                <button class="woocommerce-catalog-enquiry-btn button demo btn btn-primary btn-large" style="<?php echo $button_css; ?>" href="#responsive"><?php echo esc_html( $settings_array[ 'button_text' ] ); ?></button>
                 <?php
             }
              ?>

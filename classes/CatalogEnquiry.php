@@ -67,7 +67,7 @@ final class CatalogEnquiry {
 		$this->container['setting']  = new Setting();
         $this->container['ajax']     = new Ajax();
         $this->container['admin']    = new Admin();
-        // $this->container['frontend'] = new Frontend();
+        $this->container['frontend'] = new Frontend();
 		$this->container['rest']	 = new Rest();
 		$this->container[ 'util' ]   = new Utill();
 		$this->container['modules']	 = new Modules();
