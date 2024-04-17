@@ -22,10 +22,17 @@ export default {
         },
         {
             key: 'notify_me_button',
-            type: 'button',
+            type: 'checkbox',
             depend_checkbox:  'is_enable_out_of_stock',
-            label: __("Notify Me Button -> Using WooCommerce Stock Alert", "woocommerce-catalog-enquiry"),
+            label: __("Notify Me Button", "woocommerce-catalog-enquiry"),
             desc: __("", "woocommerce-catalog-enquiry"),
+            options: [
+                {
+                    key: "notify_me_button",
+                    label: __("", 'woocommerce-catalog-enquiry'),
+                    value: "notify_me_button"
+                }
+            ]
         },
         {
             key: 'display_description_for_out_of_stock',

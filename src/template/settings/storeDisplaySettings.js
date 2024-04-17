@@ -10,7 +10,7 @@ export default {
     modal: [
         {
             key: 'product_galary_page',
-            type: 'checkbox',
+            type: 'radio',
             label: __("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry"),
             desc: __("", "woocommerce-catalog-enquiry"),
             select_deselect: true,
@@ -29,17 +29,12 @@ export default {
                     key: "enquiry_button",
                     label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
                     value: "enquiry_button"
-                },
-                {
-                    key: "ask_a_quote",
-                    label: __('Ask a Quote', 'woocommerce-catalog-enquiry'),
-                    value: "ask_a_quote"
                 }
             ]
         },
         {
             key: 'product_page',
-            type: 'multi-select',
+            type: 'radio',
             label: __("Product Page", "woocommerce-catalog-enquiry"),
             desc: __("", "woocommerce-catalog-enquiry"),
             options: [
@@ -57,11 +52,6 @@ export default {
                     key: "enquiry_button",
                     label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
                     value: "enquiry_button"
-                },
-                {
-                    key: "ask_a_quote",
-                    label: __('Ask a Quote', 'woocommerce-catalog-enquiry'),
-                    value: "ask_a_quote"
                 }
             ]
         }

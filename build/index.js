@@ -19641,33 +19641,13 @@ __webpack_require__.r(__webpack_exports__);
   icon: 'font-settings',
   submitUrl: 'save_enquiry',
   modal: [{
-    key: 'product_enquiry_position',
-    type: 'select',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enquiry Button Postion', 'woocommerce-catalog-enquiry'),
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
-    options: [{
-      key: "above_add_to_cart",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Above Add-To-Cart', 'woocommerce-catalog-enquiry'),
-      value: "above_add_to_cart"
-    }, {
-      key: "below_add_to_cart",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Below Add-To-Cart', 'woocommerce-catalog-enquiry'),
-      value: "below_add_to_cart"
-    }, {
-      key: "place_add_to_cart",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('At The Place Of Add-To-Cart', 'woocommerce-catalog-enquiry'),
-      value: "place_add_to_cart"
-    }]
-  }, {
-    key: "custom_button_element",
     type: "button_customizer",
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Custom Button Element", "woocommerce-catalog-enquiry")
   }, {
-    key: "enquiry_button_label",
+    key: "button_text",
     type: "text",
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enquiry Button", "woocommerce-catalog-enquiry")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enquiry Button Text", "woocommerce-catalog-enquiry")
   }, {
     key: "enquiry_cart_button_text",
     type: "text",
@@ -19793,7 +19773,7 @@ __webpack_require__.r(__webpack_exports__);
   submitUrl: 'save_enquiry',
   modal: [{
     key: 'display_enquiry_button_user_type',
-    type: 'select',
+    type: 'radio',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Display Enquiry Button for", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the type users where this enquiry button is applicable", "woocommerce-catalog-enquiry"),
     options: [{
@@ -19821,10 +19801,10 @@ __webpack_require__.r(__webpack_exports__);
   }, {
     key: 'redirect_page_id',
     depend_checkbox: 'is_page_redirect',
-    type: 'select',
+    type: 'radio',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Set Redirect Page', 'woocommerce-catalog-enquiry'),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select page where user will be redirected after successful enquiry.', 'woocommerce-catalog-enquiry'),
-    options: [appLocalizer.pages_array]
+    options: appLocalizer.pages_array
   }, {
     key: 'is_disable_popup',
     type: 'checkbox',
@@ -19964,10 +19944,15 @@ __webpack_require__.r(__webpack_exports__);
     }]
   }, {
     key: 'notify_me_button',
-    type: 'button',
+    type: 'checkbox',
     depend_checkbox: 'is_enable_out_of_stock',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Notify Me Button -> Using WooCommerce Stock Alert", "woocommerce-catalog-enquiry"),
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Notify Me Button", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
+    options: [{
+      key: "notify_me_button",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", 'woocommerce-catalog-enquiry'),
+      value: "notify_me_button"
+    }]
   }, {
     key: 'display_description_for_out_of_stock',
     depend_checkbox: 'is_enable_out_of_stock',
@@ -20050,7 +20035,7 @@ __webpack_require__.r(__webpack_exports__);
   submitUrl: 'save_enquiry',
   modal: [{
     key: 'product_galary_page',
-    type: 'checkbox',
+    type: 'radio',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
     select_deselect: true,
@@ -20066,14 +20051,10 @@ __webpack_require__.r(__webpack_exports__);
       key: "enquiry_button",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enquiry Button', 'woocommerce-catalog-enquiry'),
       value: "enquiry_button"
-    }, {
-      key: "ask_a_quote",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Ask a Quote', 'woocommerce-catalog-enquiry'),
-      value: "ask_a_quote"
     }]
   }, {
     key: 'product_page',
-    type: 'multi-select',
+    type: 'radio',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Page", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
     options: [{
@@ -20088,10 +20069,6 @@ __webpack_require__.r(__webpack_exports__);
       key: "enquiry_button",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enquiry Button', 'woocommerce-catalog-enquiry'),
       value: "enquiry_button"
-    }, {
-      key: "ask_a_quote",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Ask a Quote', 'woocommerce-catalog-enquiry'),
-      value: "ask_a_quote"
     }]
   }]
 });

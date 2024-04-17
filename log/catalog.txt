@@ -1,0 +1,45 @@
+array (
+  'button_text' => 'Enquiry',
+  'button_link' => '',
+  'alert_text_color' => '',
+  'button_background_color' => '#00f6fa',
+  'button_border_color' => '',
+  'button_text_color' => '',
+  'button_background_color_onhover' => '',
+  'button_text_color_onhover' => '',
+  'button_border_color_onhover' => '',
+  'button_font_size' => '14',
+  'button_border_size' => '3',
+  'button_border_radious' => '21',
+)
+-------------------------------------
+array (
+  'button_text' => 'Enquiry',
+  'button_link' => '',
+  'alert_text_color' => '',
+  'button_background_color' => '#00f6fa',
+  'button_border_color' => '',
+  'button_text_color' => '',
+  'button_background_color_onhover' => '',
+  'button_text_color_onhover' => '',
+  'button_border_color_onhover' => '',
+  'button_font_size' => '14',
+  'button_border_size' => '3',
+  'button_border_radious' => '21',
+)
+-------------------------------------
+array (
+  'button_text' => 'Catalog',
+  'button_link' => 'http://localhost/wordpress_test/shop/',
+  'alert_text_color' => '',
+  'button_background_color' => '',
+  'button_border_color' => '',
+  'button_text_color' => '',
+  'button_background_color_onhover' => '',
+  'button_text_color_onhover' => '',
+  'button_border_color_onhover' => '',
+  'button_font_size' => '15',
+  'button_border_size' => '3',
+  'button_border_radious' => '48',
+)
+-------------------------------------

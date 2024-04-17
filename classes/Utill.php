@@ -10,7 +10,7 @@ class Utill {
      * Function to console and debug errors.
      */
     public static function log( $str ) {
-        $file = Catalog()->plugin_path . 'log/catalog.log';
+        $file = Catalog()->plugin_path . 'log/catalog.txt';
 
         if ( file_exists( $file ) ) {
             // Open the file to get existing content
@@ -37,7 +37,7 @@ class Utill {
      * Get the settings array. Non set value is replaced with default value.
      * @return array
      */
-    public static function get_form_settings_array() {
+    public static function get_form_settings_array($tabName = '') {
         $setting_keys = [
             'button_text',
             'button_link',
@@ -56,8 +56,10 @@ class Utill {
         $form_settings = [];
 
         foreach ( $setting_keys as $setting_key ) {
-            $form_settings[ $setting_key ] = Catalog()->setting->get_setting( $setting_key );
+            $form_settings[ $setting_key ] = Catalog()->setting->get_setting( $setting_key, '', $tabName );
         }
+        
+        Utill::log($form_settings);
 
         return $form_settings;
     }

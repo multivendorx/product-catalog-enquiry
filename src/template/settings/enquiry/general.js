@@ -10,7 +10,7 @@ export default {
     modal: [
         {
             key: 'display_enquiry_button_user_type',
-            type: 'select',
+            type: 'radio',
             label: __("Display Enquiry Button for", "woocommerce-catalog-enquiry"),
             desc: __("Select the type users where this enquiry button is applicable", "woocommerce-catalog-enquiry"),
             options: [
@@ -46,10 +46,10 @@ export default {
         {
             key: 'redirect_page_id',
             depend_checkbox:  'is_page_redirect',
-            type: 'select',
+            type: 'radio',
             label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
             desc: __( 'Select page where user will be redirected after successful enquiry.', 'woocommerce-catalog-enquiry' ),
-            options: [appLocalizer.pages_array],
+            options: appLocalizer.pages_array,
         },
         {
             key: 'is_disable_popup',
