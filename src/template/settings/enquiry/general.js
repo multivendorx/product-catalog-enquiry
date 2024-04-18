@@ -11,7 +11,7 @@ export default {
         {
             key: 'display_enquiry_button_user_type',
             type: 'radio',
-            label: __("Display Enquiry Button for", "woocommerce-catalog-enquiry"),
+            label: __("Display enquiry button for", "woocommerce-catalog-enquiry"),
             desc: __("Select the type users where this enquiry button is applicable", "woocommerce-catalog-enquiry"),
             options: [
                 {
