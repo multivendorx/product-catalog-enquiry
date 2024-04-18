@@ -54,7 +54,7 @@ export default {
         {
             key: 'catalog_page_design',
             type: 'checkbox',
-            label: __( "Catalog Page Design", 'woocommerce-catalog-enquiry' ),
+            label: __( "Catalog page design", 'woocommerce-catalog-enquiry' ),
             options: [
                 {
                     key: "catalog_page_design",
