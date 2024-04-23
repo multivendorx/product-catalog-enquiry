@@ -55,7 +55,7 @@ class Admin {
     }
 
     public function mvx_catalog_callback() {
-    echo '<div id="mvx-admin-catalog"></div>';
+    echo '<div id="admin-catalog"></div>';
     }
     
     public function catalog_admin_enqueue_scripts() {

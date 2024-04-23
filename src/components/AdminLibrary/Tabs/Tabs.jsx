@@ -24,7 +24,7 @@ const Tabs = ( props ) => {
                 { tab.icon && <i className={` admin-font ${ tab.icon } `} ></i> }
                 { menuCol ? null : tab.name }
                 { menuCol  ? null :
-                    ( appLocalizer.pro_active == 'free' ) && tab.proDependent &&
+                    ( ! appLocalizer.pro_active ) && tab.proDependent &&
                     <span class="admin-pro-tag">Pro</span> 
                 }
             </Link>
@@ -47,9 +47,9 @@ const Tabs = ( props ) => {
             {menuCol ? null : tab.name}
             {menuCol ? null : (
                 openedSubtab == tab.id ? 
-                    <p className='tab-menu-dropdown-icon active'><i className='admin-font font-arrow-right'></i></p>
+                    <p className='tab-menu-dropdown-icon active'><i className='admin-font font-keyboard_arrow_down'></i></p>
                     :
-                    <p className='tab-menu-dropdown-icon'><i className='admin-font font-arrow-right'></i></p>
+                    <p className='tab-menu-dropdown-icon'><i className='admin-font font-keyboard_arrow_down'></i></p>
             )}
         </Link>
     }
@@ -59,11 +59,11 @@ const Tabs = ( props ) => {
 
         return tabData.map( ( {content, type} ) => {
             if ( type === 'file' ) {
-                return  content.id === currentTab &&
-                    <div className="tab-description-start">
+                return  content.id === currentTab && content.id !== 'support' &&
+                    (<div className="tab-description-start">
                         <div className="tab-name">{ content.name }</div>
                         <p>{ content.desc }</p>
-                    </div>
+                    </div>)
             } else if ( type === 'folder' ) {
                 // Get tabdescription from child by recursion
                 return getTabDescription( content );
@@ -124,8 +124,7 @@ const Tabs = ( props ) => {
                                                     showHideMenu(content[0].content)
                                                 }
                                                 {
-                                                    // openedSubtab == content[0].content.id &&
-                                                    <div className={`subtab-wrapper ${menuCol && 'show'} ${openedSubtab && 'active'}`}>
+                                                    <div className={`subtab-wrapper ${menuCol && 'show'} ${ openedSubtab == content[0].content.id && 'active'}`}>
                                                         {
                                                             content.slice(1).map(({ type, content }) => {
                                                                 return showTabSection(content);

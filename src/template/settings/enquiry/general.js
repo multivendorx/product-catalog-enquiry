@@ -45,7 +45,10 @@ export default {
         },
         {
             key: 'redirect_page_id',
-            depend_checkbox:  'is_page_redirect',
+            dependent: {
+                key: "is_page_redirect",
+                set: true
+            },
             type: 'radio',
             label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
             desc: __( 'Select page where user will be redirected after successful enquiry.', 'woocommerce-catalog-enquiry' ),
@@ -73,7 +76,8 @@ export default {
                     label: __('Enable this if you want add to cart button along with enquiry button throughout the shop.', 'woocommerce-catalog-enquiry'),
                     value: "is_enable_add_to_cart"
                 }
-            ]
+            ],
+            proSetting: true,
         }
     ]
 };

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { __ } from "@wordpress/i18n";
 import { useSetting } from "../../../../contexts/SettingContext";
-import Color from "../../../../assets/images/Color.jpg";
 import "./ButtonCustomizer.scss";
 const Customizer = (props) => {
   const [select, setSelect] = useState("");
@@ -15,12 +14,12 @@ const Customizer = (props) => {
       {/* <div className=""> */}
       {/* Heading section */}
       <div className="btn-customizer-menu">
-        <div
+      <div
         title="Change Colors"
           className="btn-customizer-menu-items"
           onClick={(e) => setSelect("color")}
         >
-          <img className="color-img" src={Color} alt="" />
+         <div className="color-img"></div>
         </div>
         <div
         title="Border Style"
@@ -73,14 +72,14 @@ const Customizer = (props) => {
                   <div className="property-section">
                     <input
                       type="color"
-                      value={setting.button_background_color}
+                      value={setting.button_background_color ? setting.button_background_color: '#000000' }
                       onChange={(e) =>
                         props.onChange(e, "button_background_color")
                       }
                     />
                     <input
                       type="text"
-                      value={setting.button_background_color}
+                      value={setting.button_background_color ? setting.button_background_color: '#000000' }
                       onChange={(e) =>
                         props.onChange(e, "button_background_color")
                       }
@@ -94,12 +93,12 @@ const Customizer = (props) => {
                   <div className="property-section">
                     <input
                       type="color"
-                      value={setting.button_text_color}
+                      value={setting.button_text_color ? setting.button_text_color : '#000000'}
                       onChange={(e) => props.onChange(e, "button_text_color")}
                     />
                     <input
                       type="text"
-                      value={setting.button_text_color}
+                      value={setting.button_text_color ? setting.button_text_color : '#000000'}
                       onChange={(e) => props.onChange(e, "button_text_color")}
                     />
                   </div>
@@ -124,14 +123,14 @@ const Customizer = (props) => {
                   <div className="property-section">
                     <input
                       type="color"
-                      value={setting.button_background_color_onhover}
+                      value={setting.button_background_color_onhover ? setting.button_background_color_onhover: '#000000' }
                       onChange={(e) =>
                         props.onChange(e, "button_background_color_onhover")
                       }
                     />
                     <input
                       type="text"
-                      value={setting.button_background_color_onhover}
+                      value={setting.button_background_color_onhover ? setting.button_background_color_onhover: '#000000' }
                       onChange={(e) =>
                         props.onChange(e, "button_background_color_onhover")
                       }
@@ -145,14 +144,14 @@ const Customizer = (props) => {
                   <div className="property-section">
                     <input
                       type="color"
-                      value={setting.button_text_color_onhover}
+                      value={setting.button_text_color_onhover ? setting.button_text_color_onhover: '#000000' }
                       onChange={(e) =>
                         props.onChange(e, "button_text_color_onhover")
                       }
                     />
                     <input
                       type="text"
-                      value={setting.button_text_color_onhover}
+                      value={setting.button_text_color_onhover ? setting.button_text_color_onhover: '#000000' }
                       onChange={(e) =>
                         props.onChange(e, "button_text_color_onhover")
                       }
@@ -172,13 +171,13 @@ const Customizer = (props) => {
                   <div className="property-section">
                     <input
                       type="color"
-                      value={setting.button_border_color}
+                      value={setting.button_border_color ? setting.button_border_color: '#000000' }
                       onChange={(e) => props.onChange(e, "button_border_color")}
                     />
                     <input
                       onChange={(e) => props.onChange(e, "button_border_color")}
                       type="text"
-                      value={setting.button_border_color}
+                      value={setting.button_border_color ? setting.button_border_color: '#000000' }
                     />
                   </div>
                 </div>
@@ -191,12 +190,12 @@ const Customizer = (props) => {
                       <input
                         className="PB-range-slider"
                         type="range"
-                        value={setting.button_border_size}
+                        value={setting.button_border_size ? setting.button_border_size : 0}
                         onChange={(e) =>
                           props.onChange(e, "button_border_size")
                         }
                       />
-                      <p class="PB-range-slidervalue">50px</p>
+                      <p class="PB-range-slidervalue">{setting.button_border_size ? setting.button_border_size : 0}px</p>
                     </div>
                   </div>
                 </div>
@@ -209,12 +208,12 @@ const Customizer = (props) => {
                       <input
                         className="PB-range-slider"
                         type="range"
-                        value={setting.button_border_radious}
+                        value={setting.button_border_radious ? setting.button_border_radious : 0}
                         onChange={(e) =>
                           props.onChange(e, "button_border_radious")
                         }
                       />
-                      <p class="PB-range-slidervalue">50px</p>
+                      <p class="PB-range-slidervalue">{setting.button_border_radious ? setting.button_border_radious : 0}px</p>
                     </div>
                   </div>
                 </div>
@@ -227,14 +226,14 @@ const Customizer = (props) => {
                   <div className="property-section">
                     <input
                       type="color"
-                      value={setting.button_border_color_onhover}
+                      value={setting.button_border_color_onhover ? setting.button_border_color_onhover: '#000000' }
                       onChange={(e) =>
                         props.onChange(e, "button_border_color_onhover")
                       }
                     />
                     <input
                       type="text"
-                      value={setting.button_border_color_onhover}
+                        value={setting.button_border_color_onhover ? setting.button_border_color_onhover: '#000000' }
                       onChange={(e) =>
                         props.onChange(e, "button_border_color_onhover")
                       }
@@ -249,6 +248,21 @@ const Customizer = (props) => {
               <div className="simple">
                 <div className="section">
                   <span className="lable">
+                    {__("Button text", "woocommerce-stock-manager")}
+                  </span>
+                  <div className="property-section">
+                    <div class="PB-range-slider-div">
+                      <input
+                        className="PB-range-slider"
+                        type="text"
+                        value={setting.button_text}
+                        onChange={(e) => props.onChange(e, "button_text")}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="section">
+                  <span className="lable">
                     {__("Font Size", "woocommerce-stock-manager")}
                   </span>
                   <div className="property-section">
@@ -256,10 +270,10 @@ const Customizer = (props) => {
                       <input
                         className="PB-range-slider"
                         type="range"
-                        value={setting.button_font_size}
+                        value={setting.button_font_size ? setting.button_font_size : 12}
                         onChange={(e) => props.onChange(e, "button_font_size")}
                       />
-                      <p class="PB-range-slidervalue">50px</p>
+                      <p class="PB-range-slidervalue">{setting.button_font_size ? setting.button_font_size : 12}px</p>
                     </div>
                   </div>
                 </div>
@@ -275,10 +289,10 @@ const Customizer = (props) => {
                         max={900}
                         step={100}
                         type="range"
-                        value={setting.button_font_width}
+                        value={setting.button_font_width ? setting.button_font_width : 400}
                         onChange={(e) => props.onChange(e, "button_font_width")}
                       />
-                      <p class="PB-range-slidervalue">50px</p>
+                      <p class="PB-range-slidervalue">{setting.button_font_width ? setting.button_font_width : 400}</p>
                     </div>
                   </div>
                 </div>
@@ -297,10 +311,10 @@ const Customizer = (props) => {
                       <input
                         className="PB-range-slider"
                         type="range"
-                        value={setting.button_padding}
+                        value={setting.button_padding ? setting.button_padding : 0}
                         onChange={(e) => props.onChange(e, "button_padding")}
                       />
-                      <p class="PB-range-slidervalue">50px</p>
+                      <p class="PB-range-slidervalue">{setting.button_padding ? setting.button_padding : 0}px</p>
                     </div>
                   </div>
                 </div>
@@ -312,11 +326,11 @@ const Customizer = (props) => {
                     <input
                       className="PB-range-slider"
                       type="range"
-                      value={setting.button_margin}
+                      value={setting.button_margin ? setting.button_margin : 0}
                       onChange={(e) => props.onChange(e, "button_margin")}
                     />
-                    <p class="PB-range-slidervalue">50px</p>
-                  </div>{" "}
+                    <p class="PB-range-slidervalue">{setting.button_margin ? setting.button_margin : 0}px</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -353,7 +367,7 @@ const Customizer = (props) => {
   );
 };
 const ButtonCustomizer = (props) => {
-  const { buttonText, onChange } = props;
+  const { onChange } = props;
   const [hoverOn, setHoverOn] = useState(false);
   const [buttonHoverOn, setButtonHoverOn] = useState(false);
   const { setting } = useSetting();
@@ -374,18 +388,28 @@ const ButtonCustomizer = (props) => {
     fontWeight: setting.button_font_width,
     padding: setting.button_padding + 'px',
     margin: setting.button_margin + 'px',
-};
+  };
+
+  const buttonRef = useRef();
+  useEffect(() => {
+    document.body.addEventListener("click", (event) => {
+      if (!buttonRef?.current?.contains(event.target)) {
+        setHoverOn(false);
+      }
+    })
+},[])
+
 
   return (
     <>
-      <div className="btn-wrapper">
+      <div ref={buttonRef} className="btn-wrapper">
         <button
-          className="btn-preview"
-          style={style}
           onClick={(e) => {
             e.preventDefault();
             setHoverOn(!hoverOn);
           }}
+          className={`btn-preview ${hoverOn && 'active'}`}
+          style={style}
           onMouseEnter={(e) => {
             setButtonHoverOn(true);
           }}
@@ -393,7 +417,7 @@ const ButtonCustomizer = (props) => {
             setButtonHoverOn(false);
           }}
         >
-          {buttonText}
+          {setting.button_text}
         </button>
         {hoverOn && (
           <div className="btn-customizer">

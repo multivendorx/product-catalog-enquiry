@@ -16286,8 +16286,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Inputs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Inputs */ "./src/components/AdminLibrary/Inputs/index.js");
 /* harmony import */ var _contexts_SettingContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../contexts/SettingContext */ "./src/contexts/SettingContext.jsx");
 /* harmony import */ var _services_apiService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../services/apiService */ "./src/services/apiService.js");
-/* harmony import */ var _mui_material_Dialog__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/material/Dialog */ "./node_modules/@mui/material/Dialog/Dialog.js");
+/* harmony import */ var _mui_material_Dialog__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/material/Dialog */ "./node_modules/@mui/material/Dialog/Dialog.js");
 /* harmony import */ var _PopupContent_PopupContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../PopupContent/PopupContent */ "./src/components/PopupContent/PopupContent.jsx");
+/* harmony import */ var _Inputs_Special_FormCustomizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Inputs/Special/FormCustomizer */ "./src/components/AdminLibrary/Inputs/Special/FormCustomizer.jsx");
 
 
 
@@ -16300,6 +16301,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+// Variable for controll coldown effect submit time
+const PENALTY = 10;
+const COOLDOWN = 1;
 const DynamicForm = props => {
   const {
     modal,
@@ -16314,37 +16320,62 @@ const DynamicForm = props => {
   const [countryState, setCountryState] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const settingChanged = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
   const [modelOpen, setModelOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const counter = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(0);
+  const counterId = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(0);
 
   // Submit the setting to backend when setting Change.
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (settingChanged.current) {
       settingChanged.current = false;
-      (0,_services_apiService__WEBPACK_IMPORTED_MODULE_4__.sendApiResponse)((0,_services_apiService__WEBPACK_IMPORTED_MODULE_4__.getApiLink)(submitUrl), {
-        setting: setting,
-        settingName: id,
-        vendor_id: props.vendorId || "",
-        announcement_id: props.announcementId || "",
-        knowladgebase_id: props.knowladgebaseId || ""
-      }).then(response => {
-        // Set success messaage for 2second.
-        setSuccessMsg(response.error);
-        setTimeout(() => setSuccessMsg(""), 2000);
 
-        // If response has redirect link then redirect.
-        if (response.redirect_link) {
-          window.location.href = response.data.redirect_link;
+      // Set counter by penalti
+      counter.current = PENALTY;
+      // Clear previous counter.
+      if (counterId.current) {
+        clearInterval(counterId.current);
+      }
+
+      // Create new interval
+      const intervalId = setInterval(() => {
+        counter.current -= COOLDOWN;
+        // Cooldown compleate time for db request.
+        if (counter.current < 0) {
+          (0,_services_apiService__WEBPACK_IMPORTED_MODULE_4__.sendApiResponse)((0,_services_apiService__WEBPACK_IMPORTED_MODULE_4__.getApiLink)(submitUrl), {
+            setting: setting,
+            settingName: id,
+            vendor_id: props.vendorId || "",
+            announcement_id: props.announcementId || "",
+            knowladgebase_id: props.knowladgebaseId || ""
+          }).then(response => {
+            // Set success messaage for 2second.
+            setSuccessMsg(response.error);
+            setTimeout(() => setSuccessMsg(""), 2000);
+
+            // If response has redirect link then redirect.
+            if (response.redirect_link) {
+              window.location.href = response.data.redirect_link;
+            }
+          });
+          clearInterval(intervalId);
+          counterId.current = 0;
         }
-      });
+      }, 50);
+
+      // Store the interval id.
+      counterId.current = intervalId;
     }
   }, [setting]);
-  const isProSetting = key => {
-    return appLocalizer.pro_active && props.proSetting?.includes(key);
+  const isProSetting = proDependent => {
+    return proDependent && !appLocalizer.pro_active;
+  };
+  const proSettingChanged = isProSetting => {
+    if (isProSetting && !appLocalizer.pro_active) {
+      setModelOpen(true);
+      return true;
+    }
+    return false;
   };
   const handleChange = (event, key, type = 'single', fromType = 'simple', arrayValue = []) => {
-    if (isProSetting(key)) {
-      setModelOpen(true);
-      return;
-    }
     settingChanged.current = true;
     if (type === 'single') {
       if (fromType === 'simple') {
@@ -16371,7 +16402,7 @@ const DynamicForm = props => {
       }
     } else {
       let prevData = setting[key] || [];
-      if (!prevData || prevData == 'enabled' || prevData == true) {
+      if (!prevData || typeof prevData == 'string' || prevData == true) {
         prevData = [key];
       }
       prevData = prevData.filter(data => data != event.target.value);
@@ -16390,18 +16421,14 @@ const DynamicForm = props => {
     };
     updateSetting(key, mulipleOptions);
   };
-  const handlMultiSelectDeselectChange = (e, m) => {
+  const handlMultiSelectDeselectChange = (key, options) => {
     settingChanged.current = true;
-    if (setting[m.key].length > 0) {
-      updateSetting(m.key, []);
+    if (Array.isArray(setting[key]) && setting[key].length > 0) {
+      updateSetting(key, []);
     } else {
-      const complete_option_value = [];
-      {
-        m.options ? m.options.map((o, index) => {
-          complete_option_value[index] = o;
-        }) : "";
-      }
-      updateSetting(m.key, complete_option_value);
+      updateSetting(key, options.map(({
+        value
+      }) => value));
     }
   };
   const runUploader = key => {
@@ -16422,34 +16449,40 @@ const DynamicForm = props => {
     // Finally, open the modal on click
     frame.open();
   };
+  const isContain = (key, value = null) => {
+    let settingValue = setting[key];
+
+    // If setting value is a array
+    if (Array.isArray(settingValue)) {
+      // Setting value is set
+      if (value === null && settingValue.length) {
+        return true;
+      }
+      return settingValue.includes(value);
+    }
+
+    // Setting value is not a array
+    if (value === null && settingValue) {
+      return true;
+    }
+    return settingValue === value;
+  };
   const renderForm = () => {
     return modal.map((inputField, index) => {
       let value = setting[inputField.key] || "";
       let input = "";
 
-      // Check for dependent input fild
-      if (inputField.depend && !setting[inputField.depend]) {
-        return false;
-      }
-
-      // for select selection
-      if (inputField.depend && setting[inputField.depend] && setting[inputField.depend].value && setting[inputField.depend].value != inputField.dependvalue) {
-        return false;
-      }
-
-      // for radio button selection
-      if (inputField.depend && setting[inputField.depend] && !setting[inputField.depend].value && setting[inputField.depend] != inputField.dependvalue) {
-        return false;
-      }
-
-      // for checkbox selection
-      if (inputField.depend_checkbox && setting[inputField.depend_checkbox] && setting[inputField.depend_checkbox].length === 0) {
-        return false;
-      }
-
-      // for checkbox selection
-      if (inputField.not_depend_checkbox && setting[inputField.not_depend_checkbox] && setting[inputField.not_depend_checkbox].length > 0) {
-        return false;
+      // Filter dependent 
+      if (inputField.dependent) {
+        if (inputField.dependent.set === true && !isContain(inputField.dependent.key)) {
+          return;
+        }
+        if (inputField.dependent.set === false && isContain(inputField.dependent.key)) {
+          return;
+        }
+        if (inputField.dependent.value && isContain(inputField.dependent.key, inputField.dependent.value)) {
+          return;
+        }
       }
 
       // Set input fild based on their type.
@@ -16469,9 +16502,11 @@ const DynamicForm = props => {
             type: inputField.type,
             placeholder: inputField.placeholder,
             value: value,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key);
+              }
             }
           });
           break;
@@ -16486,9 +16521,11 @@ const DynamicForm = props => {
             name: inputField.name,
             placeholder: inputField.placeholder,
             value: value,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key);
+              }
             }
           });
           break;
@@ -16499,9 +16536,11 @@ const DynamicForm = props => {
             key: inputField.key,
             name: inputField.name,
             value: value,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key);
+              }
             }
           });
           break;
@@ -16520,9 +16559,11 @@ const DynamicForm = props => {
             key: inputField.key,
             name: inputField.name,
             value: value,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key);
+              }
             },
             onButtonClick: e => {
               runUploader(inputField.key);
@@ -16540,9 +16581,11 @@ const DynamicForm = props => {
             name: inputField.name,
             type: inputField.type,
             value: value || "#000000",
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key);
+              }
             }
           });
           break;
@@ -16552,9 +16595,11 @@ const DynamicForm = props => {
             inputClass: "teal",
             multiple: true,
             value: setting[inputField.key]?.split(",") || "",
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key, "single", inputField.type);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key, "single", inputField.type);
+              }
             }
           });
           break;
@@ -16568,7 +16613,7 @@ const DynamicForm = props => {
             placeholder: "Enter store location",
             containerId: "store-maps",
             containerClass: "store-maps, gmap",
-            proSetting: isProSetting(inputField.key)
+            proSetting: isProSetting(inputField.proSetting)
           });
           break;
         case "button":
@@ -16587,7 +16632,7 @@ const DynamicForm = props => {
             description: inputField.desc,
             type: inputField.type,
             placeholder: inputField.placeholder,
-            proSetting: isProSetting(inputField.key)
+            proSetting: isProSetting(inputField.proSetting)
             // onChange={handleChange}
           })));
           break;
@@ -16604,7 +16649,7 @@ const DynamicForm = props => {
             value: setting[inputField.key],
             options: inputField.options,
             onChange: handleMultiNumberChange,
-            proSetting: isProSetting(inputField.key)
+            proSetting: isProSetting(inputField.proSetting)
           });
           break;
         case "radio":
@@ -16619,9 +16664,11 @@ const DynamicForm = props => {
             name: inputField.name,
             keyName: inputField.key,
             options: inputField.options,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key);
+              }
             }
           });
           break;
@@ -16643,9 +16690,11 @@ const DynamicForm = props => {
             name: inputField.name,
             keyName: inputField.key,
             options: inputField.options,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key);
+              }
             }
           });
           break;
@@ -16663,9 +16712,11 @@ const DynamicForm = props => {
             name: inputField.name,
             keyName: inputField.key,
             options: inputField.options,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key);
+              }
             }
           });
           break;
@@ -16681,9 +16732,11 @@ const DynamicForm = props => {
             name: inputField.name,
             keyName: inputField.key,
             options: inputField.options,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
-              handleChange(e, inputField.key);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key);
+              }
             }
           });
           break;
@@ -16700,9 +16753,11 @@ const DynamicForm = props => {
             inputClass: inputField.key,
             options: options,
             value: value,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: (e, data) => {
-              handleChange(e, inputField.key, "single", "select", data);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key, "single", "select", data);
+              }
             }
           });
           break;
@@ -16711,17 +16766,17 @@ const DynamicForm = props => {
             wrapperClass: "settings-from-multi-select",
             descClass: "settings-metabox-description",
             selectDeselectClass: "select-deselect-trigger",
-            selectDeselect: inputField.select_deselect
-            // selectDeselectValue={select_deselect_all}
-            ,
+            selectDeselect: inputField.select_deselect,
             description: inputField.desc,
             inputClass: inputField.key,
             options: inputField.options,
             type: "multi-select",
             value: value,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: (e, data) => {
-              handleChange(e, inputField.key, "single", "multi-select", data);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key, "single", "multi-select", data);
+              }
             },
             onMultiSelectDeselectChange: e => handlMultiSelectDeselectChange(e, inputField)
           });
@@ -16734,9 +16789,11 @@ const DynamicForm = props => {
             inputClass: inputField.key,
             options: inputField.options,
             value: value,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: (e, data) => {
-              handleChange(e, inputField.key, "single", "country", data);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key, "single", "country", data);
+              }
             }
           });
           break;
@@ -16748,9 +16805,11 @@ const DynamicForm = props => {
             inputClass: inputField.key,
             options: countryState,
             value: value,
-            proSetting: isProSetting(inputField.key),
+            proSetting: isProSetting(inputField.proSetting),
             onChange: (e, data) => {
-              handleChange(e, inputField.key, "single", "select", data);
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key, "single", "select", data);
+              }
             }
           });
           break;
@@ -16772,11 +16831,12 @@ const DynamicForm = props => {
             rightContent: inputField.right_content,
             options: inputField.options,
             value: value,
-            proSetting: isProSetting(inputField.key),
             onChange: e => {
-              handleChange(e, inputField.key, "multiple");
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key, "multiple");
+              }
             },
-            onMultiSelectDeselectChange: e => handlMultiSelectDeselectChange(e, inputField)
+            onMultiSelectDeselectChange: e => handlMultiSelectDeselectChange(inputField.key, inputField.options)
           });
           break;
         case "table":
@@ -16796,7 +16856,9 @@ const DynamicForm = props => {
             apiKey: appLocalizer.mvx_tinymce_key,
             value: value,
             onEditorChange: e => {
-              handleChange(e, inputField.key, "simple", "wpeditor");
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, inputField.key, "simple", "wpeditor");
+              }
             }
           });
           break;
@@ -16830,16 +16892,33 @@ const DynamicForm = props => {
         case "button_customizer":
           input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs__WEBPACK_IMPORTED_MODULE_2__["default"].ButtonCustomizer, {
             buttonText: setting.button_text,
-            proSetting: isProSetting(inputField.key),
-            onChange: (e, key) => handleChange(e, key)
+            proSetting: isProSetting(inputField.proSetting),
+            onChange: (e, key) => {
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, key);
+              }
+            }
           });
           break;
-        case "connect_select":
-          input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs__WEBPACK_IMPORTED_MODULE_2__["default"].ConnectSelect, {
+        case "form_customizer":
+          input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs_Special_FormCustomizer__WEBPACK_IMPORTED_MODULE_6__["default"], {
             value: value,
+            buttonText: setting.button_text,
+            proSetting: isProSetting(inputField.proSetting),
+            onChange: (e, key) => {
+              if (!proSettingChanged(inputField.proSetting)) {
+                handleChange(e, key);
+              }
+            }
+          });
+          break;
+        case "api_connect":
+          input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs__WEBPACK_IMPORTED_MODULE_2__["default"].ConnectSelect, {
             key: inputField.key,
+            selectKey: inputField.selectKey,
             optionKey: inputField.optionKey,
-            onChange: e => handleChange(e, inputField.key),
+            onChange: handleChange,
+            proSettingChanged: () => proSettingChanged(inputField.proSetting),
             settingChanged: settingChanged,
             apiLink: inputField.apiLink
           });
@@ -16862,7 +16941,7 @@ const DynamicForm = props => {
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "dynamic-fields-wrapper"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_7__["default"], {
     className: "woo-module-popup",
     open: modelOpen,
     onClose: handleModelClose,
@@ -17461,9 +17540,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _contexts_SettingContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../contexts/SettingContext */ "./src/contexts/SettingContext.jsx");
-/* harmony import */ var _assets_images_Color_jpg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../assets/images/Color.jpg */ "./src/assets/images/Color.jpg");
-/* harmony import */ var _ButtonCustomizer_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ButtonCustomizer.scss */ "./src/components/AdminLibrary/Inputs/Special/ButtonCustomizer.scss");
-
+/* harmony import */ var _ButtonCustomizer_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ButtonCustomizer.scss */ "./src/components/AdminLibrary/Inputs/Special/ButtonCustomizer.scss");
 
 
 
@@ -17485,10 +17562,8 @@ const Customizer = props => {
     title: "Change Colors",
     className: "btn-customizer-menu-items",
     onClick: e => setSelect("color")
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    className: "color-img",
-    src: _assets_images_Color_jpg__WEBPACK_IMPORTED_MODULE_3__,
-    alt: ""
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "color-img"
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     title: "Border Style",
     className: "btn-customizer-menu-items",
@@ -17532,11 +17607,11 @@ const Customizer = props => {
     className: "property-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "color",
-    value: setting.button_background_color,
+    value: setting.button_background_color ? setting.button_background_color : '#000000',
     onChange: e => props.onChange(e, "button_background_color")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "text",
-    value: setting.button_background_color,
+    value: setting.button_background_color ? setting.button_background_color : '#000000',
     onChange: e => props.onChange(e, "button_background_color")
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section"
@@ -17546,11 +17621,11 @@ const Customizer = props => {
     className: "property-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "color",
-    value: setting.button_text_color,
+    value: setting.button_text_color ? setting.button_text_color : '#000000',
     onChange: e => props.onChange(e, "button_text_color")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "text",
-    value: setting.button_text_color,
+    value: setting.button_text_color ? setting.button_text_color : '#000000',
     onChange: e => props.onChange(e, "button_text_color")
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "hover",
@@ -17568,11 +17643,11 @@ const Customizer = props => {
     className: "property-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "color",
-    value: setting.button_background_color_onhover,
+    value: setting.button_background_color_onhover ? setting.button_background_color_onhover : '#000000',
     onChange: e => props.onChange(e, "button_background_color_onhover")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "text",
-    value: setting.button_background_color_onhover,
+    value: setting.button_background_color_onhover ? setting.button_background_color_onhover : '#000000',
     onChange: e => props.onChange(e, "button_background_color_onhover")
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section"
@@ -17582,11 +17657,11 @@ const Customizer = props => {
     className: "property-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "color",
-    value: setting.button_text_color_onhover,
+    value: setting.button_text_color_onhover ? setting.button_text_color_onhover : '#000000',
     onChange: e => props.onChange(e, "button_text_color_onhover")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "text",
-    value: setting.button_text_color_onhover,
+    value: setting.button_text_color_onhover ? setting.button_text_color_onhover : '#000000',
     onChange: e => props.onChange(e, "button_text_color_onhover")
   }))))), select === "border" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "border"
@@ -17600,12 +17675,12 @@ const Customizer = props => {
     className: "property-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "color",
-    value: setting.button_border_color,
+    value: setting.button_border_color ? setting.button_border_color : '#000000',
     onChange: e => props.onChange(e, "button_border_color")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     onChange: e => props.onChange(e, "button_border_color"),
     type: "text",
-    value: setting.button_border_color
+    value: setting.button_border_color ? setting.button_border_color : '#000000'
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
@@ -17617,11 +17692,11 @@ const Customizer = props => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     className: "PB-range-slider",
     type: "range",
-    value: setting.button_border_size,
+    value: setting.button_border_size ? setting.button_border_size : 0,
     onChange: e => props.onChange(e, "button_border_size")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     class: "PB-range-slidervalue"
-  }, "50px")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, setting.button_border_size ? setting.button_border_size : 0, "px")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "lable"
@@ -17632,11 +17707,11 @@ const Customizer = props => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     className: "PB-range-slider",
     type: "range",
-    value: setting.button_border_radious,
+    value: setting.button_border_radious ? setting.button_border_radious : 0,
     onChange: e => props.onChange(e, "button_border_radious")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     class: "PB-range-slidervalue"
-  }, "50px"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, setting.button_border_radious ? setting.button_border_radious : 0, "px"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "hover"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section"
@@ -17646,17 +17721,30 @@ const Customizer = props => {
     className: "property-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "color",
-    value: setting.button_border_color_onhover,
+    value: setting.button_border_color_onhover ? setting.button_border_color_onhover : '#000000',
     onChange: e => props.onChange(e, "button_border_color_onhover")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "text",
-    value: setting.button_border_color_onhover,
+    value: setting.button_border_color_onhover ? setting.button_border_color_onhover : '#000000',
     onChange: e => props.onChange(e, "button_border_color_onhover")
   }))))), select === "font" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "font"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "simple"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "lable"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Button text", "woocommerce-stock-manager")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "property-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "PB-range-slider-div"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    className: "PB-range-slider",
+    type: "text",
+    value: setting.button_text,
+    onChange: e => props.onChange(e, "button_text")
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "lable"
@@ -17667,11 +17755,11 @@ const Customizer = props => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     className: "PB-range-slider",
     type: "range",
-    value: setting.button_font_size,
+    value: setting.button_font_size ? setting.button_font_size : 12,
     onChange: e => props.onChange(e, "button_font_size")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     class: "PB-range-slidervalue"
-  }, "50px")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, setting.button_font_size ? setting.button_font_size : 12, "px")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "lable"
@@ -17685,11 +17773,11 @@ const Customizer = props => {
     max: 900,
     step: 100,
     type: "range",
-    value: setting.button_font_width,
+    value: setting.button_font_width ? setting.button_font_width : 400,
     onChange: e => props.onChange(e, "button_font_width")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     class: "PB-range-slidervalue"
-  }, "50px")))))), select === "size" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, setting.button_font_width ? setting.button_font_width : 400)))))), select === "size" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "size"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "simple"
@@ -17704,11 +17792,11 @@ const Customizer = props => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     className: "PB-range-slider",
     type: "range",
-    value: setting.button_padding,
+    value: setting.button_padding ? setting.button_padding : 0,
     onChange: e => props.onChange(e, "button_padding")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     class: "PB-range-slidervalue"
-  }, "50px")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, setting.button_padding ? setting.button_padding : 0, "px")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "lable"
@@ -17717,11 +17805,11 @@ const Customizer = props => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     className: "PB-range-slider",
     type: "range",
-    value: setting.button_margin,
+    value: setting.button_margin ? setting.button_margin : 0,
     onChange: e => props.onChange(e, "button_margin")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     class: "PB-range-slidervalue"
-  }, "50px")), " "))), select === "link" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, setting.button_margin ? setting.button_margin : 0, "px"))))), select === "link" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "link"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "simple"
@@ -17745,7 +17833,6 @@ const Customizer = props => {
 };
 const ButtonCustomizer = props => {
   const {
-    buttonText,
     onChange
   } = props;
   const [hoverOn, setHoverOn] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
@@ -17765,22 +17852,31 @@ const ButtonCustomizer = props => {
     padding: setting.button_padding + 'px',
     margin: setting.button_margin + 'px'
   };
+  const buttonRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    document.body.addEventListener("click", event => {
+      if (!buttonRef?.current?.contains(event.target)) {
+        setHoverOn(false);
+      }
+    });
+  }, []);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ref: buttonRef,
     className: "btn-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    className: "btn-preview",
-    style: style,
     onClick: e => {
       e.preventDefault();
       setHoverOn(!hoverOn);
     },
+    className: `btn-preview ${hoverOn && 'active'}`,
+    style: style,
     onMouseEnter: e => {
       setButtonHoverOn(true);
     },
     onMouseLeave: e => {
       setButtonHoverOn(false);
     }
-  }, buttonText), hoverOn && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, setting.button_text), hoverOn && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "btn-customizer"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Customizer, {
     onChange: props.onChange,
@@ -17804,10 +17900,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _SelectInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../SelectInput */ "./src/components/AdminLibrary/Inputs/SelectInput.jsx");
-/* harmony import */ var _services_apiService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../services/apiService */ "./src/services/apiService.js");
-/* harmony import */ var _contexts_SettingContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../contexts/SettingContext */ "./src/contexts/SettingContext.jsx");
-/* harmony import */ var _ConnectSelect_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ConnectSelect.scss */ "./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss");
+/* harmony import */ var _BasicInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../BasicInput */ "./src/components/AdminLibrary/Inputs/BasicInput.jsx");
+/* harmony import */ var _SelectInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../SelectInput */ "./src/components/AdminLibrary/Inputs/SelectInput.jsx");
+/* harmony import */ var _services_apiService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../services/apiService */ "./src/services/apiService.js");
+/* harmony import */ var _contexts_SettingContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../contexts/SettingContext */ "./src/contexts/SettingContext.jsx");
+/* harmony import */ var _ConnectSelect_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ConnectSelect.scss */ "./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss");
+
 
 
 
@@ -17825,38 +17923,42 @@ const ConnectSelect = props => {
   const {
     setting,
     updateSetting
-  } = (0,_contexts_SettingContext__WEBPACK_IMPORTED_MODULE_3__.useSetting)();
+  } = (0,_contexts_SettingContext__WEBPACK_IMPORTED_MODULE_4__.useSetting)();
   const [sellectOption, setSelectOption] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setting[optionKey] || []);
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [showOption, setShowOption] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const updateSelectOption = async () => {
-    const options = await (0,_services_apiService__WEBPACK_IMPORTED_MODULE_2__.getApiResponse)((0,_services_apiService__WEBPACK_IMPORTED_MODULE_2__.getApiLink)(props.apiLink)); // console.log(options);
+    const options = await (0,_services_apiService__WEBPACK_IMPORTED_MODULE_3__.getApiResponse)((0,_services_apiService__WEBPACK_IMPORTED_MODULE_3__.getApiLink)(props.apiLink));
     settingChanged.current = true;
     updateSetting(optionKey, options);
     setSelectOption(options);
     setLoading(false);
+    setShowOption(true);
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "connect-main-wrapper"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SelectInput__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_BasicInput__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    wrapperClass: "setting-form-input",
+    descClass: "settings-metabox-description",
+    type: 'text',
+    value: setting[key],
+    proSetting: false,
     onChange: e => {
-      e = {
-        target: {
-          value: e.value
-        }
-      };
-      props.onChange(e);
-    },
-    options: sellectOption,
-    value: props.value
+      if (!props.proSettingChanged()) {
+        props.onChange(e, key);
+      }
+    }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "button-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: e => {
       e.preventDefault();
-      updateSelectOption();
-      setLoading(true);
+      if (!props.proSettingChanged()) {
+        updateSelectOption();
+        setLoading(true);
+      }
     }
-  }, "Connect"), loading && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, "Fetch List"), loading && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "loader"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "three-body__dot"
@@ -17864,9 +17966,124 @@ const ConnectSelect = props => {
     class: "three-body__dot"
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "three-body__dot"
-  }))));
+  }))), (sellectOption.length || showOption) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SelectInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    onChange: e => {
+      e = {
+        target: {
+          value: e.value
+        }
+      };
+      if (!props.proSettingChanged()) {
+        props.onChange(e, props.selectKey);
+      }
+    },
+    options: sellectOption,
+    value: props.value
+  }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConnectSelect);
+
+/***/ }),
+
+/***/ "./src/components/AdminLibrary/Inputs/Special/FormCustomizer.jsx":
+/*!***********************************************************************!*\
+  !*** ./src/components/AdminLibrary/Inputs/Special/FormCustomizer.jsx ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _FormCustomizer_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormCustomizer.scss */ "./src/components/AdminLibrary/Inputs/Special/FormCustomizer.scss");
+/* harmony import */ var _ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ButtonCustomizer */ "./src/components/AdminLibrary/Inputs/Special/ButtonCustomizer.jsx");
+/* harmony import */ var _contexts_SettingContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../contexts/SettingContext */ "./src/contexts/SettingContext.jsx");
+
+
+
+
+
+const FormCustomizer = props => {
+  const [currentHoverOn, setCurrentHoverOn] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [currentEditSection, setCurrentEditSection] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const buttonRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  const {
+    setting
+  } = (0,_contexts_SettingContext__WEBPACK_IMPORTED_MODULE_3__.useSetting)();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    document.body.addEventListener("click", event => {
+      if (!buttonRef?.current?.contains(event.target)) {
+        setCurrentHoverOn('');
+        setCurrentEditSection('');
+      }
+    });
+  }, []);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "fromcustomizer-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wrapper-content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "label-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    ref: currentHoverOn === 'description' ? buttonRef : null,
+    className: currentHoverOn === 'description' && 'active',
+    onClick: e => setCurrentHoverOn('description'),
+    onChange: e => props.onChange(e, 'alert_text'),
+    value: setting.alert_text
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "form-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ref: currentHoverOn === 'email_input' ? buttonRef : null,
+    className: "input-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    readOnly: true,
+    onClick: e => setCurrentHoverOn('email_input'),
+    className: currentHoverOn === 'email_input' && 'active',
+    type: "email",
+    placeholder: setting.email_placeholder_text
+  }), currentHoverOn === 'email_input' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "input-editor",
+    onClick: e => setCurrentEditSection('text')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Edit"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-edit"
+  })))),
+  // Email input has select
+  currentHoverOn === 'email_input' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+  // Text section has select
+  currentEditSection === 'text' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "setting-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "setting-nav"
+  }, "..."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    onClick: e => {
+      e.preventDefault();
+      setCurrentEditSection('');
+    },
+    className: "wrapper-close"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    class: "admin-font font-cross"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "setting-section-dev"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    class: "label"
+  }, "Placeholder text"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "property-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "text",
+    value: setting.email_placeholder_text,
+    onChange: e => props.onChange(e, 'email_placeholder_text')
+  })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "button-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    buttonText: props.buttonText,
+    proSetting: props.proSetting,
+    onChange: props.onChange
+  }))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FormCustomizer);
 
 /***/ }),
 
@@ -18429,85 +18646,51 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const questions = [{
-  id: 1,
-  question: 'Popular Articles',
-  answer: 'Suspendisse ipsum elit, hendrerit id eleifend at, condimentum et mauris. Curabitur et libero vel arcu dignissim pulvinar ut ac leo. In sit amet orci et erat accumsan interdum.'
-}, {
-  id: 2,
-  question: 'Fix problems & request removals',
-  answer: 'Suspendisse ipsum elit, hendrerit id eleifend at, condimentum et mauris. Curabitur et libero vel arcu dignissim pulvinar ut ac leo. In sit amet orci et erat accumsan interdum.'
-}, {
-  id: 3,
-  question: 'Browse the web',
-  answer: 'Suspendisse ipsum elit, hendrerit id eleifend at, condimentum et mauris. Curabitur et libero vel arcu dignissim pulvinar ut ac leo. In sit amet orci et erat accumsan interdum.'
-}, {
-  id: 4,
-  question: 'Search on your phone or tablet',
-  answer: 'Suspendisse ipsum elit, hendrerit id eleifend at, condimentum et mauris. Curabitur et libero vel arcu dignissim pulvinar ut ac leo. In sit amet orci et erat accumsan interdum.'
-}];
-function FAQ(props) {
-  const [searchTerm, setSearchTerm] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  const [searchResults, setSearchResults] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const handleSearchChange = e => {
-    setSearchTerm(e.target.value);
-  };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    const results = props.data.filter(item => item.question.toLowerCase().includes(searchTerm));
-    setSearchResults(results);
-  }, [searchTerm]);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "container"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
-    className: "heading"
-  }, "How can we help you?"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
-    className: "faq"
-  }, searchResults.map(item => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Question, {
-    question: item.question,
-    answer: item.answer
-  }))));
-}
-const Question = props => {
-  const [isActive, setActive] = react__WEBPACK_IMPORTED_MODULE_0___default().useState(false);
-  const handleClick = id => {
-    setActive(!isActive);
-  };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "question-wrapper"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "question",
-    id: props.id
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, props.question), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    onClick: () => handleClick(props.id)
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
-    className: isActive ? 'active' : '',
-    viewBox: "0 0 320 512",
-    width: "100",
-    title: "angle-down"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
-    d: "M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"
-  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: isActive ? 'answer active' : 'answer'
-  }, props.answer));
-};
 const Support = () => {
   const url = "https://www.youtube.com/embed/cgfeZH5z2dM?si=3zjG13RDOSiX2m1b";
   const supportLink = [{
-    title: "Get in Touch with Support",
+    title: "Get in touch with Support",
     icon: "mail",
     description: "Reach out to the support team for assistance or guidance.",
-    link: "link1"
+    link: "https://multivendorx.com/contact-us/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager"
   }, {
     title: "Explore Documentation",
     icon: "submission-message",
     description: "Understand the plugin and its settings.",
-    link: "https://multivendorx.com/docs/knowledgebase/products-stock-manager-notifier-for-woocommerce/"
+    link: "https://multivendorx.com/docs/knowledgebase/products-stock-manager-notifier-for-woocommerce/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager"
   }, {
     title: "Contribute Here",
     icon: "support",
     description: "To participation in product enhancement.",
-    link: "link3"
+    link: "https://github.com/multivendorx/woocommerce-product-stock-alert/issues"
   }];
+  const [faqs, setFaqs] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    question: "Why am I not receiving any emails when a customer subscribes for an out-of-stock product?",
+    answer: "Please install a plugin like Email Log and perform a test subscription.",
+    open: true
+  }, {
+    question: "Why is the out-of-stock form not appearing?",
+    answer: "There might be a theme conflict issue. To troubleshoot, switch to a default theme like Twenty Twenty-Four and check if the form appears.",
+    open: false
+  }, {
+    question: "Does Product Stock Manager & Notifier support product variations?",
+    answer: "Yes, product variations are fully supported and editable from the Inventory Manager. Product Stock Manager & Notifier handles variable products with ease and uses an expandable feature to make managing variations clear and straightforward.",
+    open: false
+  }, {
+    question: "Do you support Google reCaptcha for the out-of-stock form?",
+    answer: 'Yes, <a href="https://multivendorx.com/woocommerce-product-stock-manager-notifier-pro/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager" target="_blank">Product Stock Manager & Notifier Pro</a> has support for reCaptcha.',
+    open: false
+  }]);
+  const toggleFAQ = index => {
+    setFaqs(faqs.map((faq, i) => {
+      if (i === index) {
+        faq.open = !faq.open;
+      } else {
+        faq.open = false;
+      }
+      return faq;
+    }));
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "dynamic-fields-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -18519,9 +18702,19 @@ const Support = () => {
   }, "Thank you for using Product Stock Manager & Notifier for WooCommerce"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: "support-subheading"
   }, "We want to help you enjoy a wonderful experience with all of our products.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "support-container-wrapper"
+    className: "support-card"
+  }, supportLink.map((item, index) => {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "card-item"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+      className: `admin-font font-${item.icon}`
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: item.link
+    }, item.title), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, item.description)));
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "video-faq-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "video-support-wrapper"
+    className: "video-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("iframe", {
     src: url,
     title: "YouTube video player",
@@ -18530,26 +18723,21 @@ const Support = () => {
     referrerpolicy: "strict-origin-when-cross-origin",
     allowfullscreen: true
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "support-quick-link"
-  }, supportLink?.map((item, index) => {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      key: index,
-      className: "support-quick-link-items"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "icon-bar"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
-      className: `admin-font font-${item.icon}`
-    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "content"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-      href: item.link,
-      target: "_blank"
-    }, item.title), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, item.description))));
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "faq-wrapper"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(FAQ, {
-    data: questions
-  })))));
+    className: "faq-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "faqs"
+  }, faqs.map((faq, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "faq " + (faq.open ? "open" : ""),
+    key: index,
+    onClick: () => toggleFAQ(index)
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "faq-question"
+  }, faq.question), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "faq-answer",
+    dangerouslySetInnerHTML: {
+      __html: faq.answer
+    }
+  })))))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Support);
 
@@ -18599,7 +18787,7 @@ const Tabs = props => {
       to: prepareUrl(tab.id)
     }, tab.icon && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
       className: ` admin-font ${tab.icon} `
-    }), menuCol ? null : tab.name, menuCol ? null : appLocalizer.pro_active == 'free' && tab.proDependent && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    }), menuCol ? null : tab.name, menuCol ? null : !appLocalizer.pro_active && tab.proDependent && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
       class: "admin-pro-tag"
     }, "Pro"));
   };
@@ -18619,11 +18807,11 @@ const Tabs = props => {
     }), menuCol ? null : tab.name, menuCol ? null : openedSubtab == tab.id ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
       className: "tab-menu-dropdown-icon active"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
-      className: "admin-font font-arrow-right"
+      className: "admin-font font-keyboard_arrow_down"
     })) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
       className: "tab-menu-dropdown-icon"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
-      className: "admin-font font-arrow-right"
+      className: "admin-font font-keyboard_arrow_down"
     })));
   };
 
@@ -18634,7 +18822,7 @@ const Tabs = props => {
       type
     }) => {
       if (type === 'file') {
-        return content.id === currentTab && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+        return content.id === currentTab && content.id !== 'support' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
           className: "tab-description-start"
         }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
           className: "tab-name"
@@ -18700,10 +18888,8 @@ const Tabs = props => {
     // Tab has child tabs
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "tab-wrapper"
-    }, showHideMenu(content[0].content),
-    // openedSubtab == content[0].content.id &&
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: `subtab-wrapper ${menuCol && 'show'} ${openedSubtab && 'active'}`
+    }, showHideMenu(content[0].content), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: `subtab-wrapper ${menuCol && 'show'} ${openedSubtab == content[0].content.id && 'active'}`
     }, content.slice(1).map(({
       type,
       content
@@ -19541,11 +19727,15 @@ __webpack_require__.r(__webpack_exports__);
     }]
   }, {
     key: 'disable_cart_page_link',
-    depend_checkbox: 'is_hide_cart_checkout',
     type: 'select',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Set Redirect Page', 'woocommerce-catalog-enquiry'),
     // desc: apply_filters('woocommerce_catalog_redirect_disabled_cart_page', __( 'Select page where user will be redirected for disable cart page. To use this feature kindly upgrade to <a href="https://multivendorx.com/woocommerce-request-a-quote-product-catalog/" target="_blank">WooCommerce Catalog Enquiry Pro</a>.', 'woocommerce-catalog-enquiry' )),
-    options: appLocalizer.pages_array
+    options: appLocalizer.pages_array,
+    dependent: {
+      key: "is_hide_cart_checkout",
+      set: true
+    },
+    proSetting: true
   }, {
     key: 'catalog_page_design',
     type: 'checkbox',
@@ -19554,10 +19744,15 @@ __webpack_require__.r(__webpack_exports__);
       key: "catalog_page_design",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable Customization for Catalog Page', 'woocommerce-catalog-enquiry'),
       value: "catalog_page_design"
-    }]
+    }],
+    proSetting: true
   }, {
     key: 'display_description',
-    depend_checkbox: 'catalog_page_design',
+    dependent: {
+      key: "catalog_page_design",
+      set: true
+    },
+    proSetting: true,
     type: 'radio',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Where the description will be displayed', 'woocommerce-catalog-enquiry'),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
@@ -19576,13 +19771,21 @@ __webpack_require__.r(__webpack_exports__);
     }]
   }, {
     key: "description_box",
-    depend_checkbox: 'catalog_page_design',
+    dependent: {
+      key: "catalog_page_design",
+      set: true
+    },
+    proSetting: true,
     type: "textarea",
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Description Box", "woocommerce-catalog-enquiry")
   }, {
     key: 'display_position',
-    depend_checkbox: 'catalog_page_design',
+    dependent: {
+      key: "catalog_page_design",
+      set: true
+    },
+    proSetting: true,
     type: 'radio',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Button Display Position', 'woocommerce-catalog-enquiry'),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
@@ -19606,12 +19809,20 @@ __webpack_require__.r(__webpack_exports__);
   }, {
     key: "button_text",
     type: "text",
-    depend_checkbox: 'catalog_page_design',
+    dependent: {
+      key: "catalog_page_design",
+      set: true
+    },
+    proSetting: true,
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Customize Button", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Modify the customize button text. By default we display customize.", "woocommerce-catalog-enquiry"),
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Customize", "woocommerce-catalog-enquiry")
   }, {
-    depend_checkbox: 'catalog_page_design',
+    dependent: {
+      key: "catalog_page_design",
+      set: true
+    },
+    proSetting: true,
     type: "button_customizer",
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Button Design", "woocommerce-catalog-enquiry")
   }]
@@ -19800,7 +20011,10 @@ __webpack_require__.r(__webpack_exports__);
     }]
   }, {
     key: 'redirect_page_id',
-    depend_checkbox: 'is_page_redirect',
+    dependent: {
+      key: "is_page_redirect",
+      set: true
+    },
     type: 'radio',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Set Redirect Page', 'woocommerce-catalog-enquiry'),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select page where user will be redirected after successful enquiry.', 'woocommerce-catalog-enquiry'),
@@ -19822,7 +20036,8 @@ __webpack_require__.r(__webpack_exports__);
       key: "is_enable_add_to_cart",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable this if you want add to cart button along with enquiry button throughout the shop.', 'woocommerce-catalog-enquiry'),
       value: "is_enable_add_to_cart"
-    }]
+    }],
+    proSetting: true
   }]
 });
 
@@ -19882,6 +20097,14 @@ __webpack_require__.r(__webpack_exports__);
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)(`Enable this checkbox to allow multiple product enquiry via enquiry cart. Also multiple enquiry product displays on the cart ${appLocalizer.widget_url}`, 'woocommerce-catalog-enquiry'),
       value: "is_enable_multiple_product_enquiry"
     }]
+  }, {
+    key: "button_text",
+    type: "text",
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Multiple Enquiry Button Text", "woocommerce-catalog-enquiry")
+  }, {
+    type: "button_customizer",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Custom Button Element", "woocommerce-catalog-enquiry")
   }, {
     key: 'set_enquiry_cart_page',
     type: 'select',
@@ -19945,7 +20168,10 @@ __webpack_require__.r(__webpack_exports__);
   }, {
     key: 'notify_me_button',
     type: 'checkbox',
-    depend_checkbox: 'is_enable_out_of_stock',
+    dependent: {
+      key: "is_enable_out_of_stock",
+      set: true
+    },
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Notify Me Button", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
     options: [{
@@ -19955,7 +20181,10 @@ __webpack_require__.r(__webpack_exports__);
     }]
   }, {
     key: 'display_description_for_out_of_stock',
-    depend_checkbox: 'is_enable_out_of_stock',
+    dependent: {
+      key: "is_enable_out_of_stock",
+      set: true
+    },
     type: 'select',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Where the description will be displayed', 'woocommerce-catalog-enquiry'),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
@@ -19974,13 +20203,19 @@ __webpack_require__.r(__webpack_exports__);
     }]
   }, {
     key: "description_box_for_out_of_stock",
-    depend_checkbox: 'is_enable_out_of_stock',
+    dependent: {
+      key: "is_enable_out_of_stock",
+      set: true
+    },
     type: "text",
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Description Box", "woocommerce-catalog-enquiry")
   }, {
     key: 'display_position_for_out_of_stock',
-    depend_checkbox: 'is_enable_out_of_stock',
+    dependent: {
+      key: "is_enable_out_of_stock",
+      set: true
+    },
     type: 'select',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Button Display Position', 'woocommerce-catalog-enquiry'),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
@@ -20003,10 +20238,210 @@ __webpack_require__.r(__webpack_exports__);
     }]
   }, {
     key: "button_design_for_out_of_stock",
-    depend_checkbox: 'is_enable_out_of_stock',
+    dependent: {
+      key: "is_enable_out_of_stock",
+      set: true
+    },
     type: "button_customizer",
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("", "woocommerce-catalog-enquiry"),
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Button Design", "woocommerce-catalog-enquiry")
+  }]
+});
+
+/***/ }),
+
+/***/ "./src/template/settings/quote/exclusion.js":
+/*!**************************************************!*\
+  !*** ./src/template/settings/quote/exclusion.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  id: 'quote_exclusion',
+  priority: 55,
+  name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Exclusion", "woocommerce-catalog-enquiry"),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Exclusion Management", "woocommerce-catalog-enquiry"),
+  icon: 'font-settings',
+  submitUrl: 'save_enquiry',
+  modal: [{
+    key: "woocommerce_userroles_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("User Role Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the user roles, who won’t be able to send enquiry.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.role_array
+  }, {
+    key: "woocommerce_user_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("User Name Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the users, who won’t be able to send enquiry.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_users
+  }, {
+    key: "woocommerce_product_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the products that should have the Add to cart button, instead of enquiry button.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_products
+  }, {
+    key: "woocommerce_category_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Category Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the Category, where should have the Add to cart button, instead of enquiry button.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_product_cat
+  }, {
+    key: "woocommerce_tag_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Tag Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the Tag, where should have the Add to cart button, instead of enquiry button.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_product_cat
+  }]
+});
+
+/***/ }),
+
+/***/ "./src/template/settings/quote/general.js":
+/*!************************************************!*\
+  !*** ./src/template/settings/quote/general.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  id: 'quote_general',
+  priority: 45,
+  name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("General", "woocommerce-catalog-enquiry"),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("General", "woocommerce-catalog-enquiry"),
+  icon: 'font-settings',
+  submitUrl: 'save_enquiry',
+  modal: [{
+    key: 'display_quote_button_user_type',
+    type: 'radio',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Show 'Add to quote' button for", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the type users where this quote button is applicable", "woocommerce-catalog-enquiry"),
+    options: [{
+      key: "logged_out",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Only Logged out Users', 'woocommerce-catalog-enquiry'),
+      value: "logged_out"
+    }, {
+      key: "logged_in",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Only Logged in Users', 'woocommerce-catalog-enquiry'),
+      value: "logged_in"
+    }, {
+      key: "all_users",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('All Users', 'woocommerce-catalog-enquiry'),
+      value: "all_users"
+    }],
+    proSetting: true
+  }, {
+    key: 'is_expiry_time_for_quote',
+    type: 'checkbox',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Set an expiry time for quotes", 'woocommerce-catalog-enquiry'),
+    options: [{
+      key: "is_expiry_time_for_quote",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
+      value: "is_expiry_time_for_quote"
+    }],
+    proSetting: true
+  }, {
+    key: 'set_expiry_time',
+    type: 'textbox',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Set Expiry Time', 'woocommerce-catalog-enquiry'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
+    dependent: {
+      key: "is_expiry_time_for_quote",
+      set: true
+    },
+    proSetting: true
+  }]
+});
+
+/***/ }),
+
+/***/ "./src/template/settings/quote/index.js":
+/*!**********************************************!*\
+  !*** ./src/template/settings/quote/index.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  id: "quote",
+  priority: 40,
+  name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", 'woocommerce-catalog-enquiry'),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", 'woocommerce-catalog-enquiry'),
+  icon: "font-settings"
+});
+
+/***/ }),
+
+/***/ "./src/template/settings/quote/quotePDF.js":
+/*!*************************************************!*\
+  !*** ./src/template/settings/quote/quotePDF.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  id: 'quote_pdf',
+  priority: 50,
+  name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote PDF", "woocommerce-catalog-enquiry"),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote PDF", "woocommerce-catalog-enquiry"),
+  icon: 'font-settings',
+  submitUrl: 'save_enquiry',
+  modal: [{
+    key: 'allow_download_pdf',
+    type: 'checkbox',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Allow quotes to be downloaded as PDF", 'woocommerce-catalog-enquiry'),
+    options: [{
+      key: "allow_download_pdf",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
+      value: "allow_download_pdf"
+    }],
+    proSetting: true
+  }, {
+    key: 'attach_pdf_to_email',
+    type: 'checkbox',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Attach a PDF version to the quote email', 'woocommerce-catalog-enquiry'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
+    options: [{
+      key: "attach_pdf_to_email",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry'),
+      value: "attach_pdf_to_email"
+    }],
+    proSetting: true
+  }, {
+    key: "upload_logo",
+    type: 'textbox',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Upload Logo For PDF', 'woocommerce-catalog-enquiry'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('', 'woocommerce-catalog-enquiry')
   }]
 });
 
@@ -21062,6 +21497,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************************************!*\
   !*** ./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss ***!
   \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/components/AdminLibrary/Inputs/Special/FormCustomizer.scss":
+/*!************************************************************************!*\
+  !*** ./src/components/AdminLibrary/Inputs/Special/FormCustomizer.scss ***!
+  \************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -32041,6 +32489,10 @@ var map = {
 	"./enquiry/index.js": "./src/template/settings/enquiry/index.js",
 	"./enquiry/multipleEnquiryCart.js": "./src/template/settings/enquiry/multipleEnquiryCart.js",
 	"./enquiry/outofStockProducts.js": "./src/template/settings/enquiry/outofStockProducts.js",
+	"./quote/exclusion.js": "./src/template/settings/quote/exclusion.js",
+	"./quote/general.js": "./src/template/settings/quote/general.js",
+	"./quote/index.js": "./src/template/settings/quote/index.js",
+	"./quote/quotePDF.js": "./src/template/settings/quote/quotePDF.js",
 	"./storeDisplaySettings.js": "./src/template/settings/storeDisplaySettings.js"
 };
 
@@ -32085,17 +32537,6 @@ module.exports = __webpack_require__.p + "images/Brand-small.64c17deb.png";
 
 "use strict";
 module.exports = __webpack_require__.p + "images/Brand.90472ee0.png";
-
-/***/ }),
-
-/***/ "./src/assets/images/Color.jpg":
-/*!*************************************!*\
-  !*** ./src/assets/images/Color.jpg ***!
-  \*************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-module.exports = __webpack_require__.p + "images/Color.caa7acf3.jpg";
 
 /***/ }),
 
@@ -40889,7 +41330,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // Render the App component into the DOM
-(0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.render)((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.BrowserRouter, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_app_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)), document.getElementById('mvx-admin-catalog'));
+(0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.render)((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.BrowserRouter, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_app_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)), document.getElementById('admin-catalog'));
 })();
 
 /******/ })()

@@ -45,11 +45,15 @@ export default {
         },
         {
             key: 'disable_cart_page_link',
-            depend_checkbox:  'is_hide_cart_checkout',
             type: 'select',
             label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
             // desc: apply_filters('woocommerce_catalog_redirect_disabled_cart_page', __( 'Select page where user will be redirected for disable cart page. To use this feature kindly upgrade to <a href="https://multivendorx.com/woocommerce-request-a-quote-product-catalog/" target="_blank">WooCommerce Catalog Enquiry Pro</a>.', 'woocommerce-catalog-enquiry' )),
             options: appLocalizer.pages_array,
+            dependent: {
+                key: "is_hide_cart_checkout",
+                set: true
+            },
+            proSetting: true,
         },
         {
             key: 'catalog_page_design',
@@ -61,11 +65,16 @@ export default {
                     label: __('Enable Customization for Catalog Page', 'woocommerce-catalog-enquiry'),
                     value: "catalog_page_design"
                 }
-            ]
+            ],
+            proSetting: true,
         },
         {
             key: 'display_description',
-            depend_checkbox:  'catalog_page_design',
+            dependent: {
+                key: "catalog_page_design",
+                set: true
+            },
+            proSetting: true,
             type: 'radio',
             label:  __( 'Where the description will be displayed', 'woocommerce-catalog-enquiry' ),
             desc:  __( '', 'woocommerce-catalog-enquiry' ),
@@ -89,14 +98,22 @@ export default {
         },
         {
             key: "description_box",
-            depend_checkbox:  'catalog_page_design',
+            dependent: {
+                key: "catalog_page_design",
+                set: true
+            },
+            proSetting: true,
             type: "textarea",
             desc: __("", "woocommerce-catalog-enquiry"),
             label: __("Description Box", "woocommerce-catalog-enquiry"),
         },
         {
             key: 'display_position',
-            depend_checkbox:  'catalog_page_design',
+            dependent: {
+                key: "catalog_page_design",
+                set: true
+            },
+            proSetting: true,
             type: 'radio',
             label:  __( 'Button Display Position', 'woocommerce-catalog-enquiry' ),
             desc:  __( '', 'woocommerce-catalog-enquiry' ),
@@ -126,13 +143,21 @@ export default {
         {
             key: "button_text",
             type: "text",
-            depend_checkbox:  'catalog_page_design',
+            dependent: {
+                key: "catalog_page_design",
+                set: true
+            },
+            proSetting: true,
             label: __("Customize Button", "woocommerce-catalog-enquiry"),
             desc: __("Modify the customize button text. By default we display customize.", "woocommerce-catalog-enquiry"),
             placeholder: __("Customize", "woocommerce-catalog-enquiry"),
         },
         {
-            depend_checkbox:  'catalog_page_design',
+            dependent: {
+                key: "catalog_page_design",
+                set: true
+            },
+            proSetting: true,
             type: "button_customizer",
             label: __("Button Design", "woocommerce-catalog-enquiry"),
         },

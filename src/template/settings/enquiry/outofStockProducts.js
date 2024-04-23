@@ -23,7 +23,10 @@ export default {
         {
             key: 'notify_me_button',
             type: 'checkbox',
-            depend_checkbox:  'is_enable_out_of_stock',
+            dependent: {
+                key: "is_enable_out_of_stock",
+                set: true
+            },
             label: __("Notify Me Button", "woocommerce-catalog-enquiry"),
             desc: __("", "woocommerce-catalog-enquiry"),
             options: [
@@ -36,7 +39,10 @@ export default {
         },
         {
             key: 'display_description_for_out_of_stock',
-            depend_checkbox:  'is_enable_out_of_stock',
+            dependent: {
+                key: "is_enable_out_of_stock",
+                set: true
+            },
             type: 'select',
             label:  __( 'Where the description will be displayed', 'woocommerce-catalog-enquiry' ),
             desc:  __( '', 'woocommerce-catalog-enquiry' ),
@@ -60,14 +66,20 @@ export default {
         },
         {
             key: "description_box_for_out_of_stock",
-            depend_checkbox:  'is_enable_out_of_stock',
+            dependent: {
+                key: "is_enable_out_of_stock",
+                set: true
+            },
             type: "text",
             desc: __("", "woocommerce-catalog-enquiry"),
             label: __("Description Box", "woocommerce-catalog-enquiry"),
         },
         {
             key: 'display_position_for_out_of_stock',
-            depend_checkbox:  'is_enable_out_of_stock',
+            dependent: {
+                key: "is_enable_out_of_stock",
+                set: true
+            },
             type: 'select',
             label:  __( 'Button Display Position', 'woocommerce-catalog-enquiry' ),
             desc:  __( '', 'woocommerce-catalog-enquiry' ),
@@ -96,7 +108,10 @@ export default {
         },
         {
             key: "button_design_for_out_of_stock",
-            depend_checkbox:  'is_enable_out_of_stock',
+            dependent: {
+                key: "is_enable_out_of_stock",
+                set: true
+            },
             type: "button_customizer",
             desc: __("", "woocommerce-catalog-enquiry"),
             label: __("Button Design", "woocommerce-catalog-enquiry"),
