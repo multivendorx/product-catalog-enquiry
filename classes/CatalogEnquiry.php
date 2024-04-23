@@ -16,6 +16,7 @@ final class CatalogEnquiry {
         $this->container[ 'rest_namespace' ] = WOOCOMMERCE_CATALOG_ENQUIRY_REST_NAMESPACE;
 
         register_activation_hook( $file, [ $this, 'activate' ] );
+		register_deactivation_hook( $file, [ $this, 'deactivate' ] );
 
 		// add_action( 'init', [ $this, 'load_modules'], 1 );
         add_action( 'before_woocommerce_init', [ $this, 'declare_compatibility' ] );
@@ -38,9 +39,19 @@ final class CatalogEnquiry {
 	// }
 
 	public function activate() {
+		update_option( 'catalog_enquiry_installed', 1 );
 		$this->container['install'] = new Install();
         flush_rewrite_rules();
     }
+
+	/**
+     * Placeholder for deactivation function.
+     * @return void
+     */
+    public function deactivate() {
+        delete_option( 'catalog_enquiry_installed' );
+    }
+
 
 	/**
      * Add High Performance Order Storage Support
@@ -60,6 +71,7 @@ final class CatalogEnquiry {
         }
 
 		$this->init_classes();
+		do_action( 'catalog_enquiry_loaded' );
 
 	}
 

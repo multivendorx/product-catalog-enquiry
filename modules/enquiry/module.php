@@ -27,7 +27,6 @@ class Module {
             'frontend_js', 'catalog_enquiry_frontend', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce( 'wp_rest' ),
-            'json_arr' => json_encode($arr_field),
             'settings' => Catalog()->setting->get_setting( 'is_page_redirect' ),
             'ajax_success_msg' => __('Enquiry sent successfully', 'woocommerce-catalog-enquiry'),
             'redirect_link' => Catalog()->setting->get_setting( 'redirect_page_id' ) ? get_permalink(Catalog()->setting->get_setting( 'redirect_page_id' )) : '',
@@ -48,10 +47,7 @@ class Module {
         $enquiry_button_text = Catalog()->setting->get_setting( 'enquiry_button_label' ) ? Catalog()->setting->get_setting( 'enquiry_button_label' ) : __('Send an enquiry', 'woocommerce-catalog-enquiry');
         $productid = $post->ID;
         $product_name = get_post_field('post_title', $productid);
-
         $settings_array = Utill::get_form_settings_array('catalog_enquiry_button_management_settings');
-        file_put_contents( plugin_dir_path(__FILE__) . "/error.log", date("d/m/Y H:i:s", time()) . ":settings_array:  : " . var_export($settings_array, true) . "\n", FILE_APPEND);
-
         $button_css = $button_href = "";
         $border_size = ( !empty( $settings_array[ 'button_border_size' ] ) ) ? esc_html( $settings_array[ 'button_border_size' ] ).'px' : '1px';
         if ( !empty( $settings_array[ 'button_background_color' ] ) )
@@ -68,15 +64,13 @@ class Module {
         <div id="woocommerce-catalog" name="woocommerce_catalog" >
         <?php 
             if (Catalog()->setting->get_setting( 'is_enable_out_of_stock' ) ){
-                if ( !$product->managing_stock() && !$product->is_in_stock()) {
-                ?>
+                if ( !$product->managing_stock() && !$product->is_in_stock()) { ?>
                 <br/>
                 <button class="woocommerce-catalog-enquiry-btn button demo btn btn-primary btn-large" style="<?php echo $button_css; ?>" href="#responsive"><?php echo esc_html( $settings_array[ 'button_text' ] ); ?></button>
                 <?php
                 } 
             } 
-            else {
-                ?>
+            else { ?>
                 <br/>
                 <button class="woocommerce-catalog-enquiry-btn button demo btn btn-primary btn-large" style="<?php echo $button_css; ?>" href="#responsive"><?php echo esc_html( $settings_array[ 'button_text' ] ); ?></button>
                 <?php
@@ -115,6 +109,7 @@ class Module {
             </div>			
         </div>		
         <?php
+        
     }
 }
 ?>
