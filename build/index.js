@@ -16493,7 +16493,7 @@ const DynamicForm = props => {
         case "email":
         case "number":
           input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs__WEBPACK_IMPORTED_MODULE_2__["default"].BasicInput, {
-            wrapperClass: "setting-form-input",
+            wrapperClass: `setting-form-input`,
             descClass: "settings-metabox-description",
             description: inputField.desc,
             key: inputField.key,
@@ -16767,6 +16767,7 @@ const DynamicForm = props => {
             descClass: "settings-metabox-description",
             selectDeselectClass: "select-deselect-trigger",
             selectDeselect: inputField.select_deselect,
+            selectDeselectValue: appLocalizer.global_string.select_deselect_all,
             description: inputField.desc,
             inputClass: inputField.key,
             options: inputField.options,
@@ -16831,6 +16832,7 @@ const DynamicForm = props => {
             rightContent: inputField.right_content,
             options: inputField.options,
             value: value,
+            proSetting: isProSetting(inputField.proSetting),
             onChange: e => {
               if (!proSettingChanged(inputField.proSetting)) {
                 handleChange(e, inputField.key, "multiple");
@@ -16914,7 +16916,7 @@ const DynamicForm = props => {
           break;
         case "api_connect":
           input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs__WEBPACK_IMPORTED_MODULE_2__["default"].ConnectSelect, {
-            key: inputField.key,
+            mailchimpKey: inputField.key,
             selectKey: inputField.selectKey,
             optionKey: inputField.optionKey,
             onChange: handleChange,
@@ -16926,7 +16928,7 @@ const DynamicForm = props => {
       }
       return inputField.type === "section" || inputField.label === "no_label" ? input : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
         key: "g" + inputField.key,
-        className: "form-group"
+        className: `form-group ${inputField.classes ? inputField.classes : ''}`
       }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
         className: "settings-form-label",
         key: "l" + inputField.key,
@@ -16942,7 +16944,7 @@ const DynamicForm = props => {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "dynamic-fields-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_mui_material_Dialog__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    className: "woo-module-popup",
+    className: "admin-module-popup",
     open: modelOpen,
     onClose: handleModelClose,
     "aria-labelledby": "form-dialog-title"
@@ -16950,7 +16952,7 @@ const DynamicForm = props => {
     className: "admin-font font-cross",
     onClick: handleModelClose
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PopupContent_PopupContent__WEBPACK_IMPORTED_MODULE_5__["default"], null)), successMsg && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "notic-display-title"
+    className: "admin-notice-display-title"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "admin-font font-icon-yes"
   }), successMsg), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
@@ -17090,7 +17092,7 @@ const CheckBox = props => {
       props.onMouseOut?.(e);
     }
   }), props.label && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: `woo-toggle-switch-${props.label}`
+    htmlFor: `admin-toggle-switch-${props.label}`
   }), props.proSetting && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "admin-pro-tag"
   }, "pro")), props.description && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
@@ -17855,7 +17857,7 @@ const ButtonCustomizer = props => {
   const buttonRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     document.body.addEventListener("click", event => {
-      if (!buttonRef?.current?.contains(event.target)) {
+      if (!buttonRef?.current.contains(event.target)) {
         setHoverOn(false);
       }
     });
@@ -17914,7 +17916,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const ConnectSelect = props => {
   const {
-    key,
+    mailchimpKey,
     optionKey,
     settingChanged
   } = props;
@@ -17925,15 +17927,22 @@ const ConnectSelect = props => {
     updateSetting
   } = (0,_contexts_SettingContext__WEBPACK_IMPORTED_MODULE_4__.useSetting)();
   const [sellectOption, setSelectOption] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setting[optionKey] || []);
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [loadings, setLoadings] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [showOption, setShowOption] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [mailchimpErrorMessage, setMailchimpErrorMessage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const updateSelectOption = async () => {
-    const options = await (0,_services_apiService__WEBPACK_IMPORTED_MODULE_3__.getApiResponse)((0,_services_apiService__WEBPACK_IMPORTED_MODULE_3__.getApiLink)(props.apiLink));
-    settingChanged.current = true;
-    updateSetting(optionKey, options);
-    setSelectOption(options);
-    setLoading(false);
-    setShowOption(true);
+    if (!setting[mailchimpKey]) {
+      setMailchimpErrorMessage('Kindly use a proper MailChimp key.');
+    } else {
+      setLoadings(true);
+      setMailchimpErrorMessage('');
+      const options = await (0,_services_apiService__WEBPACK_IMPORTED_MODULE_3__.getApiResponse)((0,_services_apiService__WEBPACK_IMPORTED_MODULE_3__.getApiLink)(props.apiLink));
+      settingChanged.current = true;
+      updateSetting(optionKey, options);
+      setSelectOption(options);
+      setLoadings(false);
+      setShowOption(true);
+    }
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "connect-main-wrapper"
@@ -17941,11 +17950,11 @@ const ConnectSelect = props => {
     wrapperClass: "setting-form-input",
     descClass: "settings-metabox-description",
     type: 'text',
-    value: setting[key],
+    value: setting[mailchimpKey],
     proSetting: false,
     onChange: e => {
       if (!props.proSettingChanged()) {
-        props.onChange(e, key);
+        props.onChange(e, mailchimpKey);
       }
     }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -17955,10 +17964,9 @@ const ConnectSelect = props => {
       e.preventDefault();
       if (!props.proSettingChanged()) {
         updateSelectOption();
-        setLoading(true);
       }
     }
-  }, "Fetch List"), loading && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, "Fetch List"), loadings && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "loader"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "three-body__dot"
@@ -18648,22 +18656,6 @@ __webpack_require__.r(__webpack_exports__);
 
 const Support = () => {
   const url = "https://www.youtube.com/embed/cgfeZH5z2dM?si=3zjG13RDOSiX2m1b";
-  const supportLink = [{
-    title: "Get in touch with Support",
-    icon: "mail",
-    description: "Reach out to the support team for assistance or guidance.",
-    link: "https://multivendorx.com/contact-us/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager"
-  }, {
-    title: "Explore Documentation",
-    icon: "submission-message",
-    description: "Understand the plugin and its settings.",
-    link: "https://multivendorx.com/docs/knowledgebase/products-stock-manager-notifier-for-woocommerce/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager"
-  }, {
-    title: "Contribute Here",
-    icon: "support",
-    description: "To participation in product enhancement.",
-    link: "https://github.com/multivendorx/woocommerce-product-stock-alert/issues"
-  }];
   const [faqs, setFaqs] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
     question: "Why am I not receiving any emails when a customer subscribes for an out-of-stock product?",
     answer: "Please install a plugin like Email Log and perform a test subscription.",
@@ -18702,16 +18694,6 @@ const Support = () => {
   }, "Thank you for using Product Stock Manager & Notifier for WooCommerce"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: "support-subheading"
   }, "We want to help you enjoy a wonderful experience with all of our products.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "support-card"
-  }, supportLink.map((item, index) => {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "card-item"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
-      className: `admin-font font-${item.icon}`
-    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-      href: item.link
-    }, item.title), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, item.description)));
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "video-faq-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "video-section"
@@ -18776,35 +18758,65 @@ const Tabs = props => {
     BannerSection
   } = props;
   const [menuCol, setMenuCol] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [openedSubtab, setOpenedSubtab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [openedSubtab, setOpenedSubtab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const showTabSection = tab => {
     return tab.link ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
       href: tab.link
-    }, tab.icon && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, tab.icon && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
       className: `admin-font ${tab.icon}`
-    }), menuCol ? null : tab.name) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
-      className: currentTab === tab.id ? 'active-current-tab' : '',
+    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+      className: "menu-name"
+    }, menuCol ? null : tab.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+      className: "menu-desc"
+    }, menuCol ? null : tab.desc))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+      className: currentTab === tab.id ? "active-current-tab" : "",
       to: prepareUrl(tab.id)
-    }, tab.icon && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, tab.icon && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
       className: ` admin-font ${tab.icon} `
-    }), menuCol ? null : tab.name, menuCol ? null : !appLocalizer.pro_active && tab.proDependent && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    }), menuCol ? null : !appLocalizer.pro_active && tab.proDependent && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
       class: "admin-pro-tag"
-    }, "Pro"));
+    }, "Pro")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+      className: "menu-name"
+    }, menuCol ? null : tab.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+      className: "menu-desc"
+    }, menuCol ? null : tab.desc)));
   };
+  const supportLink = [{
+    title: "Get in touch with Support",
+    icon: "mail",
+    description: "Reach out to the support team for assistance or guidance.",
+    link: "https://multivendorx.com/contact-us/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager"
+  }, {
+    title: "Explore Documentation",
+    icon: "submission-message",
+    description: "Understand the plugin and its settings.",
+    link: "https://multivendorx.com/docs/knowledgebase/products-stock-manager-notifier-for-woocommerce/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager"
+  }, {
+    title: "Contribute Here",
+    icon: "support",
+    description: "To participation in product enhancement.",
+    link: "https://github.com/multivendorx/woocommerce-product-stock-alert/issues"
+  }];
   const showHideMenu = tab => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
-      className: currentTab === tab.id ? 'active-current-tab' : '',
+      className: currentTab === tab.id ? "active-current-tab" : "",
       onClick: e => {
         e.preventDefault();
         if (openedSubtab == tab.id) {
-          setOpenedSubtab('');
+          setOpenedSubtab("");
         } else {
           setOpenedSubtab(tab.id);
         }
       }
-    }, tab.icon && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, tab.icon && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
       className: ` admin-font ${tab.icon} `
-    }), menuCol ? null : tab.name, menuCol ? null : openedSubtab == tab.id ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "drop-down-section"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+      className: "menu-name"
+    }, menuCol ? null : tab.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+      className: "menu-desc"
+    }, menuCol ? null : tab.desc)), menuCol ? null : openedSubtab == tab.id ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
       className: "tab-menu-dropdown-icon active"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
       className: "admin-font font-keyboard_arrow_down"
@@ -18812,7 +18824,7 @@ const Tabs = props => {
       className: "tab-menu-dropdown-icon"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
       className: "admin-font font-keyboard_arrow_down"
-    })));
+    }))));
   };
 
   // Get the description of the current tab.
@@ -18821,67 +18833,53 @@ const Tabs = props => {
       content,
       type
     }) => {
-      if (type === 'file') {
-        return content.id === currentTab && content.id !== 'support' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      if (type === "file") {
+        return content.id === currentTab && content.id !== "support" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
           className: "tab-description-start"
         }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+          className: "child"
+        }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+          className: `admin-font ${content.icon}`
+        })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
           className: "tab-name"
-        }, content.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, content.desc));
-      } else if (type === 'folder') {
-        // Get tabdescription from child by recursion
+        }, content.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+          className: "tab-desc"
+        }, content.desc))));
+      } else if (type === "folder") {
+        // Get tab description from child by recursion
         return getTabDescription(content);
       }
     });
-  };
-  const handleMenu = () => {
-    let menudiv = document.getElementById('current-tab-lists');
-    menudiv.classList.toggle('active');
   };
   const handleMenuShow = () => {
     setMenuCol(!menuCol);
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: ` general-wrapper ${props.queryName} `
-  }, HeaderSection && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(HeaderSection, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "container"
-  }, BannerSection && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(BannerSection, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("nav", {
-    className: "admin-panel-nav"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    onClick: handleMenu
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
-    className: "admin-font font-menu"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "brand"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: _assets_images_Brand_png__WEBPACK_IMPORTED_MODULE_1__,
-    alt: "logo"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: `middle-container-wrapper ${props.horizontally ? 'horizontal-tabs' : 'vertical-tabs'}`
+  }, HeaderSection && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(HeaderSection, null), BannerSection && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(BannerSection, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: `middle-container-wrapper ${props.horizontally ? "horizontal-tabs" : "vertical-tabs"}`
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "middle-child-container"
+    className: `${menuCol ? "showMenu" : ""} middle-child-container`
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     id: "current-tab-lists",
-    className: `${menuCol ? 'showMenu' : ''} current-tab-lists`
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "current-tab-lists-container"
+    className: "current-tab-lists"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "brand"
-  }, menuCol ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    className: "logo",
+    src: menuCol ? _assets_images_Brand_small_png__WEBPACK_IMPORTED_MODULE_2__ : _assets_images_Brand_png__WEBPACK_IMPORTED_MODULE_1__,
+    alt: "Logo"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    className: "logo-small",
     src: _assets_images_Brand_small_png__WEBPACK_IMPORTED_MODULE_2__,
-    alt: "logo"
-  }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: _assets_images_Brand_png__WEBPACK_IMPORTED_MODULE_1__,
-    alt: "logo"
-  }), menuCol ? null : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Catalog Enquiry"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    onClick: handleMenu,
-    className: "menu-close"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
-    className: "admin-font font-cross"
-  }))), tabData.map(({
+    alt: "Logo"
+  }), menuCol ? null : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Catalog Enquiry")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "current-tab-lists-container"
+  }, tabData.map(({
     type,
     content
   }) => {
-    if (type !== 'folder') {
+    if (type !== "folder") {
       return showTabSection(content);
     }
 
@@ -18889,7 +18887,7 @@ const Tabs = props => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "tab-wrapper"
     }, showHideMenu(content[0].content), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: `subtab-wrapper ${menuCol && 'show'} ${openedSubtab == content[0].content.id && 'active'}`
+      className: `subtab-wrapper ${menuCol && "show"} ${openedSubtab == content[0].content.id && "active"}`
     }, content.slice(1).map(({
       type,
       content
@@ -18901,9 +18899,22 @@ const Tabs = props => {
     onClick: handleMenuShow
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "admin-font font-arrow-left"
-  })), menuCol ? null : 'Collapse'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })), menuCol ? null : "Collapse"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "tab-content"
-  }, getTabDescription(tabData), getForm(currentTab)))))));
+  }, getTabDescription(tabData), getForm(currentTab)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "support-card"
+  }, supportLink.map((item, index) => {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: item.link,
+      target: "_blank",
+      className: "card-item"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+      className: `admin-font font-${item.icon}`
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: item.link,
+      target: "_blank"
+    }, item.title), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, item.description)));
+  }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tabs);
 
@@ -19673,6 +19684,14 @@ __webpack_require__.r(__webpack_exports__);
   doc_link: '',
   settings_link: '',
   pro_module: false
+}, {
+  id: 'quote',
+  name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", "woocommerce-catalog-enquiry"),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enable quote module", "woocommerce-catalog-enquiry"),
+  icon: 'font-mail',
+  doc_link: '',
+  settings_link: '',
+  pro_module: true
 }]);
 
 /***/ }),

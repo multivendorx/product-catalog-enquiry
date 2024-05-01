@@ -74,6 +74,7 @@ class Setting {
             'catalog_enquiry_button_management_settings',
             'catalog_enquiry_exclusion_settings',
             'catalog_enquiry_form_customization_settings',
+            'catalog_quote_general_settings',
         ]);
 
         return $this->settings_keys;

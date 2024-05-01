@@ -18,5 +18,14 @@ export default [
         doc_link: '',
         settings_link: '',
         pro_module: false
+    },
+    {
+        id: 'quote',
+        name: __("Quote", "woocommerce-catalog-enquiry"),
+        desc: __("Enable quote module", "woocommerce-catalog-enquiry"),
+        icon: 'font-mail',
+        doc_link: '',
+        settings_link: '',
+        pro_module: true
     }
 ]
