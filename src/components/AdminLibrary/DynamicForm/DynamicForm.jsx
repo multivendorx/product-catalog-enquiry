@@ -708,6 +708,13 @@ const DynamicForm = (props) => {
             );
             break;
 
+            case "catalog_customizer":
+              input = (
+                <CatalogCustomizer
+                />
+              );
+              break;
+
         case "api_connect":
           input = (
             <CustomInput.ConnectSelect
