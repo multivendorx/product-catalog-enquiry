@@ -4,7 +4,7 @@ export default {
     id: 'store_display',
     priority: 10,
     name: __("Store Display Settings", "woocommerce-catalog-enquiry"),
-    desc: __("Store Display Settings", "woocommerce-catalog-enquiry"),
+    desc: __("Control the display of buttons across your store, specifying which button should appear.", "woocommerce-catalog-enquiry"),
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal: [

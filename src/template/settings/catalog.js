@@ -4,29 +4,29 @@ export default {
     id: 'catalog',
     priority: 20,
     name: __("Catalog", "woocommerce-catalog-enquiry"),
-    desc: __("Configure basic catalog settings to operate your catalog marketplace.", "woocommerce-catalog-enquiry"),
+    desc: __("Modify settings to control user access, catalog design.", "woocommerce-catalog-enquiry"),
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal: [
         {
             key: 'for_user_type',
             type: 'radio',
-            label: __("Catalog Mode Applicable For", "woocommerce-catalog-enquiry"),
-            desc: __("Select the type users where this catalog is applicable", "woocommerce-catalog-enquiry"),
+            label: __("Catalog mode user access", "woocommerce-catalog-enquiry"),
+            desc: __("Set catalog mode accessibility based on user status.", "woocommerce-catalog-enquiry"),
             options: [
                 {
                     key: "logged_out",
-                    label: __('Only Logged out Users', 'woocommerce-catalog-enquiry'),
+                    label: __('Logged out users', 'woocommerce-catalog-enquiry'),
                     value: "logged_out"
                 },
                 {
                     key: "logged_in",
-                    label: __('Only Logged in Users', 'woocommerce-catalog-enquiry'),
+                    label: __('Logged in users', 'woocommerce-catalog-enquiry'),
                     value: "logged_in"
                 },
                 {
                     key: "all_users",
-                    label: __('All Users', 'woocommerce-catalog-enquiry'),
+                    label: __('All users', 'woocommerce-catalog-enquiry'),
                     value: "all_users"
                 }
             ]
@@ -34,11 +34,11 @@ export default {
         {
             key: 'is_hide_cart_checkout',
             type: 'checkbox',
-            label: __( "Disable Cart and Checkout Page?", 'woocommerce-catalog-enquiry' ),
+            label: __( "Deactivate cart and checkout page?", 'woocommerce-catalog-enquiry' ),
             options: [
                 {
                     key: "is_hide_cart_checkout",
-                    label: __('Enable this to redirect user to home page, if they click on the cart or checkout page. To set the redirection to another page kindly upgrade to <a href="https://multivendorx.com/woocommerce-request-a-quote-product-catalog/" target="_blank">WooCommerce Catalog Enquiry Pro</a>.', 'woocommerce-catalog-enquiry'),
+                    label: __('Enable this option to redirect users to the homepage when they click on the cart or checkout page. To customize the redirection to a different page, consider upgrading to the Pro <a href="https://multivendorx.com/woocommerce-request-a-quote-product-catalog/" target="_blank">WooCommerce Catalog Enquiry Pro</a>.', 'woocommerce-catalog-enquiry'),
                     value: "is_hide_cart_checkout"
                 }
             ]
@@ -46,7 +46,7 @@ export default {
         {
             key: 'disable_cart_page_link',
             type: 'select',
-            label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
+            label:  __( 'Set redirect page', 'woocommerce-catalog-enquiry' ),
             // desc: apply_filters('woocommerce_catalog_redirect_disabled_cart_page', __( 'Select page where user will be redirected for disable cart page. To use this feature kindly upgrade to <a href="https://multivendorx.com/woocommerce-request-a-quote-product-catalog/" target="_blank">WooCommerce Catalog Enquiry Pro</a>.', 'woocommerce-catalog-enquiry' )),
             options: appLocalizer.pages_array,
             dependent: {
@@ -58,7 +58,7 @@ export default {
         {
             key: 'catalog_page_design',
             type: 'checkbox',
-            label: __( "Catalog Page Design", 'woocommerce-catalog-enquiry' ),
+            label: __( "Catalog page design", 'woocommerce-catalog-enquiry' ),
             options: [
                 {
                     key: "catalog_page_design",
