@@ -34,12 +34,6 @@ export default {
                 }
             ],
             proSetting: true,
-        },
-        {
-            key: "upload_logo",
-            type: 'textbox',
-            label: __('Upload Logo For PDF', 'woocommerce-catalog-enquiry'),
-            desc: __( '', 'woocommerce-catalog-enquiry' ),
         }
     ]
 };

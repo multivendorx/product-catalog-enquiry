@@ -9,7 +9,7 @@ import { useSetting } from "../../../contexts/SettingContext";
 import { getApiLink, sendApiResponse } from "../../../services/apiService";
 import Dialog from "@mui/material/Dialog";
 import Popoup from "../../PopupContent/PopupContent";
-import FormCustomizer from "../Inputs/Special/FormCustomizer";
+import FormCustomizer from "../../formCustomizer/formCustomizer";
 
 // Variable for controll coldown effect submit time
 const PENALTY  = 10;
@@ -693,43 +693,22 @@ const DynamicForm = (props) => {
           );
           break;
 
-          case "form_customizer":
+        case "form_customizer":
+          console.log(setting);
             input = (
               <FormCustomizer
-                value={value}
-                buttonText={setting.button_text}
+                key={inputField.key}
+                values={value}
                 proSetting={isProSetting(inputField.proSetting)}
-                onChange={(e, key) => {
+                onChange={(value) => {
                   if ( ! proSettingChanged( inputField.proSetting ) ) {
-                    handleChange(e, key);
+                    settingChanged.current = true;
+                    updateSetting(inputField.key, value);
                   }
                 }}
               />
             );
             break;
-
-            case "catalog_customizer":
-              input = (
-                <CatalogCustomizer
-                />
-              );
-              break;
-
-        case "api_connect":
-          input = (
-            <CustomInput.ConnectSelect
-              mailchimpKey={inputField.key}
-              selectKey={inputField.selectKey}
-              optionKey={inputField.optionKey}
-              onChange={handleChange}
-              proSettingChanged={
-                () => proSettingChanged(inputField.proSetting)
-              }
-              settingChanged={settingChanged}
-              apiLink={inputField.apiLink}
-            />
-          );
-          break;
         }
 
       return inputField.type === "section" ||

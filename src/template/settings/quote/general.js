@@ -47,7 +47,7 @@ export default {
         },
         {
             key: 'set_expiry_time',
-            type: 'textbox',
+            type: 'number',
             label:  __( 'Set Expiry Time', 'woocommerce-catalog-enquiry' ),
             desc: __( '', 'woocommerce-catalog-enquiry' ),
             dependent: {
