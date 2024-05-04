@@ -1,17 +1,19 @@
-import React, {useState, useEffect} from 'react';
-
+import React, {useState, useEffect, useRef} from 'react';
 const FormCustomizer = (props) => {
     const { values, proSetting, onChange } = props;
-    
+    const settingChange = useRef( false );
     const [formFieldsData, setFromFieldsData] = useState(values || []);
-
-    useEffect(() => { onChange(formFieldsData) }, [formFieldsData]);
-
+    useEffect(() => {
+        if ( settingChange.current ) {
+            onChange(formFieldsData);
+            settingChange.current = false;
+        }
+    }, [formFieldsData]);
     const getFields = (fieldKey) => {
         return formFieldsData.find(({ key }) => { return key === fieldKey });
     }
-
     const activeDeactiveFields = (fieldKey, activeStatus) => {
+        settingChange.current = true;
         if ( getFields(fieldKey) ) {
             setFromFieldsData((prevData) => {
                 return prevData.map((data) => {
@@ -27,8 +29,8 @@ const FormCustomizer = (props) => {
             });
         }
     }
-
     const updateFieldLabel = (fieldKey, labelValue) => {
+        settingChange.current = true;
         if ( getFields(fieldKey) ) {
             setFromFieldsData((prevData) => {
                 return prevData.map((data) => {
@@ -44,7 +46,6 @@ const FormCustomizer = (props) => {
             });
         }
     }
-    
     const formFields = [
         {
             key: 'name',
@@ -80,10 +81,9 @@ const FormCustomizer = (props) => {
         },
         {
             key: 'captcha',
-            type: 'Captcha',
+            desc: 'Captcha',
         }
     ]
-
     return (
         <>
             <div className='enquery-form-fields'>
@@ -124,5 +124,4 @@ const FormCustomizer = (props) => {
         </>
     );
 }
-
 export default FormCustomizer;

@@ -528,9 +528,9 @@ const DynamicForm = (props) => {
               descClass="settings-metabox-description"
               selectDeselectClass="select-deselect-trigger"
               selectDeselect={inputField.select_deselect}
-              selectDeselectValue={
-                appLocalizer.global_string.select_deselect_all
-              }
+              // selectDeselectValue={
+              //   appLocalizer.global_string.select_deselect_all
+              // }
               description={inputField.desc}
               inputClass={inputField.key}
               options={inputField.options}

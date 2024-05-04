@@ -48,6 +48,7 @@ class Module {
         $productid = $post->ID;
         $product_name = get_post_field('post_title', $productid);
         $settings_array = Utill::get_form_settings_array('catalog_enquiry_button_management_settings');
+        $form_settings =  Catalog()->setting->get_setting( 'form_customizer' );
         $button_css = $button_href = "";
         $border_size = ( !empty( $settings_array[ 'button_border_size' ] ) ) ? esc_html( $settings_array[ 'button_border_size' ] ).'px' : '1px';
         if ( !empty( $settings_array[ 'button_background_color' ] ) )
@@ -98,7 +99,20 @@ class Module {
                         <?php wp_nonce_field('wc_catalog_enquiry_mail_form', 'wc_catalog_enq'); ?>
 
                         <div class="cat-form-row">
-                            <?php echo '123'; ?>
+                            <?php 
+                            foreach ($form_settings as $field) {
+                                if ($field['active']) {
+                                    $label = !empty($field['label']) ? $field['label'] : $this->getDefaultLabel()[$field['key']];
+                                    $inputType = $this->getInputType($field['key']);
+                                    echo "<label for='{$field['key']}'>$label</label><br>";
+                                    if ($inputType === 'file') {
+                                        echo "<input type='$inputType' name='{$field['key']}' id='{$field['key']}' accept='image/*'><br>";
+                                    } else {
+                                        echo "<input type='$inputType' name='{$field['key']}' id='{$field['key']}'><br>";
+                                    }
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -110,6 +124,36 @@ class Module {
         </div>		
         <?php
         
+    }
+
+    // Function to get default labels for each field
+    function getDefaultLabel() {
+        $defaultLabels = array(
+            'name' => 'Enter your name',
+            'email' => 'Enter your Email Id',
+            'phone' => 'Enter your Phone Number',
+            'address' => 'Enter your Address',
+            'subject' => 'Enter your Subject Label',
+            'fileupload' => 'Upload a file',
+            'comment' => 'Enter your message',
+            'filesize-limit' => 'Filesize Limit',
+            'captcha' => 'Captcha',
+        );
+        return $defaultLabels;
+    }
+
+    // Function to get input type for each field
+    function getInputType($key) {
+        switch ($key) {
+            case 'email':
+                return 'email';
+            case 'phone':
+                return 'tel';
+            case 'fileupload':
+                return 'file';
+            default:
+                return 'text';
+        }
     }
 }
 ?>
