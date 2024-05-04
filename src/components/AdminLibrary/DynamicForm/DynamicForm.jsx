@@ -10,6 +10,7 @@ import { getApiLink, sendApiResponse } from "../../../services/apiService";
 import Dialog from "@mui/material/Dialog";
 import Popoup from "../../PopupContent/PopupContent";
 import FormCustomizer from "../../formCustomizer/formCustomizer";
+import CatalogCustomizer from "../Inputs/Special/CatalogCustomizer";
 
 // Variable for controll coldown effect submit time
 const PENALTY  = 10;
@@ -690,6 +691,12 @@ const DynamicForm = (props) => {
                 }
               }}
             />
+          );
+          break;
+
+        case "catalog_customizer":
+          input = (
+            <CatalogCustomizer/>
           );
           break;
 
