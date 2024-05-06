@@ -8,28 +8,28 @@ export default {
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal: [
-        {
-            type: "button_customizer",
-            label: __("Custom Button Element", "woocommerce-catalog-enquiry"),
-        },
-        {
-            key: "button_text",
-            type: "text",
-            desc: __("", "woocommerce-catalog-enquiry"),
-            label: __("Enquiry Button Text", "woocommerce-catalog-enquiry"),
-        },
-        {
-            key: "enquiry_cart_button_text",
-            type: "text",
-            desc: __("", "woocommerce-catalog-enquiry"),
-            label: __("Multiple Enquiry Cart Button Text", "woocommerce-catalog-enquiry"),
-        },
-        {
-            key: "view_enquiry_cart_button_text",
-            type: "text",
-            desc: __("", "woocommerce-catalog-enquiry"),
-            label: __("Multiple View Enquiry Cart Message Text", "woocommerce-catalog-enquiry"),
-        },
+        // {
+        //     type: "button_customizer",
+        //     label: __("Custom Button Element", "woocommerce-catalog-enquiry"),
+        // },
+        // {
+        //     key: "button_text",
+        //     type: "text",
+        //     desc: __("", "woocommerce-catalog-enquiry"),
+        //     label: __("Enquiry Button Text", "woocommerce-catalog-enquiry"),
+        // },
+        // {
+        //     key: "enquiry_cart_button_text",
+        //     type: "text",
+        //     desc: __("", "woocommerce-catalog-enquiry"),
+        //     label: __("Multiple Enquiry Cart Button Text", "woocommerce-catalog-enquiry"),
+        // },
+        // {
+        //     key: "view_enquiry_cart_button_text",
+        //     type: "text",
+        //     desc: __("", "woocommerce-catalog-enquiry"),
+        //     label: __("Multiple View Enquiry Cart Message Text", "woocommerce-catalog-enquiry"),
+        // },
         {
             key: "custom_css_product_page",
             type: "textarea",

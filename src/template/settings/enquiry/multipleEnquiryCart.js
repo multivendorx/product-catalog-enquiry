@@ -21,16 +21,6 @@ export default {
             ]
         },
         {
-            key: "button_text",
-            type: "text",
-            desc: __("", "woocommerce-catalog-enquiry"),
-            label: __("Multiple Enquiry Button Text", "woocommerce-catalog-enquiry"),
-        },
-        {
-            type: "button_customizer",
-            label: __("Custom Button Element", "woocommerce-catalog-enquiry"),
-        },
-        {
             key: 'set_enquiry_cart_page',
             type: 'select',
             label: __("Set Enquiry Cart Page", "woocommerce-catalog-enquiry"),

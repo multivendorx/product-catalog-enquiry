@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom';
 
 import Settings from './components/Settings/Settings.jsx';
 import Modules from './components/Modules/Modules.jsx';
-import { ModuleProvider } from './contexts/ModuleContext.jsx'; 
+import { ModuleProvider } from './contexts/ModuleContext.jsx';
+import QuotesList from './components/QuoteRequests/quoteRequests.jsx'; 
 
 
 const Route = () => {
@@ -12,6 +13,7 @@ const Route = () => {
         <>
             { location.get('tab') === 'settings' && <Settings initialTab='general' /> }
             { location.get('tab') === 'modules' && <Modules/> }
+            { location.get('tab') === 'quote-requests' && <QuotesList />}
         </>
     );
 }
