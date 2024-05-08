@@ -28,28 +28,11 @@ export default {
             options: []
         },
         {
-            key: 'return_shop_button',
-            type: 'checkbox',
-            label: __( "Display 'Return to Shop' Button", 'woocommerce-catalog-enquiry' ),
-            options: [
-                {
-                    key: "return_shop_button",
-                    label: __('', 'woocommerce-catalog-enquiry'),
-                    value: "return_shop_button"
-                }
-            ]
-        },
-        {
             key: 'redirect_page',
             type: 'select',
             label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
             desc: __( 'Select page where user will be redirected.', 'woocommerce-catalog-enquiry' ),
             options: appLocalizer.pages_array,
         },
-        {
-            key: 'return_shop_label',
-            type: 'text',
-            label:  __( '"Return to Shop" label', 'woocommerce-catalog-enquiry' ),
-        }
     ]
 };

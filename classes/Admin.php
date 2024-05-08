@@ -133,7 +133,8 @@ class Admin {
             wp_enqueue_style( 'mvx-catalog-style', Catalog()->plugin_url . '/build/index.css' );
             wp_enqueue_script( 'mvx-catalog-script', Catalog()->plugin_url . '/build/index.js', array( 'wp-element' ), '1.0.0', true );
             wp_localize_script( 'mvx-catalog-script', 'appLocalizer', apply_filters('catalog_settings', [
-                'apiUrl' => home_url( '/wp-json' ),
+                'apiUrl'      => untrailingslashit( get_rest_url() ), 
+                'nonce'       => wp_create_nonce( 'wp_rest' ),
                 'pages_array' => $pages_array,
                 'role_array' => $role_array,
                 'all_users' => $all_users,
