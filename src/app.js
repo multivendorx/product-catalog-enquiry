@@ -5,7 +5,7 @@ import Settings from './components/Settings/Settings.jsx';
 import Modules from './components/Modules/Modules.jsx';
 import { ModuleProvider } from './contexts/ModuleContext.jsx';
 import QuotesList from './components/QuoteRequests/quoteRequests.jsx'; 
-
+import EnquiryMessages from './components/EnquiryMessages/enquiryMessages.jsx';
 
 const Route = () => {
     const location = new URLSearchParams(useLocation().hash);
@@ -14,6 +14,7 @@ const Route = () => {
             { location.get('tab') === 'settings' && <Settings initialTab='general' /> }
             { location.get('tab') === 'modules' && <Modules/> }
             { location.get('tab') === 'quote-requests' && <QuotesList />}
+            { location.get('tab') === 'enquiry-messages' && <EnquiryMessages />}
         </>
     );
 }

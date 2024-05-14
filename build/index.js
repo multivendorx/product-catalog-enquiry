@@ -16268,11 +16268,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _components_Settings_Settings_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Settings/Settings.jsx */ "./src/components/Settings/Settings.jsx");
 /* harmony import */ var _components_Modules_Modules_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Modules/Modules.jsx */ "./src/components/Modules/Modules.jsx");
 /* harmony import */ var _contexts_ModuleContext_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./contexts/ModuleContext.jsx */ "./src/contexts/ModuleContext.jsx");
 /* harmony import */ var _components_QuoteRequests_quoteRequests_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/QuoteRequests/quoteRequests.jsx */ "./src/components/QuoteRequests/quoteRequests.jsx");
+/* harmony import */ var _components_EnquiryMessages_enquiryMessages_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/EnquiryMessages/enquiryMessages.jsx */ "./src/components/EnquiryMessages/enquiryMessages.jsx");
+
 
 
 
@@ -16281,10 +16283,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Route = () => {
-  const location = new URLSearchParams((0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useLocation)().hash);
+  const location = new URLSearchParams((0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useLocation)().hash);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, location.get('tab') === 'settings' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Settings_Settings_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
     initialTab: "general"
-  }), location.get('tab') === 'modules' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Modules_Modules_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], null), location.get('tab') === 'quote-requests' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_QuoteRequests_quoteRequests_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], null));
+  }), location.get('tab') === 'modules' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Modules_Modules_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], null), location.get('tab') === 'quote-requests' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_QuoteRequests_quoteRequests_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], null), location.get('tab') === 'enquiry-messages' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_EnquiryMessages_enquiryMessages_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], null));
 };
 const App = () => {
   const currentUrl = window.location.href;
@@ -19329,6 +19331,280 @@ function banner() {
     className: "admin-font font-arrow-right"
   }))))) : '' : '');
 }
+
+/***/ }),
+
+/***/ "./src/components/EnquiryMessages/enquiryDetails.jsx":
+/*!***********************************************************!*\
+  !*** ./src/components/EnquiryMessages/enquiryDetails.jsx ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _enquiryMessages_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./enquiryMessages.scss */ "./src/components/EnquiryMessages/enquiryMessages.scss");
+
+
+
+
+const EnquiryDetails = props => {
+  const {
+    enquiry,
+    onDelete
+  } = props;
+  // console.log(enquiry)
+  const [enquiryDetails, setEnquiryDetails] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (enquiry) {
+      fetchData();
+    }
+  }, [enquiry]);
+  const fetchData = async () => {
+    try {
+      (0,axios__WEBPACK_IMPORTED_MODULE_2__["default"])({
+        method: "post",
+        url: `${appLocalizer.apiUrl}/catalog/v1/get-messages-list`,
+        data: {
+          enquiry: enquiry
+        }
+      }).then(response => {
+        setEnquiryDetails(response.data);
+      });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  console.log(enquiryDetails);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chatting-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "header"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-meta"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "back-btn"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-arrow-left"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-meta-data"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-img"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: "https://shorturl.at/gGILQ",
+    alt: ""
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "user-status online"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-meta"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "enquery-id"
+  }, "#", enquiry.id), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, enquiry.name)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-more-option"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "chat-more-option-item"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "chat-more-option-button"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-magnifying-glass"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "chat-more-option-item"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "chat-more-option-button"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-circle-info"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "chat-more-option-item"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "chat-more-option-button"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-cart-shopping"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "chat-more-option-item"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "chat-more-option-button"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-ellipsis-vertical"
+  })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chatting-main-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    className: "wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "send message-box"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "message-box-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "sender-img"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: "https://shorturl.at/gGILQ",
+    alt: ""
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-content-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "content"
+  }, "Hello ! this is a text", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "status"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-check"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "section-reaction"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-regular fa-face-smile"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-ellipsis-vertical"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-time"
+  }, "8:34 AM")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "receive message-box"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "message-box-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-content-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "content"
+  }, "Hello ! this is a text", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "status"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-check"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "section-reaction"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-regular fa-face-smile"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-ellipsis-vertical"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-time"
+  }, "8:34 AM"))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-controls"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "attachment"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "attachment-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-ellipsis"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-regular fa-face-smile"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "typing-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
+    name: "",
+    id: "",
+    defaultValue: ""
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "send"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "message-send-btn"
+  }, "Send")))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EnquiryDetails);
+
+/***/ }),
+
+/***/ "./src/components/EnquiryMessages/enquiryMessages.jsx":
+/*!************************************************************!*\
+  !*** ./src/components/EnquiryMessages/enquiryMessages.jsx ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _enquiryDetails_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./enquiryDetails.jsx */ "./src/components/EnquiryMessages/enquiryDetails.jsx");
+/* harmony import */ var _enquiryMessages_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./enquiryMessages.scss */ "./src/components/EnquiryMessages/enquiryMessages.scss");
+
+
+
+
+
+const EnquiryMessages = props => {
+  const [enquiryLists, setEnquiryLists] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [selectedEnquiry, setSelectedEnquiry] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const handleEnquiryClick = enquiry => {
+    setSelectedEnquiry(enquiry);
+  };
+  // console.log(selectedEnquiry)
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios__WEBPACK_IMPORTED_MODULE_3__["default"].get(`${appLocalizer.apiUrl}/catalog/v1/get-enquiry-list`);
+        // console.log(response.data)
+        setEnquiryLists(response.data);
+      } catch (error) {
+        console.error('Error fetching enquiry:', error);
+      }
+    };
+    fetchData();
+  }, []);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-list"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "header"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "header-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "header-heading"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", null, "MultivendorX"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "total-message"
+  }, "(50)")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "search-option"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    className: "search-input",
+    type: "text",
+    placeholder: "Search here..."
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "search-btn"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "fa-solid fa-magnifying-glass"
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-list-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
+    className: "recent-message"
+  }, "Recent Message"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-container-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, enquiryLists.map((enquiry, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "chat-item active",
+    onClick: () => handleEnquiryClick(enquiry)
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-item-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-img"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: "https://shorturl.at/gGILQ",
+    alt: ""
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "user-status online"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "chat-meta"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "enquiry-id"
+  }, "#", enquiry.id), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, enquiry.product.map((product, index) => `${product.name} (SKU - ${product.sku})${index !== enquiry.product.length - 1 ? ', ' : ''}`)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, enquiry.name)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "pending-count"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "18")))))))))), selectedEnquiry && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_enquiryDetails_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    enquiry: selectedEnquiry
+  }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EnquiryMessages);
 
 /***/ }),
 
@@ -44193,6 +44469,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************!*\
   !*** ./src/components/Banner/banner.scss ***!
   \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/components/EnquiryMessages/enquiryMessages.scss":
+/*!*************************************************************!*\
+  !*** ./src/components/EnquiryMessages/enquiryMessages.scss ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
