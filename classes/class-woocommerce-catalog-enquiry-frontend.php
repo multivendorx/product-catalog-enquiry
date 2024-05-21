@@ -595,7 +595,11 @@ class Woocommerce_Catalog_Enquiry_Frontend {
                         } else {
                             echo __('Security Code', 'woocommerce-catalog-enquiry');
                         }
-                        ?> <span class="noselect captcha-wrap"><i><?php echo get_transient('woocaptcha'); ?></i></span></p>
+                        ?>
+                        <div>
+                            <input type="hidden" id="hideCap" value="<?php echo get_transient('woocaptcha'); ?>">
+                        </div>
+                         <span class="noselect captcha-wrap"><i><?php echo get_transient('woocaptcha'); ?></i></span></p>
                         <p><?php
                         echo __('Enter the security code shown above', 'woocommerce-catalog-enquiry');
                         ?> </p>
