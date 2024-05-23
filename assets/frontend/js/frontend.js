@@ -99,6 +99,37 @@ jQuery( document ).ready( function ( $ ) {
 		}
 	);
 
+
+	
+	//inquery button 
+	jQuery(document).ready(function($) {
+		var $inquiryButton = $('#product-enquiry-button'); 
+
+		var $inquiryForm = $('#responsive');
+
+		
+		if($('form.variations_form').length > 0){
+			$inquiryButton.hide();
+		}
+
+		
+		$('form.variations_form').on('show_variation', function(event, variation) {
+			$inquiryButton.show();
+		});
+
+		$('form.variations_form').on('hide_variation', function(event) {
+			$inquiryButton.hide();
+			$inquiryForm.hide();
+		});
+
+		$('form.variations_form').on('reset_data', function(event) {
+			$inquiryButton.hide();
+		});
+	});
+
+
+
+
 	$( '#woocommerce-submit-enquiry' ).on( 'click', function () {
 		var name = document.getElementById( 'woocommerce-user-name' ).value;
 		var email = document.getElementById( 'woocommerce-user-email' ).value;
