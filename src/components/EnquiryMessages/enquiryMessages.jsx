@@ -13,16 +13,23 @@ const EnquiryMessages = (props) => {
     // console.log(selectedEnquiry)
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${appLocalizer.apiUrl}/catalog/v1/get-enquiry-list`);
-                // console.log(response.data)
-                setEnquiryLists(response.data);
-            } catch (error) {
-                console.error('Error fetching enquiry:', error);
-            }
-        };
-        fetchData(); 
+        axios({
+            method: "get",
+            url: `${appLocalizer.apiUrl}/catalog/v1/get-enquiry-list`,
+        }).then((response) => {
+            setEnquiryLists(response.data);
+        });
+
+        // const fetchData = async () => {
+        //     try {
+        //         const response = await axios.get(`${appLocalizer.apiUrl}/catalog/v1/get-enquiry-list`);
+        //         // console.log(response.data)
+        //         setEnquiryLists(response.data);
+        //     } catch (error) {
+        //         console.error('Error fetching enquiry:', error);
+        //     }
+        // };
+        // fetchData(); 
     }, []); 
     return (
         <div className="container">
