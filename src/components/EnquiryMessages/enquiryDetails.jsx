@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import "./enquiryMessages.scss";
 
 const EnquiryDetails = (props) => {
     const {enquiry, onDelete} = props;
-    // console.log(enquiry)
     const [enquiryDetails, setEnquiryDetails] = useState([]);
+    const replyMsg = useRef(null);
 
     useEffect(() => {
         if (enquiry) {
@@ -25,6 +25,21 @@ const EnquiryDetails = (props) => {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+    };
+
+    const handleSendMessage = () => {
+        var msgReply = replyMsg.current.value;
+        console.log(msgReply)
+        axios({
+            method: "post",
+            url: `${appLocalizer.apiUrl}/catalog/v1/send-messages`,
+            data: { 
+                msgReply : msgReply,
+                enquiry : enquiry,
+             },
+        } ).then( ( response ) => {
+            fetchData();
+        } );
     };
 
     console.log(enquiry)
@@ -82,16 +97,18 @@ const EnquiryDetails = (props) => {
                                     <div className="sender-img">
                                         <img src="https://shorturl.at/gGILQ" alt="" />
                                     </div>
-                                    <div className="chat-content-wrapper">
-                                        {enquiryDetail.to_user == 1 && (
+                                        {enquiryDetail.to_user == 1 &&
+                                        <>
+                                        <div className="chat-content-wrapper">
                                             <div className="chat-content">
                                                 <div className="content">
-                                                    <>
-                                                        <div dangerouslySetInnerHTML={{ __html: enquiryDetail.msg }} />
-                                                        <div className="status">
-                                                            <i className="fa-solid fa-check" />
-                                                        </div>
-                                                    </>
+                                                        <>
+                                                            <div dangerouslySetInnerHTML={{ __html: enquiryDetail.msg }} />
+                                                            <div className="status">
+                                                                <i className="fa-solid fa-check" />
+                                                            </div>
+                                                        </>
+                                                    
                                                 </div>
                                                 <div className="section-reaction">
                                                     <button>
@@ -101,22 +118,26 @@ const EnquiryDetails = (props) => {
                                                         <i className="fa-solid fa-ellipsis-vertical" />
                                                     </button>
                                                 </div>
-                                                <div className="chat-time">{enquiryDetail.date}</div>
                                             </div>
-                                        )}
-                                    </div>
+                                            <div className="chat-time">{enquiryDetail.date}</div>
+                                        </div>
+                                        </>
+                                    }
                                 </div>
                             </li>
                             <li className="receive message-box">
                                 <div className="message-box-wrapper">
-                                <div className="chat-content-wrapper">
-                                    {enquiryDetail.from_user === 1 && (
+                                    {enquiryDetail.from_user == 1 &&
+                                    <>
+                                    <div className="chat-content-wrapper">
                                         <div className="chat-content">
                                             <div className="content">
-                                                <div dangerouslySetInnerHTML={{ __html: enquiryDetail.msg }} />
-                                                <div className="status">
-                                                    <i className="fa-solid fa-check" />
-                                                </div>
+                                                <>
+                                                    <div dangerouslySetInnerHTML={{ __html: enquiryDetail.msg }} />
+                                                    <div className="status">
+                                                        <i className="fa-solid fa-check" />
+                                                    </div>
+                                                </>
                                             </div>
                                             <div className="section-reaction">
                                                 <button>
@@ -126,10 +147,11 @@ const EnquiryDetails = (props) => {
                                                     <i className="fa-solid fa-ellipsis-vertical" />
                                                 </button>
                                             </div>
-                                            <div className="chat-time">{enquiryDetail.date}</div>
                                         </div>
-                                    )}
-                                </div>
+                                        <div className="chat-time">{enquiryDetail.date}</div>
+                                    </div>
+                                    </>
+                                    }
                                 </div>
                             </li>
                         </ul>
@@ -149,10 +171,10 @@ const EnquiryDetails = (props) => {
                         </div>
                     </div>
                     <div className="typing-section">
-                        <textarea name="" id="" defaultValue={""} />
+                        <textarea name="reply_msg" id="reply_msg" ref={replyMsg} defaultValue={""} />
                     </div>
                     <div className="send">
-                        <button className="message-send-btn">Send</button>
+                        <button className="message-send-btn" id="send_msg" onClick={handleSendMessage}>Send</button>
                     </div>
                 </div>
             </div>

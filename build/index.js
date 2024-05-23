@@ -19358,14 +19358,14 @@ const EnquiryDetails = props => {
     enquiry,
     onDelete
   } = props;
-  // console.log(enquiry)
-  const [enquiryDetails, setEnquiryDetails] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [enquiryDetails, setEnquiryDetails] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const replyMsg = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (enquiry) {
       fetchData();
     }
   }, [enquiry]);
-  const fetchData = async () => {
+  const fetchData = () => {
     try {
       (0,axios__WEBPACK_IMPORTED_MODULE_2__["default"])({
         method: "post",
@@ -19380,6 +19380,21 @@ const EnquiryDetails = props => {
       console.error('Error fetching data:', error);
     }
   };
+  const handleSendMessage = () => {
+    var msgReply = replyMsg.current.value;
+    console.log(msgReply);
+    (0,axios__WEBPACK_IMPORTED_MODULE_2__["default"])({
+      method: "post",
+      url: `${appLocalizer.apiUrl}/catalog/v1/send-messages`,
+      data: {
+        msgReply: msgReply,
+        enquiry: enquiry
+      }
+    }).then(response => {
+      fetchData();
+    });
+  };
+  console.log(enquiry);
   console.log(enquiryDetails);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chatting-container"
@@ -19434,8 +19449,9 @@ const EnquiryDetails = props => {
     className: "fa-solid fa-ellipsis-vertical"
   })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chatting-main-container"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
-    className: "wrapper"
+  }, enquiryDetails.map((enquiryDetail, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    className: "wrapper",
+    key: index
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
     className: "send message-box"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -19445,17 +19461,21 @@ const EnquiryDetails = props => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: "https://shorturl.at/gGILQ",
     alt: ""
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })), enquiryDetail.to_user == 1 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chat-content-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chat-content"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "content"
-  }, "Hello ! this is a text", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    dangerouslySetInnerHTML: {
+      __html: enquiryDetail.msg
+    }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "status"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "fa-solid fa-check"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section-reaction"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "fa-regular fa-face-smile"
@@ -19463,21 +19483,25 @@ const EnquiryDetails = props => {
     className: "fa-solid fa-ellipsis-vertical"
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chat-time"
-  }, "8:34 AM")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+  }, enquiryDetail.date))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
     className: "receive message-box"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "message-box-wrapper"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, enquiryDetail.from_user == 1 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chat-content-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chat-content"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "content"
-  }, "Hello ! this is a text", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    dangerouslySetInnerHTML: {
+      __html: enquiryDetail.msg
+    }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "status"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "fa-solid fa-check"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "section-reaction"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "fa-regular fa-face-smile"
@@ -19485,7 +19509,7 @@ const EnquiryDetails = props => {
     className: "fa-solid fa-ellipsis-vertical"
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chat-time"
-  }, "8:34 AM"))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, enquiryDetail.date))))))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chat-controls"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wrapper"
@@ -19500,13 +19524,16 @@ const EnquiryDetails = props => {
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "typing-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
-    name: "",
-    id: "",
+    name: "reply_msg",
+    id: "reply_msg",
+    ref: replyMsg,
     defaultValue: ""
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "send"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    className: "message-send-btn"
+    className: "message-send-btn",
+    id: "send_msg",
+    onClick: handleSendMessage
   }, "Send")))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EnquiryDetails);
@@ -19543,16 +19570,23 @@ const EnquiryMessages = props => {
   // console.log(selectedEnquiry)
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios__WEBPACK_IMPORTED_MODULE_3__["default"].get(`${appLocalizer.apiUrl}/catalog/v1/get-enquiry-list`);
-        // console.log(response.data)
-        setEnquiryLists(response.data);
-      } catch (error) {
-        console.error('Error fetching enquiry:', error);
-      }
-    };
-    fetchData();
+    (0,axios__WEBPACK_IMPORTED_MODULE_3__["default"])({
+      method: "get",
+      url: `${appLocalizer.apiUrl}/catalog/v1/get-enquiry-list`
+    }).then(response => {
+      setEnquiryLists(response.data);
+    });
+
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await axios.get(`${appLocalizer.apiUrl}/catalog/v1/get-enquiry-list`);
+    //         // console.log(response.data)
+    //         setEnquiryLists(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching enquiry:', error);
+    //     }
+    // };
+    // fetchData(); 
   }, []);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "container"
