@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Profile from './MessageComponents/Profile';
 import "./enquiryMessages.scss";
+import CartComponents from './MessageComponents/CartComponents';
+import EnquiryControlsBtn from './MessageComponents/EnquiryControlsBtn';
 
 const EnquiryDetails = (props) => {
     const { enquiry, onDelete } = props;
@@ -9,8 +11,24 @@ const EnquiryDetails = (props) => {
     const replyMsg = useRef(null);
     const [showProfile, setShowProfile] = useState(false);
     const scrollBottomDiv = useRef(null);
+    const [ showCart, setShowCart ] = useState(false);
+    const [ showControlsBtn, setShowControlsBtn ] = useState(false);
+    
+    const handleShowControlsBtn = ()=>{
+        setShowCart(false);
+        setShowProfile(false);
+        setShowControlsBtn(!showControlsBtn);
+    };
+    
+    const handleCart = ()=>{
+        setShowControlsBtn(false);
+        setShowProfile(false);
+        setShowCart(!showCart);
+    };
 
     const handleProfile = () => {
+        setShowCart(false);
+        setShowControlsBtn(false);
         setShowProfile(!showProfile);
     };
 
@@ -91,14 +109,16 @@ const EnquiryDetails = (props) => {
                                     </button>
                                 </li>
                                 <li className="chat-more-option-item">
-                                    <button className="chat-more-option-button">
+                                    <button onClick={handleCart} className="chat-more-option-button">
                                         <i className="admin-font font-cart" />
                                     </button>
+                                    { showCart && <CartComponents showCart={showCart} handleCart={handleCart} enquiry={enquiry} />}
                                 </li>
                                 <li className="chat-more-option-item">
-                                    <button className="chat-more-option-button">
+                                    <button onClick={handleShowControlsBtn} className="chat-more-option-button">
                                         <i className="admin-font font-more-vertical" />
                                     </button>
+                                    { showControlsBtn && <EnquiryControlsBtn enquiry={enquiry} />}
                                 </li>
                             </ul>
                         </div>
