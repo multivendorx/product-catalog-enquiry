@@ -181,6 +181,11 @@ $theme-color: #522c81;
               max-height: 0;
               overflow: hidden;
               transition: max-height 0.3s linear  ;
+
+              a{
+                width: 100%;
+                box-sizing: border-box;
+              }
               
               &.active{
                 max-height: 50rem;
@@ -196,7 +201,8 @@ $theme-color: #522c81;
         background: #fff;
         max-width: 75.6rem;
         width: 100%;
-
+        overflow: hidden;
+        
         .tab-description-start{
             padding: 1.83rem 1.83rem 0;
 
