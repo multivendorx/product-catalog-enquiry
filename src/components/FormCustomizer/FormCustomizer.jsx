@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
+import './FormCustomizer.scss'
+
 const FormCustomizer = (props) => {
     const { values, proSetting, onChange } = props;
     const settingChange = useRef( false );
@@ -87,24 +89,29 @@ const FormCustomizer = (props) => {
     return (
         <>
             <div className='enquery-form-fields'>
-                <div>
+                <div className='fields-header'>
                     <h3>Field Name</h3>
-                    <h3>Enable / Disable Set new field name</h3>
+                    <h3>Enable / Disable</h3>
+                    <h3>Set new field name</h3>
                 </div>
-                <div>
+                <div className='fields-body'>
                     {
-                        formFields.map((fields) => {
+                        formFields.map((fields, index) => {
                             return (
-                                <div>
-                                    <div>{ fields.desc }</div>
+                                <div className='fields-row' key={index}>
+                                    <div className='fields-row-name'>{ fields.desc }</div>
                                     <div>
+                                        <div className='toggle-checkbox-content'>
                                         <input
+                                            id={index}
                                             type='checkbox'
                                             onChange={(e) => {
                                                 activeDeactiveFields(fields.key, e.target.checked);
                                             }}
                                             checked={getFields(fields.key) ? getFields(fields.key).active : false }
                                         />
+                                        <label htmlFor={index}></label>
+                                        </div>
                                     </div>
                                     <div>
                                         <input
