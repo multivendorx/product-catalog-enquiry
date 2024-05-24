@@ -50,8 +50,8 @@ const EnquiryDetails = (props) => {
         } );
     };
 
-    console.log(enquiry)
-    console.log(enquiryDetails)
+    // console.log(enquiry)
+    // console.log(enquiryDetails)
     
     useEffect(() => {
         if (scrollBottomDiv.current) {
@@ -191,7 +191,7 @@ const EnquiryDetails = (props) => {
                     </div>
                 </div>
             </div>
-            { showProfile && <Profile showProfile={showProfile} handleProfile={handleProfile} />}
+            { showProfile && <Profile showProfile={showProfile} handleProfile={handleProfile} enquiry={enquiry} />}
         </>
     );
 }

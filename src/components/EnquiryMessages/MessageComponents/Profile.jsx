@@ -1,8 +1,8 @@
 import React from 'react'
 import Products from './Products';
 
-const Profile = ({ showProfile, handleProfile }) => {
-  const product = Array.from({ length: 20 }, (_, index) => index + 1);
+const Profile = ({ showProfile, handleProfile, enquiry }) => {
+  // console.log(enquiry)
   return (
     <>
         <div className="profile-container">
@@ -17,8 +17,8 @@ const Profile = ({ showProfile, handleProfile }) => {
               </button>
             </div>
             <div className="profile-meta-details">
-              <p className='enquiry-no'>#12345</p>
-              <p className='enquiry-status'><span className='status-dot'></span><span className='status'>Online</span></p>
+              <p className='enquiry-no'>#{enquiry.id}</p>
+              <p className='enquiry-status'>{enquiry.name}</p>
             </div>
           </div>
 
@@ -27,8 +27,8 @@ const Profile = ({ showProfile, handleProfile }) => {
           <div className='products-list-section'>
             <div className='title'>All products</div>
               <div className='products-container'>
-                {product.map((items, index)=>{
-                  return <Products key={index} />
+                {enquiry.product.map((items, index)=>{
+                  return <Products key={index} items={items} />
                 })}
               </div>
           </div>
