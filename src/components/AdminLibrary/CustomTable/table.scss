@@ -90,6 +90,137 @@ $color-white: #fff;
 $menu-color: #f9f8fb;
 $color-active: #65438f;
 
+.filter-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+
+  .wrap-bulk-all-date{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    max-width: 37.8rem;
+    flex-wrap: wrap;
+    position: relative;
+    width: 100%;
+  
+    .admin-header-search-section{
+      input{
+        padding: 0.15rem 0.5rem;
+      }
+    }
+  
+    & > div{
+      flex: 1 0 9.45rem;
+      width: 100%;
+  
+      div{
+        background-color: transparent;
+      }
+
+
+      .date-picker-section-wrapper{
+        position: absolute;
+        left: 0;
+        top: 105%;
+        background: #fff !important;
+        z-index: 5;
+        padding: 1rem;
+
+        .rdrDateRangePickerWrapper{
+          // flex-wrap: wrap;
+
+          .rdrDefinedRangesWrapper{
+            .rdrInputRanges{
+              .rdrInputRange{
+                input{
+                  width: 3.15rem;
+                }
+              }
+            }
+          }
+
+
+          & > div{
+            // flex: 1;
+
+            input{
+              width: fit-content;
+            }
+
+            .rdrDateDisplay{
+              span{
+                border-radius: 0;
+                box-shadow: none;
+                border: none;
+              }
+            }
+          }
+        }
+
+        @media screen and (max-width: 41.58rem) {
+          .rdrDateRangePickerWrapper{
+            flex-direction: column;
+
+            & > div{
+              width: 100%;
+            }
+          }
+        }
+      }
+      
+      input, select{
+        background-color: transparent;
+        width: 100%;
+        outline: none;
+        height: 2.205rem !important; // To overwrite default wordpress css
+        border: 0.115rem solid rgba(0, 0, 0, 0.125);
+  
+        &:focus{
+          box-shadow: none;
+        }
+      }
+    }
+
+    
+    .course-bulk-action{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+  
+      select{
+          background-color: transparent !important;
+          border: 0.115rem solid rgba(0, 0, 0, 0.125) !important;
+          border-radius: 0.25rem !important;
+          padding: 0.125rem 1.5rem 0.15rem 0.5rem;
+          width: 100%;
+  
+          &:hover, &:active{
+              box-shadow: none;
+          }
+      }
+    
+      button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-radius: 0.25rem;
+        background-color: #65438f;
+        padding: 0.5rem 1rem;
+        height: fit-content;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .koyZDM{
   overflow: visible !important; // To overwrite default react data table css
 }
@@ -101,7 +232,7 @@ $color-active: #65438f;
     z-index: 1;
 
     *{
-      font-size: 0.938rem;
+      font-size: 0.875rem;
     }
 
     .rdt_TableHead{
