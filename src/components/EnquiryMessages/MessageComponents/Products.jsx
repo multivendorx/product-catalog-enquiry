@@ -1,24 +1,26 @@
-import React from 'react'
-
-const Products = ({key}) => {
+import React from 'react';
+const Products = ({key, items}) => {
+    console.log(items)
     return (
         <>
             <article key={key} className='product-item'>
-                <main className='meta-data'>
-                    <div className='product-images'>
+                <section>
+                    <div>
                         <img src="https://shorturl.at/gGILQ" alt="" />
                     </div>
-                    <div className='meta-details'>
-                        <p className='product-name'>Bag</p>
-                        <span className='product-status'>Out of stock</span>
+                    <div>
+                        <p>{items.name}</p>
+                        <p>Qty</p>
                     </div>
-                </main>
-                <div className='price-section'>
-                    <p>$785</p>
-                </div>
+                </section>
+                <section>
+                    <p>{items.status}</p>
+                </section>
+                <section>
+                    <p dangerouslySetInnerHTML={{ __html: items.price }}/>
+                </section>
             </article>
         </>
     )
 }
-
 export default Products;
