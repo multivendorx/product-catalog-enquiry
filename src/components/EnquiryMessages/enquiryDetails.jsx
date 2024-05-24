@@ -38,6 +38,7 @@ const EnquiryDetails = (props) => {
                 enquiry : enquiry,
              },
         } ).then( ( response ) => {
+            replyMsg.current.value = false;
             fetchData();
         } );
     };

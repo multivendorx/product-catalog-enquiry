@@ -92,7 +92,7 @@ class Modules {
      * @return void
      */
     public function load_active_modules() {
-        if ( $this->module_activated ) {
+        if ( self::$module_activated ) {
             return;
         }
 
@@ -140,7 +140,7 @@ class Modules {
             update_option( self::ACTIVE_MODULES_DB_KEY, $activated_modules );
         }
 
-        $this->module_activated = true;
+        self::$module_activated = true;
     }
 
     /**

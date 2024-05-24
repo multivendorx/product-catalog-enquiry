@@ -30,7 +30,8 @@ export default {
                     label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
                     value: "enquiry_button"
                 }
-            ]
+            ],
+            proSetting: true,
         },
         {
             key: 'product_page',
