@@ -37,8 +37,8 @@ if(isset($default_arrt_value) && is_array($default_arrt_value) && (!empty($defau
 ?>
 <?php do_action( 'woocommerce_catalog_enquiry_before_add_to_cart_form' ); ?>
 
-<form class="variations_form cart" method="post" enctype='multipart/form-data' data-product_id="<?php echo $post->ID; ?>" data-product_variations="<?php echo esc_attr( json_encode( $available_variations ) ) ?>">
-	<?php if ( ! empty( $available_variations ) ) : ?>
+<form class="variations_form cart" method="post" enctype='multipart/form-data' data-product_id="<?php echo $post->ID; ?>" data-product_variations="<?php echo esc_attr( json_encode( $args['available_variations'] ) ) ?>">
+	<?php if ( ! empty( $args['available_variations'] ) ) : ?>
 		<table class="variations" cellspacing="0">
 			<tbody>
 				<?php $loop = 0; foreach ( $variation_attributes as $name => $options ) : $loop++;  ?>

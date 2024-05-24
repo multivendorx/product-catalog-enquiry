@@ -1,5 +1,17 @@
 jQuery( document ).ready( function ( $ ) {
     $( '#responsive' ).hide();
+    var $enquiryBtn = $('.woocommerce-catalog-enquiry-btn');
+    if($('form.variations_form').length > 0){
+        $enquiryBtn.hide();
+    }
+    $('form.variations_form').on('show_variation', function(event, variation) {
+        $enquiryBtn.show();
+    });
+
+    $('form.variations_form').on('hide_variation', function(event) {
+        $enquiryBtn.hide();
+    });
+
     $('#woocommerce-catalog .catalog-modal .close, #woocommerce-catalog .catalog-modal .btn-default').on( 'click', function () {
 		$( '#responsive' ).slideToggle( 500 );
 	} );
@@ -22,7 +34,7 @@ jQuery( document ).ready( function ( $ ) {
                 formData: formData
             },
             success: function(response) {
-                console.log(response);
+                window.location.href = catalog_enquiry_frontend.redirect_link;
                 
             },
         });

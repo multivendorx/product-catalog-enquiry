@@ -35,20 +35,29 @@ const EnquiryDetails = (props) => {
     };
 
     
-    const handleSendMessage = () => {
-        var msgReply = replyMsg.current.value;
-        console.log(msgReply)
-        axios({
-            method: "post",
-            url: `${appLocalizer.apiUrl}/catalog/v1/send-messages`,
-            data: {
-                msgReply: msgReply,
-                enquiry: enquiry,
-            },
-        }).then((response) => {
-            fetchData();
-        });
-    };
+//     const handleSendMessage = () => {
+//         var msgReply = replyMsg.current.value;
+//         console.log(msgReply)
+//         axios({
+//             method: "post",
+//             url: `${appLocalizer.apiUrl}/catalog/v1/send-messages`,
+// <<<<<<< new-structure
+//             data: {
+//                 msgReply: msgReply,
+//                 enquiry: enquiry,
+//             },
+//         }).then((response) => {
+// =======
+//             data: { 
+//                 msgReply : msgReply,
+//                 enquiry : enquiry,
+//              },
+//         } ).then( ( response ) => {
+//             replyMsg.current.value = false;
+// >>>>>>> new-structure
+//             fetchData();
+//         });
+//     };
 
     console.log(enquiry)
     console.log(enquiryDetails)

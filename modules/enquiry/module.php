@@ -194,7 +194,6 @@ class Module {
         );
 
         $result = $wpdb->insert($wpdb->prefix . 'catalog_enquiry_table', $data);
-        file_put_contents( plugin_dir_path(__FILE__) . "/error.log", date("d/m/Y H:i:s", time()) . ":result:  : " . var_export($other_fields, true) . "\n", FILE_APPEND);
         if ($result) {
             $enquiry_id = $wpdb->insert_id;
             $admin_email  = get_option('admin_email');

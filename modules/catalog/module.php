@@ -20,8 +20,9 @@ class Module {
 		remove_action('woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20);
         add_action('template_redirect', [$this, 'redirect_cart_checkout_page' ], 10);
 
-		add_action('woocommerce_single_product_summary', [$this, 'display_description_box']);
+		add_action('woocommerce_single_product_summary', [$this, 'display_description_box'], 35);
 		add_action('woocommerce_single_product_summary', [$this, 'display_button'], 35);
+        add_action('woocommerce_single_product_summary', [$this, 'add_variation_product'], 29);
 
         // $display_desc = Catalog()->setting->get_setting( 'display_description' );
         // $display_button = Catalog()->setting->get_setting( 'display_position' );
@@ -42,6 +43,26 @@ class Module {
 		//     add_action('woocommerce_single_product_summary', [$this, 'display_button'], 30);
         // }
     }
+
+    function add_variation_product() {
+
+        global $product;
+        if ($product->is_type('variable')) {
+            $variable_product = new \WC_Product_Variable($product);
+            // Enqueue variation scripts
+            wp_enqueue_script('wc-add-to-cart-variation');
+            $available_variations = $variable_product->get_available_variations();
+            $args = [
+                'available_variations' => $available_variations
+            ];
+            //attributes
+            Catalog()->util->get_template('woocommerce-catalog-enquiry-variable-product.php', $args);
+
+        } elseif ($product->is_type('simple')) {
+            echo wc_get_stock_html($product);
+        }
+    }
+
 
     function redirect_cart_checkout_page() {
         $disable_cart_checkout = Catalog()->setting->get_setting( 'is_hide_cart_checkout' );
