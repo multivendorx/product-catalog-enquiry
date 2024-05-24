@@ -19,6 +19,7 @@ export default {
             type: 'form_customizer',
             label: __("Form Customizer", "woocommerce-catalog-enquiry"),
             desc: __("Form Customizer", "woocommerce-catalog-enquiry"),
+            classes: 'form_customizer',
         }
     ]
 };
