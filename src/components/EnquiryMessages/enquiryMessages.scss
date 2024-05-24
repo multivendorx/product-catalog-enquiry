@@ -1,19 +1,18 @@
 @font-face {
-  font-family: "admin-font";
-  src: url("./fonts/admin-font.eot?prptll");
-  src: url("./fonts/admin-font.eot?prptll#iefix") format("embedded-opentype"),
-    url("./fonts/admin-font.ttf?prptll") format("truetype"),
-    url("./fonts/admin-font.woff?prptll") format("woff"),
-    url("./fonts/admin-font.svg?prptll#admin-font") format("svg");
+  font-family: 'admin-font';
+  src:  url('./fonts/admin-font.eot?tace9w');
+  src:  url('./fonts/admin-font.eot?tace9w#iefix') format('embedded-opentype'),
+    url('./fonts/admin-font.ttf?tace9w') format('truetype'),
+    url('./fonts/admin-font.woff?tace9w') format('woff'),
+    url('./fonts/admin-font.svg?tace9w#admin-font') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^="font-"],
-[class*=" font-"] {
+[class^="font-"], [class*=" font-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: "admin-font" !important;
+  font-family: 'admin-font' !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -27,10 +26,13 @@
 }
 
 .font-dots-three-horizontal:before {
-  content: "\e8fd";
+  content: "\e8eee";
 }
 .font-more-vertical:before {
   content: "\e8051";
+}
+.font-close:before {
+  content: "\e810";
 }
 .font-check:before {
   content: "\e809";
@@ -63,6 +65,7 @@
   content: "\e800";
 }
 
+
 .container {
   width: 100%;
   /* border: 1px solid red; */
@@ -72,6 +75,7 @@
   margin: auto;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.125);
   background: #f0f0f1;
+  position: relative;
 
   $color-active: #65438f;
 
@@ -289,6 +293,7 @@
     transition: all 0.4s;
     position: relative;
     background-color: #fff;
+    min-width: 455px;
     width: 100%;
     overflow: hidden;
 
@@ -407,6 +412,7 @@
 
             li {
               list-style: none;
+              position: relative;
 
               button {
                 height: 40px;
@@ -707,23 +713,8 @@
   }
 }
 
-@media screen and (max-width: 767px) {
-  .container {
-    .chatting-container {
-      .chat-wrapper {
-        .header {
-          .chat-meta {
-            .back-btn {
-              display: flex;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
 .profile-container {
+  min-width: 300px;
   max-width: 400px;
   width: 100%;
   height: 100%;
@@ -857,58 +848,174 @@
     border-radius: 0.25rem;
     transition: all 0.3s linear;
   }
+}
+.product-item {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #f0f0f1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
 
-  .product-item {
-    padding: 0.5rem;
-    border-radius: 0.25rem;
-    background-color: #f0f0f1;
+  .item-meta-wrapper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.25rem;
+    justify-content: flex-start;
+    gap: 0.5rem;
 
-    .meta-data {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 0.5rem;
+    .product-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 0.25rem;
+      box-shadow: 0 0 1rem rgba($color: #000000, $alpha: 0.125);
+      overflow: hidden;
 
-      .product-images {
-        width: 40px;
-        height: 40px;
-        border-radius: 0.25rem;
-        box-shadow: 0 0 1rem rgba($color: #000000, $alpha: 0.125);
-        overflow: hidden;
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
-        }
-      }
-
-      .meta-details {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        flex-direction: column;
-        gap: 0.125rem;
-
-        .product-name {
-          font-size: 0.875rem;
-          font-weight: 500;
-        }
-        .product-status {
-          color: green;
-          font-size: 0.75rem;
-        }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
       }
     }
 
-    .price-section {
-      p {
+    .item-meta-data {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-direction: column;
+      gap: 0.125rem;
+
+      .product-name {
+        font-size: 0.875rem;
         font-weight: 500;
+      }
+      .product-qty{
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  
+  .product-price {
+    display: flex;
+    flex-direction: column;
+
+    p {
+      font-weight: 500;
+    }
+
+    p.instock{
+      font-size: 0.75rem;
+      color: green;
+      font-weight: 400;
+    }
+  }
+}
+
+
+
+.cart-products-container{
+  position: absolute;
+  padding: 1rem 0.25rem 1rem 1rem;
+  border-radius: 0.25rem;
+  background: #fff;
+  box-shadow: 0 0 1rem rgba($color: #000000, $alpha: 0.125);
+  right: 0;
+  width: 300px;
+
+  h3{
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+  
+  .container-wrapper{
+    overflow-y: scroll;
+    height: 275px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-right: 5px;
+
+    &:hover{
+      &::-webkit-scrollbar{
+        visibility: visible;
+      }
+      &::-webkit-scrollbar-thumb{
+        visibility: visible;
+      }
+    }
+  
+    &::-webkit-scrollbar{
+      margin: 0;
+      width: 4px;
+      background-color: #f0f0f11d;
+      visibility: hidden;
+      transition: all 0.3s linear;
+    }
+    
+    &::-webkit-scrollbar-thumb{
+      background-color: #f0f0f1;
+      visibility: hidden;
+      border-radius: 0.25rem;
+      transition: all 0.3s linear;
+    }
+
+    .cart-action-section{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f0f0f1;
+      padding-right: 0.5rem;
+
+      .product-item{
+        width: 100%;
+      }
+    }
+  }
+}
+
+.enquiry-control-btn{
+  position: absolute;
+  right: 0;
+  top: 100%;
+  padding: 0.5rem;
+  background: #fff;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.125);
+
+  .control-btn{
+    width: 100% !important;
+    padding: 0.75rem !important;
+    justify-content: flex-start !important;
+    border-radius: 0 !important;
+    
+    //Overwrite for avoid default scss 
+  }
+}
+
+
+@media screen and (max-width: 1095px) {
+  .profile-container{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 9;
+    box-shadow: 0 0 1rem rgba($color: #000000, $alpha: 0.125);
+  }
+}
+
+
+@media screen and (max-width: 767px) {
+  .container {
+    .chatting-container {
+      .chat-wrapper {
+        .header {
+          .chat-meta {
+            .back-btn {
+              display: flex;
+            }
+          }
+        }
       }
     }
   }

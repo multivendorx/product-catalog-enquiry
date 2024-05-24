@@ -1,23 +1,21 @@
 import React from 'react';
-const Products = ({key, items}) => {
-    console.log(items)
+const Products = ({ productKey, productItems }) => {
+    console.log(productItems)
     return (
         <>
-            <article key={key} className='product-item'>
-                <section>
-                    <div>
+            <article key={productKey} className='product-item'>
+                <section className='item-meta-wrapper'>
+                    <div className='product-img'>
                         <img src="https://shorturl.at/gGILQ" alt="" />
                     </div>
-                    <div>
-                        <p>{items.name}</p>
-                        <p>Qty</p>
+                    <div className='item-meta-data'>
+                        <p className='product-name'>{productItems.name}</p>
+                        <p className='product-qty'>Qty <span></span></p>
                     </div>
                 </section>
-                <section>
-                    <p>{items.status}</p>
-                </section>
-                <section>
-                    <p dangerouslySetInnerHTML={{ __html: items.price }}/>
+                <section className='product-price'>
+                    <p dangerouslySetInnerHTML={{ __html: productItems.price }} />
+                    <p className='instock'>{productItems.status}</p>
                 </section>
             </article>
         </>
