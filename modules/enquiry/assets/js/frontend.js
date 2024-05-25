@@ -23,15 +23,20 @@ jQuery( document ).ready( function ( $ ) {
 
     $( '#catalog-enquiry-form' ).on( 'submit', function (e) {
         e.preventDefault();
+        var quantity =  $('.quantity .qty').val();
 		var formData = $(this).serializeArray();
-        console.log(formData)
+        if (typeof quantity == 'undefined') {
+            quantity = 1;
+        }
+        console.log(quantity)
         // AJAX request
         $.ajax({
             url: catalog_enquiry_frontend.ajaxurl,
             method: 'POST',
             data: {
                 action: 'save_enquiry_send_mail',
-                formData: formData
+                formData: formData,
+                quantity: quantity
             },
             success: function(response) {
                 window.location.href = catalog_enquiry_frontend.redirect_link;

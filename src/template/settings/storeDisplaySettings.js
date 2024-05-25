@@ -8,53 +8,84 @@ export default {
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal: [
+        // {
+        //     key: 'product_galary_page',
+        //     type: 'radio',
+        //     label: __("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry"),
+        //     desc: __("", "woocommerce-catalog-enquiry"),
+        //     select_deselect: true,
+        //     options: [
+        //         {
+        //             key: "product_price",
+        //             label: __('Product Price', 'woocommerce-catalog-enquiry'),
+        //             value: "product_price"
+        //         },
+        //         {
+        //             key: "add_to_cart",
+        //             label: __('Add-To-Cart', 'woocommerce-catalog-enquiry'),
+        //             value: "add_to_cart"
+        //         },
+        //         {
+        //             key: "enquiry_button",
+        //             label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
+        //             value: "enquiry_button"
+        //         }
+        //     ],
+        //     proSetting: true,
+        // },
+        // {
+        //     key: 'product_page',
+        //     type: 'radio',
+        //     label: __("Product Page", "woocommerce-catalog-enquiry"),
+        //     desc: __("", "woocommerce-catalog-enquiry"),
+        //     options: [
+        //         {
+        //             key: "product_price",
+        //             label: __('Product Price', 'woocommerce-catalog-enquiry'),
+        //             value: "product_price"
+        //         },
+        //         {
+        //             key: "add_to_cart",
+        //             label: __('Add-To-Cart', 'woocommerce-catalog-enquiry'),
+        //             value: "add_to_cart"
+        //         },
+        //         {
+        //             key: "enquiry_button",
+        //             label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
+        //             value: "enquiry_button"
+        //         }
+        //     ]
+        // },
         {
-            key: 'product_galary_page',
-            type: 'radio',
-            label: __("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry"),
-            desc: __("", "woocommerce-catalog-enquiry"),
-            select_deselect: true,
-            options: [
+            key: 'grid_table',
+            type: 'grid_table',
+            label: __("Grid Table", "woocommerce-catalog-enquiry"),
+            desc: __("Grid Table", "woocommerce-catalog-enquiry"),
+            classes: '',
+            rows: [
                 {
-                    key: "product_price",
-                    label: __('Product Price', 'woocommerce-catalog-enquiry'),
-                    value: "product_price"
+                    key: "product_galary_page",
+                    label: __("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry")
                 },
                 {
-                    key: "add_to_cart",
-                    label: __('Add-To-Cart', 'woocommerce-catalog-enquiry'),
-                    value: "add_to_cart"
-                },
-                {
-                    key: "enquiry_button",
-                    label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
-                    value: "enquiry_button"
+                    key: "product_page",
+                    label: __("Product Page", "woocommerce-catalog-enquiry")
                 }
             ],
-            proSetting: true,
-        },
-        {
-            key: 'product_page',
-            type: 'radio',
-            label: __("Product Page", "woocommerce-catalog-enquiry"),
-            desc: __("", "woocommerce-catalog-enquiry"),
-            options: [
+            columns: [
                 {
                     key: "product_price",
                     label: __('Product Price', 'woocommerce-catalog-enquiry'),
-                    value: "product_price"
                 },
                 {
                     key: "add_to_cart",
                     label: __('Add-To-Cart', 'woocommerce-catalog-enquiry'),
-                    value: "add_to_cart"
                 },
                 {
                     key: "enquiry_button",
                     label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
-                    value: "enquiry_button"
                 }
-            ]
+            ],
         }
     ]
 };

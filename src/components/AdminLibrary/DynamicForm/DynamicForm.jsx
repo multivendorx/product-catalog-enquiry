@@ -11,6 +11,7 @@ import Dialog from "@mui/material/Dialog";
 import Popoup from "../../PopupContent/PopupContent";
 import FormCustomizer from "../../formCustomizer/formCustomizer";
 import CatalogCustomizer from "../Inputs/Special/CatalogCustomizer";
+import GridTable from "../Inputs/Special/GridTable";
 
 // Variable for controll coldown effect submit time
 const PENALTY  = 10;
@@ -698,6 +699,15 @@ const DynamicForm = (props) => {
           input = (
             <CatalogCustomizer/>
           );
+          break;
+
+        case "grid_table":
+            input = (
+              <GridTable
+                rows={inputField.rows}
+                columns={inputField.columns}
+              />
+            );
           break;
 
         case "form_customizer":

@@ -182,11 +182,11 @@ class Module {
                 }
             }
         }
-
+        $product_quantity[$product_id] = $_POST['quantity'];
         // Prepare data for insertion
         $data = array(
             'product_id' => $product_id,
-            // 'product_quantity' => '',
+            'product_quantity' => serialize($product_quantity),
             'user_id' => $user_id,
             'user_name' => $customer_name, 
             'user_email' => $customer_email, 
