@@ -96,20 +96,6 @@ export default {
             classes: 'gridTable',
             rows: [
                 {
-                    key: "catalog",
-                    label: __("Catalog", "woocommerce-catalog-enquiry")
-                },
-                {
-                    key: "enquiry",
-                    label: __("Enquiry", "woocommerce-catalog-enquiry")
-                },
-                {
-                    key: "quote",
-                    label: __("Quote", "woocommerce-catalog-enquiry")
-                }
-            ],
-            columns: [
-                {
                     key: "logged_out",
                     label: __('Logged out users', 'woocommerce-catalog-enquiry'),
                 },
@@ -120,6 +106,20 @@ export default {
                 {
                     key: "all_users",
                     label: __('All users', 'woocommerce-catalog-enquiry'),
+                }
+            ],
+            columns: [
+                {
+                    key: "catalog",
+                    label: __("Catalog", "woocommerce-catalog-enquiry")
+                },
+                {
+                    key: "enquiry",
+                    label: __("Enquiry", "woocommerce-catalog-enquiry")
+                },
+                {
+                    key: "quote",
+                    label: __("Quote", "woocommerce-catalog-enquiry")
                 }
             ],
         }
