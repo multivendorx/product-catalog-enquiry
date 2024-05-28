@@ -18362,6 +18362,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _GridTable_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GridTable.scss */ "./src/components/AdminLibrary/Inputs/Special/GridTable.scss");
+
 
 
 const GridTable = props => {
@@ -18369,15 +18371,20 @@ const GridTable = props => {
     rows,
     columns
   } = props;
-  console.log(rows);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null), columns.map(element => {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
+    className: "grid-table"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null), columns.map(element => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, element.label);
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, rows.map(element => {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, element.label), columns.map(element => {
-      return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-        type: "checkbox"
-      }));
-    }));
+    // console.log(element.options)
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, element.label), columns.map(column => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
+      key: column.key
+    }, element.options ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
+      name: "",
+      id: ""
+    }, element.options.map((option, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", null, option.label))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      type: "checkbox"
+    }))));
   }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GridTable);
@@ -21395,29 +21402,34 @@ __webpack_require__.r(__webpack_exports__);
     type: 'grid_table',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    classes: '',
+    classes: 'gridTable',
     rows: [{
+      key: "woocommerce_userroles_list",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('User Role', 'woocommerce-catalog-enquiry'),
+      options: appLocalizer.role_array
+    }, {
+      key: "woocommerce_user_list",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('User Name', 'woocommerce-catalog-enquiry'),
+      options: appLocalizer.all_users
+    }, {
+      key: "woocommerce_product_list",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Product', 'woocommerce-catalog-enquiry'),
+      options: appLocalizer.all_products
+    }, {
+      key: "woocommerce_category_list",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Category', 'woocommerce-catalog-enquiry'),
+      options: appLocalizer.all_product_cat
+    }, {
+      key: "woocommerce_tag_list",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tag', 'woocommerce-catalog-enquiry'),
+      options: appLocalizer.all_product_cat
+    }],
+    columns: [{
       key: "enquiry_exclusion",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enquiry Exclusion", "woocommerce-catalog-enquiry")
     }, {
       key: "quote_exclusion",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote Exclusion", "woocommerce-catalog-enquiry")
-    }],
-    columns: [{
-      key: "woocommerce_userroles_list",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('User Role', 'woocommerce-catalog-enquiry')
-    }, {
-      key: "woocommerce_user_list",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('User Name', 'woocommerce-catalog-enquiry')
-    }, {
-      key: "woocommerce_product_list",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Product', 'woocommerce-catalog-enquiry')
-    }, {
-      key: "woocommerce_category_list",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Category', 'woocommerce-catalog-enquiry')
-    }, {
-      key: "woocommerce_tag_list",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tag', 'woocommerce-catalog-enquiry')
     }]
   }]
 });
@@ -21641,7 +21653,7 @@ __webpack_require__.r(__webpack_exports__);
     type: 'grid_table',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    classes: '',
+    classes: 'gridTable',
     rows: [{
       key: "product_galary_page",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry")
@@ -21664,7 +21676,7 @@ __webpack_require__.r(__webpack_exports__);
     type: 'grid_table',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    classes: '',
+    classes: 'gridTable',
     rows: [{
       key: "catalog",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Catalog", "woocommerce-catalog-enquiry")
@@ -44771,6 +44783,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************************************!*\
   !*** ./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss ***!
   \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/components/AdminLibrary/Inputs/Special/GridTable.scss":
+/*!*******************************************************************!*\
+  !*** ./src/components/AdminLibrary/Inputs/Special/GridTable.scss ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";

@@ -1,0 +1,101 @@
+$menu-btn-color: #522C81;
+$body-background: #F9F9F9;
+$color-white: #fff;
+$menu-color: #F9F8FB;
+$color-active: #65438F;
+.gridTable {
+    .settings-form-label {
+        display: none;
+    }
+    .settings-input-content {
+        width: 100% !important; // To overwrite default structure
+        .grid-table {
+            width: 100%;
+            border: 0.125rem solid rgba($color: #000000, $alpha: 0.125);
+            border-radius: 0.25rem;
+            thead {
+                width: 100%;
+                tr {
+                    display: flex;
+                    align-items: stretch;
+                    align-content: stretch;
+                    margin: 0.5rem 0.25rem 0;
+                    padding: 0.5rem;
+                    th {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-grow: 1;
+                        flex-shrink: 0;
+                        flex-basis: 0;
+                        font-weight: 500;
+                    }
+                }
+            }
+            tbody {
+                width: 100%;
+                tr {
+                    display: flex;
+                    align-items: stretch;
+                    align-content: stretch;
+                    margin-top: 0.5rem;
+                    padding: 0.5rem;
+                    background: #F8F9FA;
+                    margin: 0.5rem 0.25rem 0.25rem;
+                    border-radius: 0.25rem;
+                    td {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-grow: 1;
+                        flex-shrink: 0;
+                        flex-basis: 0;
+                        input[type=checkbox] {
+                            width: fit-content;
+                        }
+                        &:first-child {
+                            place-content: start;
+                            // font-weight: 500;
+                        }
+                        .clear {
+                            clear: both;
+                        }
+                        .checkBox {
+                            display: block;
+                            cursor: pointer;
+                            width: 15px;
+                            height: 15px;
+                            border: 3px solid rgba(255, 255, 255, 0);
+                            border-radius: 0.25rem;
+                            position: relative;
+                            overflow: hidden;
+                            box-shadow: 0px 0px 0px 2px #65438fae;
+                        }
+                        .checkBox div {
+                            width: 30px;
+                            height: 30px;
+                            background-color: $menu-btn-color;
+                            top: -52px;
+                            left: -52px;
+                            position: absolute;
+                            transform: rotateZ(45deg);
+                            z-index: 100;
+                        }
+                        .checkBox input[type=checkbox]:checked+div {
+                            left: -10px;
+                            top: -10px;
+                        }
+                        .checkBox input[type=checkbox] {
+                            position: absolute;
+                            left: 0px;
+                            visibility: hidden;
+                        }
+                        .transition {
+                            transition: 300ms linear;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

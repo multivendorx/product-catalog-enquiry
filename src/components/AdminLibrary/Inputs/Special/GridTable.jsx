@@ -1,12 +1,12 @@
 
 import React from 'react';
+import './GridTable.scss';
 
 const GridTable = (props) => {
     const { rows, columns } = props;
-    console.log(rows)
     return (
         <>
-        <table>
+        <table className='grid-table'>
             <thead>
                 <tr>
                 <th></th>
@@ -20,14 +20,29 @@ const GridTable = (props) => {
             <tbody>
                 {
                     rows.map((element) => {
+                        // console.log(element.options)
                         return (
                             <tr>
                                 <td>{element.label}</td>
-                                {
-                                    columns.map((element) => {
-                                        return <td><input type="checkbox" /></td>
-                                    })
-                                }
+                                {columns.map((column) => (
+                                    <td key={column.key}>
+                                        {element.options ? (
+
+                                                <select name="" id="" >
+                                                    {element.options.map((option, index) => (
+
+                                                    <option>
+                                                        {option.label}
+                                                    </option>
+                                                 ))}
+                                                </select>
+                                           
+                                        ) : (
+                                            <input type="checkbox" />
+                                        )}
+                                    </td>
+                                ))}
+
                             </tr>
                         );
                         
