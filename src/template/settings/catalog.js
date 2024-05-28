@@ -8,29 +8,29 @@ export default {
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal: [
-        {
-            key: 'for_user_type',
-            type: 'radio',
-            label: __("Catalog mode user access", "woocommerce-catalog-enquiry"),
-            desc: __("Set catalog mode accessibility based on user status.", "woocommerce-catalog-enquiry"),
-            options: [
-                {
-                    key: "logged_out",
-                    label: __('Logged out users', 'woocommerce-catalog-enquiry'),
-                    value: "logged_out"
-                },
-                {
-                    key: "logged_in",
-                    label: __('Logged in users', 'woocommerce-catalog-enquiry'),
-                    value: "logged_in"
-                },
-                {
-                    key: "all_users",
-                    label: __('All users', 'woocommerce-catalog-enquiry'),
-                    value: "all_users"
-                }
-            ]
-        },
+        // {
+        //     key: 'for_user_type',
+        //     type: 'radio',
+        //     label: __("Catalog mode user access", "woocommerce-catalog-enquiry"),
+        //     desc: __("Set catalog mode accessibility based on user status.", "woocommerce-catalog-enquiry"),
+        //     options: [
+        //         {
+        //             key: "logged_out",
+        //             label: __('Logged out users', 'woocommerce-catalog-enquiry'),
+        //             value: "logged_out"
+        //         },
+        //         {
+        //             key: "logged_in",
+        //             label: __('Logged in users', 'woocommerce-catalog-enquiry'),
+        //             value: "logged_in"
+        //         },
+        //         {
+        //             key: "all_users",
+        //             label: __('All users', 'woocommerce-catalog-enquiry'),
+        //             value: "all_users"
+        //         }
+        //     ]
+        // },
         {
             key: 'is_hide_cart_checkout',
             type: 'checkbox',

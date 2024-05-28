@@ -8,29 +8,29 @@ export default {
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal: [
-        {
-            key: 'display_enquiry_button_user_type',
-            type: 'radio',
-            label: __("Display enquiry button for", "woocommerce-catalog-enquiry"),
-            desc: __("Select the type users where this enquiry button is applicable", "woocommerce-catalog-enquiry"),
-            options: [
-                {
-                    key: "logged_out",
-                    label: __('Only Logged out Users', 'woocommerce-catalog-enquiry'),
-                    value: "logged_out"
-                },
-                {
-                    key: "logged_in",
-                    label: __('Only Logged in Users', 'woocommerce-catalog-enquiry'),
-                    value: "logged_in"
-                },
-                {
-                    key: "all_users",
-                    label: __('All Users', 'woocommerce-catalog-enquiry'),
-                    value: "all_users"
-                }
-            ]
-        },
+        // {
+        //     key: 'display_enquiry_button_user_type',
+        //     type: 'radio',
+        //     label: __("Display enquiry button for", "woocommerce-catalog-enquiry"),
+        //     desc: __("Select the type users where this enquiry button is applicable", "woocommerce-catalog-enquiry"),
+        //     options: [
+        //         {
+        //             key: "logged_out",
+        //             label: __('Only Logged out Users', 'woocommerce-catalog-enquiry'),
+        //             value: "logged_out"
+        //         },
+        //         {
+        //             key: "logged_in",
+        //             label: __('Only Logged in Users', 'woocommerce-catalog-enquiry'),
+        //             value: "logged_in"
+        //         },
+        //         {
+        //             key: "all_users",
+        //             label: __('All Users', 'woocommerce-catalog-enquiry'),
+        //             value: "all_users"
+        //         }
+        //     ]
+        // },
         {
             key: 'is_page_redirect',
             type: 'checkbox',
