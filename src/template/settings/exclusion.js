@@ -48,7 +48,7 @@ export default {
             type: 'grid_table',
             label: __("Grid Table", "woocommerce-catalog-enquiry"),
             desc: __("Grid Table", "woocommerce-catalog-enquiry"),
-            classes: '',
+            classes: 'gridTable',
             rows: [
                 {
                     key: "enquiry_exclusion",

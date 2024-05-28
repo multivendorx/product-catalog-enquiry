@@ -16571,7 +16571,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_Dialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/material/Dialog */ "./node_modules/@mui/material/Dialog/Dialog.js");
 /* harmony import */ var _PopupContent_PopupContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../PopupContent/PopupContent */ "./src/components/PopupContent/PopupContent.jsx");
 /* harmony import */ var _formCustomizer_formCustomizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../formCustomizer/formCustomizer */ "./src/components/formCustomizer/formCustomizer.jsx");
-/* harmony import */ var _Inputs_Special_CatalogCustomizer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Inputs/Special/CatalogCustomizer */ "./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.jsx");
+/* harmony import */ var _CatalogCustomizer_CatalogCustomizer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../CatalogCustomizer/CatalogCustomizer */ "./src/components/CatalogCustomizer/CatalogCustomizer.jsx");
 /* harmony import */ var _Inputs_Special_GridTable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Inputs/Special/GridTable */ "./src/components/AdminLibrary/Inputs/Special/GridTable.jsx");
 
 
@@ -17163,7 +17163,9 @@ const DynamicForm = props => {
           break;
         case "section":
           input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs__WEBPACK_IMPORTED_MODULE_2__["default"].Section, {
-            wrapperClass: "setting-section-divider"
+            wrapperClass: "setting-section-divider",
+            value: inputField.desc,
+            hint: inputField.hint
           });
           break;
         case "blocktext":
@@ -17192,7 +17194,7 @@ const DynamicForm = props => {
           });
           break;
         case "catalog_customizer":
-          input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs_Special_CatalogCustomizer__WEBPACK_IMPORTED_MODULE_7__["default"], null);
+          input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CatalogCustomizer_CatalogCustomizer__WEBPACK_IMPORTED_MODULE_7__["default"], null);
           break;
         case "grid_table":
           input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs_Special_GridTable__WEBPACK_IMPORTED_MODULE_8__["default"], {
@@ -18178,73 +18180,6 @@ const ButtonCustomizer = props => {
 
 /***/ }),
 
-/***/ "./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.jsx":
-/*!**************************************************************************!*\
-  !*** ./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.jsx ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _CatalogCustomizer_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CatalogCustomizer.scss */ "./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.scss");
-/* harmony import */ var _ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ButtonCustomizer */ "./src/components/AdminLibrary/Inputs/Special/ButtonCustomizer.jsx");
-
-
-
-
-const CatalogCustomizer = () => {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
-    className: "catelog-customizer"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "product-img"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: "https://rb.gy/owvfpe",
-    alt: ""
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "product-data"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
-    className: "product-name"
-  }, "V-Neck T-Shirt"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "drag-drop-component"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "additional-input"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    placeholder: "Additional input(optional)",
-    type: "text"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "product-price"
-  }, "\u20B915.00 \u2013 \u20B920.00"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "product-description"
-  }, "This is a variable product."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "additional-input"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    placeholder: "Additional input(optional)",
-    type: "text"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "add-to-cart-section"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
-    value: "1"
-  }, "1"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
-    value: "1"
-  }, "3"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
-    value: "1"
-  }, "2")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    className: "add-to-cart-button"
-  }, "Buy Now")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "custom-button"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "product-sku-category"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "SKU: ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "WOO-ALBUM")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Category: ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Music"))))));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CatalogCustomizer);
-
-/***/ }),
-
 /***/ "./src/components/AdminLibrary/Inputs/Special/ConnectSelect.jsx":
 /*!**********************************************************************!*\
   !*** ./src/components/AdminLibrary/Inputs/Special/ConnectSelect.jsx ***!
@@ -18362,6 +18297,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _GridTable_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GridTable.scss */ "./src/components/AdminLibrary/Inputs/Special/GridTable.scss");
+
 
 
 const GridTable = props => {
@@ -18370,13 +18307,21 @@ const GridTable = props => {
     columns
   } = props;
   console.log(rows);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null), columns.map(element => {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
+    className: "grid-table"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null), columns.map(element => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, element.label);
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, rows.map(element => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, element.label), columns.map(element => {
-      return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+        class: "content"
+      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+        class: "checkBox"
+      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
         type: "checkbox"
-      }));
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+        class: "transition"
+      }))));
     }));
   }))));
 };
@@ -18733,7 +18678,12 @@ __webpack_require__.r(__webpack_exports__);
 const Section = props => {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: props.wrapperClass
-  }, "\xA0"));
+  }, "\xA0", props.value && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, props.value), props.hint && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "section-hint",
+    dangerouslySetInnerHTML: {
+      __html: props.hint
+    }
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Section);
 
@@ -19377,6 +19327,93 @@ function banner() {
 
 /***/ }),
 
+/***/ "./src/components/CatalogCustomizer/CatalogCustomizer.jsx":
+/*!****************************************************************!*\
+  !*** ./src/components/CatalogCustomizer/CatalogCustomizer.jsx ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _CatalogCustomizer_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CatalogCustomizer.scss */ "./src/components/CatalogCustomizer/CatalogCustomizer.scss");
+/* harmony import */ var _AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../AdminLibrary/Inputs/Special/ButtonCustomizer */ "./src/components/AdminLibrary/Inputs/Special/ButtonCustomizer.jsx");
+/* harmony import */ var _SubTabSection_SubTabSection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../SubTabSection/SubTabSection */ "./src/components/SubTabSection/SubTabSection.jsx");
+
+
+
+
+
+const CatalogCustomizer = () => {
+  const [menu, setMenu] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    name: "Enquiry",
+    link: "hi",
+    id: 1,
+    icon: 'font-info'
+  }, {
+    name: "Enquiry cart",
+    link: "hi",
+    id: 2,
+    icon: 'font-payment'
+  }, {
+    name: "Quote",
+    link: "hi",
+    id: 3,
+    icon: 'font-store'
+  }]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SubTabSection_SubTabSection__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    menuitem: menu
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
+    className: "catelog-customizer"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "product-img"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: "https://rb.gy/owvfpe",
+    alt: ""
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "product-data"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
+    className: "product-name"
+  }, "V-Neck T-Shirt"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "drag-drop-component"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "additional-input"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    placeholder: "Additional input(optional)",
+    type: "text"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "product-price"
+  }, "\u20B915.00 \u2013 \u20B920.00"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "product-description"
+  }, "This is a variable product."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "additional-input"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    placeholder: "Additional input(optional)",
+    type: "text"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "add-to-cart-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
+    value: "1"
+  }, "1"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
+    value: "1"
+  }, "3"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
+    value: "1"
+  }, "2")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "add-to-cart-button"
+  }, "Buy Now")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "custom-button"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "product-sku-category"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "SKU: ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "WOO-ALBUM")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Category: ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Music"))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CatalogCustomizer);
+
+/***/ }),
+
 /***/ "./src/components/EnquiryMessages/MessageComponents/CartComponents.jsx":
 /*!*****************************************************************************!*\
   !*** ./src/components/EnquiryMessages/MessageComponents/CartComponents.jsx ***!
@@ -19649,7 +19686,8 @@ const EnquiryDetails = props => {
       fetchData();
     });
   };
-  console.log(enquiry);
+
+  // console.log(enquiry)
   // console.log(enquiryDetails)
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -20424,6 +20462,61 @@ const Settings = () => {
 
 /***/ }),
 
+/***/ "./src/components/SubTabSection/SubTabSection.jsx":
+/*!********************************************************!*\
+  !*** ./src/components/SubTabSection/SubTabSection.jsx ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _SubTabSection_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubTabSection.scss */ "./src/components/SubTabSection/SubTabSection.scss");
+
+
+
+
+const SubTabSection = ({
+  menuitem
+}) => {
+  const [menuIndex, setMenuIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1);
+  const [metaMenu, setMetaMenu] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(menuitem[0]);
+  const handleMenu = (e, index, meta) => {
+    e.preventDefault();
+    setMenuIndex(index);
+    setMetaMenu(meta);
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "tab-section"
+  }, menuitem.map((menu, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    key: index,
+    className: `tab-section-menu ${menu.id === menuIndex ? 'active' : ''}`,
+    onClick: e => handleMenu(e, menu.id, menu)
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: `admin-font ${menu.icon}`
+  })), menu.name))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "tab-menu-setting-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "tab-menu-setting-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, metaMenu.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "tab-menu-setting-item"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Setting 1"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "toggle-checkbox-content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "checkbox",
+    id: "checkbox"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "checkbox"
+  }))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SubTabSection);
+
+/***/ }),
+
 /***/ "./src/components/formCustomizer/formCustomizer.jsx":
 /*!**********************************************************!*\
   !*** ./src/components/formCustomizer/formCustomizer.jsx ***!
@@ -20438,6 +20531,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _FormCustomizer_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormCustomizer.scss */ "./src/components/formCustomizer/FormCustomizer.scss");
+/* harmony import */ var _SubTabSection_SubTabSection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../SubTabSection/SubTabSection */ "./src/components/SubTabSection/SubTabSection.jsx");
+
 
 
 
@@ -20538,7 +20633,20 @@ const FormCustomizer = props => {
     key: 'captcha',
     desc: 'Captcha'
   }];
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  const [menu, setMenu] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    name: "Pro",
+    link: "hi",
+    id: 1,
+    icon: 'font-store'
+  }, {
+    name: "Free",
+    link: "hi",
+    id: 2,
+    icon: 'font-info'
+  }]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SubTabSection_SubTabSection__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    menuitem: menu
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "enquery-form-fields"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "fields-header"
@@ -21078,6 +21186,62 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/template/settings/enquiry/exclusion.js":
+/*!****************************************************!*\
+  !*** ./src/template/settings/enquiry/exclusion.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  id: 'enquiry_exclusion',
+  priority: 60,
+  name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Exclusion", "woocommerce-catalog-enquiry"),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Exclusion Management", "woocommerce-catalog-enquiry"),
+  icon: 'font-settings',
+  submitUrl: 'save_enquiry',
+  modal: [{
+    key: "woocommerce_userroles_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("User Role Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the user roles, who won’t be able to send enquiry.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.role_array
+  }, {
+    key: "woocommerce_user_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("User Name Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the users, who won’t be able to send enquiry.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_users
+  }, {
+    key: "woocommerce_product_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the products that should have the Add to cart button, instead of enquiry button.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_products
+  }, {
+    key: "woocommerce_category_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Category Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the Category, where should have the Add to cart button, instead of enquiry button.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_product_cat
+  }, {
+    key: "woocommerce_tag_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Tag Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the Tag, where should have the Add to cart button, instead of enquiry button.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_product_cat
+  }]
+});
+
+/***/ }),
+
 /***/ "./src/template/settings/enquiry/formCustomization.js":
 /*!************************************************************!*\
   !*** ./src/template/settings/enquiry/formCustomization.js ***!
@@ -21395,7 +21559,7 @@ __webpack_require__.r(__webpack_exports__);
     type: 'grid_table',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    classes: '',
+    classes: 'gridTable',
     rows: [{
       key: "enquiry_exclusion",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enquiry Exclusion", "woocommerce-catalog-enquiry")
@@ -21419,6 +21583,62 @@ __webpack_require__.r(__webpack_exports__);
       key: "woocommerce_tag_list",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tag', 'woocommerce-catalog-enquiry')
     }]
+  }]
+});
+
+/***/ }),
+
+/***/ "./src/template/settings/quote/exclusion.js":
+/*!**************************************************!*\
+  !*** ./src/template/settings/quote/exclusion.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  id: 'quote_exclusion',
+  priority: 55,
+  name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Exclusion", "woocommerce-catalog-enquiry"),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Exclusion Management", "woocommerce-catalog-enquiry"),
+  icon: 'font-settings',
+  submitUrl: 'save_enquiry',
+  modal: [{
+    key: "woocommerce_userroles_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("User Role Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the user roles, who won’t be able to send enquiry.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.role_array
+  }, {
+    key: "woocommerce_user_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("User Name Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the users, who won’t be able to send enquiry.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_users
+  }, {
+    key: "woocommerce_product_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the products that should have the Add to cart button, instead of enquiry button.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_products
+  }, {
+    key: "woocommerce_category_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Category Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the Category, where should have the Add to cart button, instead of enquiry button.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_product_cat
+  }, {
+    key: "woocommerce_tag_list",
+    type: "multi-select",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Tag Specific Exclusion", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Select the Tag, where should have the Add to cart button, instead of enquiry button.", "woocommerce-catalog-enquiry"),
+    options: appLocalizer.all_product_cat
   }]
 });
 
@@ -21641,7 +21861,7 @@ __webpack_require__.r(__webpack_exports__);
     type: 'grid_table',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    classes: '',
+    classes: 'gridTable',
     rows: [{
       key: "product_galary_page",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry")
@@ -21660,11 +21880,17 @@ __webpack_require__.r(__webpack_exports__);
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enquiry Button', 'woocommerce-catalog-enquiry')
     }]
   }, {
+    key: 'separator_content',
+    type: 'section',
+    label: "",
+    desc: "Automatic mode",
+    hint: "Initiate the <b>real-time synchronization</b> direction between your WordPress and Moodle sites.<br>When a new user is added, their profile will be synchronized between WordPress and Moodle according to the Profile Information Mapping settings.<br>For an existing user, if they update their profile and the updated data matches any criteria set in the 'Profile Information Mapping', their information will also be synchronized between WordPress and Moodle."
+  }, {
     key: 'grid_table',
     type: 'grid_table',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    classes: '',
+    classes: 'gridTable',
     rows: [{
       key: "catalog",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Catalog", "woocommerce-catalog-enquiry")
@@ -44754,10 +44980,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.scss":
-/*!***************************************************************************!*\
-  !*** ./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.scss ***!
-  \***************************************************************************/
+/***/ "./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss":
+/*!***********************************************************************!*\
+  !*** ./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -44767,10 +44993,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss":
-/*!***********************************************************************!*\
-  !*** ./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss ***!
-  \***********************************************************************/
+/***/ "./src/components/AdminLibrary/Inputs/Special/GridTable.scss":
+/*!*******************************************************************!*\
+  !*** ./src/components/AdminLibrary/Inputs/Special/GridTable.scss ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -44819,6 +45045,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/components/CatalogCustomizer/CatalogCustomizer.scss":
+/*!*****************************************************************!*\
+  !*** ./src/components/CatalogCustomizer/CatalogCustomizer.scss ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./src/components/EnquiryMessages/enquiryMessages.scss":
 /*!*************************************************************!*\
   !*** ./src/components/EnquiryMessages/enquiryMessages.scss ***!
@@ -44849,6 +45088,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************!*\
   !*** ./src/components/PopupContent/popupContent.scss ***!
   \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/components/SubTabSection/SubTabSection.scss":
+/*!*********************************************************!*\
+  !*** ./src/components/SubTabSection/SubTabSection.scss ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -59940,12 +60192,14 @@ var index =  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect ;
 var map = {
 	"./catalog.js": "./src/template/settings/catalog.js",
 	"./catalogCustomization.js": "./src/template/settings/catalogCustomization.js",
+	"./enquiry/exclusion.js": "./src/template/settings/enquiry/exclusion.js",
 	"./enquiry/formCustomization.js": "./src/template/settings/enquiry/formCustomization.js",
 	"./enquiry/general.js": "./src/template/settings/enquiry/general.js",
 	"./enquiry/index.js": "./src/template/settings/enquiry/index.js",
 	"./enquiry/multipleEnquiryCart.js": "./src/template/settings/enquiry/multipleEnquiryCart.js",
 	"./enquiry/outofStockProducts.js": "./src/template/settings/enquiry/outofStockProducts.js",
 	"./exclusion.js": "./src/template/settings/exclusion.js",
+	"./quote/exclusion.js": "./src/template/settings/quote/exclusion.js",
 	"./quote/general.js": "./src/template/settings/quote/general.js",
 	"./quote/index.js": "./src/template/settings/quote/index.js",
 	"./quote/quotePDF.js": "./src/template/settings/quote/quotePDF.js",

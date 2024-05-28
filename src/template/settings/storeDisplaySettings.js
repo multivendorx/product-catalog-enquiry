@@ -61,7 +61,7 @@ export default {
             type: 'grid_table',
             label: __("Grid Table", "woocommerce-catalog-enquiry"),
             desc: __("Grid Table", "woocommerce-catalog-enquiry"),
-            classes: '',
+            classes: 'gridTable',
             rows: [
                 {
                     key: "product_galary_page",
@@ -89,11 +89,19 @@ export default {
         },
 
         {
+            key: 'separator_content',
+            type: 'section',
+            label: "",
+            desc: "Automatic mode",
+            hint: "Initiate the <b>real-time synchronization</b> direction between your WordPress and Moodle sites.<br>When a new user is added, their profile will be synchronized between WordPress and Moodle according to the Profile Information Mapping settings.<br>For an existing user, if they update their profile and the updated data matches any criteria set in the 'Profile Information Mapping', their information will also be synchronized between WordPress and Moodle."
+        },
+
+        {
             key: 'grid_table',
             type: 'grid_table',
             label: __("Grid Table", "woocommerce-catalog-enquiry"),
             desc: __("Grid Table", "woocommerce-catalog-enquiry"),
-            classes: '',
+            classes: 'gridTable',
             rows: [
                 {
                     key: "catalog",
