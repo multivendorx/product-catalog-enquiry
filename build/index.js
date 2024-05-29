@@ -21048,6 +21048,15 @@ __webpack_require__.r(__webpack_exports__);
       set: true
     },
     proSetting: true
+  }, {
+    key: 'is_hide_product_price',
+    type: 'checkbox',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Hide Product Price", 'woocommerce-catalog-enquiry'),
+    options: [{
+      key: "is_hide_product_price",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enable this option to hide product price', 'woocommerce-catalog-enquiry'),
+      value: "is_hide_product_price"
+    }]
   }]
 });
 
@@ -21069,7 +21078,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   id: 'enquiry_catalog_customization',
-  priority: 50,
+  priority: 10,
   name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Catalog Customization", "woocommerce-catalog-enquiry"),
   desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Catalog Customization", "woocommerce-catalog-enquiry"),
   icon: 'font-settings',
@@ -21101,7 +21110,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   id: 'enquiry_form_customization',
-  priority: 55,
+  priority: 40,
   name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Form Customization", "woocommerce-catalog-enquiry"),
   desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Form Customization", "woocommerce-catalog-enquiry"),
   icon: 'font-settings',
@@ -21208,11 +21217,6 @@ __webpack_require__.r(__webpack_exports__);
     }],
     proSetting: true
   }, {
-    key: "custom_css_product_page",
-    type: "textarea",
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Put your custom css here, to customize the enquiry form.", "woocommerce-catalog-enquiry"),
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Addional CSS", "woocommerce-catalog-enquiry")
-  }, {
     key: 'is_enable_multiple_product_enquiry',
     type: 'checkbox',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enable Multiple Enquiry Cart", 'woocommerce-catalog-enquiry'),
@@ -21304,7 +21308,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   id: 'enquiry_quote_exclusion',
-  priority: 60,
+  priority: 40,
   name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Exclusion", "woocommerce-catalog-enquiry"),
   desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Exclusion Management", "woocommerce-catalog-enquiry"),
   icon: 'font-settings',
@@ -21379,6 +21383,32 @@ __webpack_require__.r(__webpack_exports__);
       key: "quote_exclusion",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote Exclusion", "woocommerce-catalog-enquiry")
     }]
+  }, {
+    key: 'grid_table',
+    type: 'grid_table',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
+    classes: 'gridTable',
+    rows: [{
+      key: "logged_out",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Logged out users', 'woocommerce-catalog-enquiry')
+    }, {
+      key: "logged_in",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Logged in users', 'woocommerce-catalog-enquiry')
+    }, {
+      key: "all_users",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('All users', 'woocommerce-catalog-enquiry')
+    }],
+    columns: [{
+      key: "catalog",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Catalog", "woocommerce-catalog-enquiry")
+    }, {
+      key: "enquiry",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enquiry", "woocommerce-catalog-enquiry")
+    }, {
+      key: "quote",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", "woocommerce-catalog-enquiry")
+    }]
   }]
 });
 
@@ -21400,7 +21430,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   id: 'quote',
-  priority: 70,
+  priority: 50,
   name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", "woocommerce-catalog-enquiry"),
   desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", "woocommerce-catalog-enquiry"),
   icon: 'font-settings',
@@ -21451,10 +21481,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/template/settings/storeDisplaySettings.js":
-/*!*******************************************************!*\
-  !*** ./src/template/settings/storeDisplaySettings.js ***!
-  \*******************************************************/
+/***/ "./src/template/settings/tools.js":
+/*!****************************************!*\
+  !*** ./src/template/settings/tools.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21466,110 +21496,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  id: 'store_display',
-  priority: 10,
-  name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Store Display Settings", "woocommerce-catalog-enquiry"),
-  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Control the display of buttons across your store, specifying which button should appear.", "woocommerce-catalog-enquiry"),
+  id: 'tools',
+  priority: 60,
+  name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Tools", "woocommerce-catalog-enquiry"),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Tools", "woocommerce-catalog-enquiry"),
   icon: 'font-settings',
   submitUrl: 'save_enquiry',
-  modal: [
-  // {
-  //     key: 'product_galary_page',
-  //     type: 'radio',
-  //     label: __("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry"),
-  //     desc: __("", "woocommerce-catalog-enquiry"),
-  //     select_deselect: true,
-  //     options: [
-  //         {
-  //             key: "product_price",
-  //             label: __('Product Price', 'woocommerce-catalog-enquiry'),
-  //             value: "product_price"
-  //         },
-  //         {
-  //             key: "add_to_cart",
-  //             label: __('Add-To-Cart', 'woocommerce-catalog-enquiry'),
-  //             value: "add_to_cart"
-  //         },
-  //         {
-  //             key: "enquiry_button",
-  //             label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
-  //             value: "enquiry_button"
-  //         }
-  //     ],
-  //     proSetting: true,
-  // },
-  // {
-  //     key: 'product_page',
-  //     type: 'radio',
-  //     label: __("Product Page", "woocommerce-catalog-enquiry"),
-  //     desc: __("", "woocommerce-catalog-enquiry"),
-  //     options: [
-  //         {
-  //             key: "product_price",
-  //             label: __('Product Price', 'woocommerce-catalog-enquiry'),
-  //             value: "product_price"
-  //         },
-  //         {
-  //             key: "add_to_cart",
-  //             label: __('Add-To-Cart', 'woocommerce-catalog-enquiry'),
-  //             value: "add_to_cart"
-  //         },
-  //         {
-  //             key: "enquiry_button",
-  //             label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
-  //             value: "enquiry_button"
-  //         }
-  //     ]
-  // },
-  {
-    key: 'grid_table',
-    type: 'grid_table',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    classes: 'gridTable',
-    rows: [{
-      key: "product_galary_page",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry")
-    }, {
-      key: "product_page",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Page", "woocommerce-catalog-enquiry")
-    }],
-    columns: [{
-      key: "product_price",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Product Price', 'woocommerce-catalog-enquiry')
-    }, {
-      key: "add_to_cart",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add-To-Cart', 'woocommerce-catalog-enquiry')
-    }, {
-      key: "enquiry_button",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enquiry Button', 'woocommerce-catalog-enquiry')
-    }]
-  }, {
-    key: 'grid_table',
-    type: 'grid_table',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
-    classes: 'gridTable',
-    rows: [{
-      key: "logged_out",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Logged out users', 'woocommerce-catalog-enquiry')
-    }, {
-      key: "logged_in",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Logged in users', 'woocommerce-catalog-enquiry')
-    }, {
-      key: "all_users",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('All users', 'woocommerce-catalog-enquiry')
-    }],
-    columns: [{
-      key: "catalog",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Catalog", "woocommerce-catalog-enquiry")
-    }, {
-      key: "enquiry",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enquiry", "woocommerce-catalog-enquiry")
-    }, {
-      key: "quote",
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", "woocommerce-catalog-enquiry")
-    }]
+  modal: [{
+    key: "custom_css_product_page",
+    type: "textarea",
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Put your custom css here, to customize the enquiry form.", "woocommerce-catalog-enquiry"),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Addional CSS", "woocommerce-catalog-enquiry")
   }]
 });
 
@@ -59843,7 +59780,7 @@ var map = {
 	"./enquiry/index.js": "./src/template/settings/enquiry/index.js",
 	"./exclusion.js": "./src/template/settings/exclusion.js",
 	"./quoteSettings.js": "./src/template/settings/quoteSettings.js",
-	"./storeDisplaySettings.js": "./src/template/settings/storeDisplaySettings.js"
+	"./tools.js": "./src/template/settings/tools.js"
 };
 
 

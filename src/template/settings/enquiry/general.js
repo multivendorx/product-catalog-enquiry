@@ -80,12 +80,6 @@ export default {
             proSetting: true,
         },
         {
-            key: "custom_css_product_page",
-            type: "textarea",
-            desc: __("Put your custom css here, to customize the enquiry form.", "woocommerce-catalog-enquiry"),
-            label: __("Addional CSS", "woocommerce-catalog-enquiry"),
-        },
-        {
             key: 'is_enable_multiple_product_enquiry',
             type: 'checkbox',
             label: __( "Enable Multiple Enquiry Cart", 'woocommerce-catalog-enquiry' ),
