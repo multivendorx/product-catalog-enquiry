@@ -6,12 +6,27 @@ $color-active: #65438f;
 
 
 .gridTable {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+
     .settings-form-label {
-        display: none;
+        width: 100% !important; // To overwrite default structure
+
+        p {
+            text-align: center;
+        }
     }
 
     .settings-input-content {
         width: 100% !important; // To overwrite default structure
+
+        .settings-metabox-description {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+        }
 
         .grid-table {
             width: 100%;

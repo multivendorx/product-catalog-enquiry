@@ -11,30 +11,63 @@ const CatalogCustomizer = () => {
             name: "Enquiry", link: "hi", id: 1, icon: 'font-info',
             setting: [
                 {
-                    id: 1,
+                    name: 'name1',
                     id: 2,
-                    id: 3,
-                }
+                    value: 3,
+                    description: "Allow backorder subscription"
+                },
+                {
+                    name: 'name2',
+                    id: 2,
+                    value: 3,
+                    description: "Allow backorder subscription"
+                },
+                {
+                    name: 'name3',
+                    id: 2,
+                    value: 3,
+                    description: "Allow backorder subscription"
+                },
+                {
+                    name: 'name4',
+                    id: 2,
+                    value: 3,
+                    description: "Allow backorder subscription"
+                },
             ]
         },
         {
-            name: "Enquiry cart", link: "hi", id: 2, icon: 'font-payment',
+            name: "Enquiry Cart", link: "hi", id: 2, icon: 'font-store',
             setting: [
                 {
-                    id: 1,
+                    name: 'name1',
                     id: 2,
-                    id: 3,
-                }
+                    value: 3,
+                    description: "Allow backorder subscription"
+                },
+                {
+                    name: 'name2',
+                    id: 2,
+                    value: 3,
+                    description: "Allow backorder subscription"
+                },
             ]
         },
         {
-            name: "Quote", link: "hi", id: 3, icon: 'font-store',
+            name: "Quote", link: "hi", id: 3, icon: 'font-payment',
             setting: [
                 {
-                    id: 1,
+                    name: 'name1',
                     id: 2,
-                    id: 3,
-                }
+                    value: 3,
+                    description: "Allow backorder subscription"
+                },
+                {
+                    name: 'name2',
+                    id: 2,
+                    value: 3,
+                    description: "Allow backorder subscription"
+                },
             ]
         },
     ]);

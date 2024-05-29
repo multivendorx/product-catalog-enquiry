@@ -99,32 +99,94 @@
 
 
 .tab-menu-setting-section {
+    height: 50px;
+    width: 55px;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .125);
     position: fixed;
     top: 50%;
-    right: 20px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transform: translateY(-50%);
-    max-width: 250px;
-    /* border: 1px solid; */
-    width: 100%;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    cursor: pointer;
     background: #fff;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, .125);
-    min-height: 100px;
 
-    .tab-menu-setting-wrapper {
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
+    .tab-slide-btn {
+        font-size: 1.5rem;
+        color: #522c81;
+    }
 
-        .tab-menu-setting-item {
+    &.active {
+        max-width: 250px;
+        width: 100%;
+        min-height: 100px;
+        border-radius: 0.25rem;
+        height: fit-content;
+        cursor: auto;
+
+        .tab-menu-setting-wrapper {
+            padding: 1rem;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
             width: 100%;
 
-            .toggle-checkbox-content {
-                margin: 0 !important;
+            .advanced-setting-btn {
+                margin-top: 0.75rem;
+                font-size: 0.875rem;
+                background-color: #522c81;
+                width: 100%;
+                padding: 0.5rem;
+                color: white;
+                border-radius: 0.25rem;
+                text-align: center;
+            }
+
+            .tab-heading {
+                font-size: 1.15rem;
+                font-weight: 500;
+                margin-bottom: 0.75rem;
+                border-bottom: 1px solid rgba($color: #000000, $alpha: 0.125);
+                padding-bottom: 0.25rem;
+                width: 100%;
+            }
+
+            .tab-menu-setting-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+
+                .toggle-checkbox-content {
+                    margin: 0 !important;
+                }
+
+                .setting-title {
+                    font-size: 0.875rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: 0.25rem;
+
+                    i {
+                        font-size: 0.75rem;
+                        cursor: pointer;
+                        color: #522c81;
+                    }
+                }
+            }
+
+            .setting-wrapper-section {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                gap: 0.5rem;
             }
         }
     }

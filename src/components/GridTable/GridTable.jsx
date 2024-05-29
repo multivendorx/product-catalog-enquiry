@@ -3,9 +3,10 @@ import './GridTable.scss';
 import './GridTable.scss';
 
 const GridTable = (props) => {
-    const { rows, columns } = props;
+    const { rows, columns, description } = props;
     return (
         <>
+            {description && <p className='settings-metabox-description'>{description}</p>}
             <table className='grid-table'>
                 <thead>
                     <tr>
