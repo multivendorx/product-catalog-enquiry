@@ -1,9 +1,9 @@
 import React from 'react';
 import './GridTable.scss';
+import './GridTable.scss';
 
 const GridTable = (props) => {
     const { rows, columns } = props;
-    console.log(rows)
     return (
         <>
             <table className='grid-table'>
@@ -20,23 +20,32 @@ const GridTable = (props) => {
                 <tbody>
                     {
                         rows.map((element) => {
+                            // console.log(element.options)
                             return (
                                 <tr>
                                     <td>{element.label}</td>
-                                    {
-                                        columns.map((element) => {
-                                            return <td>
-                                                <div class="content">
-                                                    <label class="checkBox">
-                                                        <input type="checkbox" />
-                                                        <div class="transition"></div>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                        })
-                                    }
+                                    {columns.map((column) => (
+                                        <td key={column.key}>
+                                            {element.options ? (
+
+                                                <select name="" id="" >
+                                                    {element.options.map((option, index) => (
+
+                                                        <option>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+
+                                            ) : (
+                                                <input type="checkbox" />
+                                            )}
+                                        </td>
+                                    ))}
+
                                 </tr>
                             );
+
                         })
                     }
                 </tbody>

@@ -85,5 +85,63 @@ export default {
             desc: __("Put your custom css here, to customize the enquiry form.", "woocommerce-catalog-enquiry"),
             label: __("Addional CSS", "woocommerce-catalog-enquiry"),
         },
+        {
+            key: 'is_enable_multiple_product_enquiry',
+            type: 'checkbox',
+            label: __( "Enable Multiple Enquiry Cart", 'woocommerce-catalog-enquiry' ),
+            options: [
+                {
+                    key: "is_enable_multiple_product_enquiry",
+                    label: __(`Enable this checkbox to allow multiple product enquiry via enquiry cart. Also multiple enquiry product displays on the cart ${ appLocalizer.widget_url }`, 'woocommerce-catalog-enquiry'),
+                    value: "is_enable_multiple_product_enquiry"
+                }
+            ],
+            proSetting: true,
+        },
+        {
+            key: 'set_enquiry_cart_page',
+            type: 'select',
+            label: __("Set Enquiry Cart Page", "woocommerce-catalog-enquiry"),
+            desc: __("Select the enquiry cart page", "woocommerce-catalog-enquiry"),
+            options: [],
+            proSetting: true,
+        },
+        {
+            key: 'redirect_page',
+            type: 'select',
+            label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
+            desc: __( 'Select page where user will be redirected.', 'woocommerce-catalog-enquiry' ),
+            options: appLocalizer.pages_array,
+            proSetting: true,
+        },
+        {
+            key: 'is_enable_out_of_stock',
+            type: 'checkbox',
+            label: __( "Enquiry Button for Out-of-Stock Products", 'woocommerce-catalog-enquiry' ),
+            options: [
+                {
+                    key: "is_enable_out_of_stock",
+                    label: __("Enable this to add the Enquiry button for the products which is out of stock. Use Exclusion settings to exclude specific product or category from enquiry.", 'woocommerce-catalog-enquiry'),
+                    value: "is_enable_out_of_stock"
+                }
+            ]
+        },
+        {
+            key: 'notify_me_button',
+            type: 'checkbox',
+            dependent: {
+                key: "is_enable_out_of_stock",
+                set: true
+            },
+            label: __("Notify Me Button", "woocommerce-catalog-enquiry"),
+            desc: __("", "woocommerce-catalog-enquiry"),
+            options: [
+                {
+                    key: "notify_me_button",
+                    label: __("", 'woocommerce-catalog-enquiry'),
+                    value: "notify_me_button"
+                }
+            ]
+        }
     ]
 };
