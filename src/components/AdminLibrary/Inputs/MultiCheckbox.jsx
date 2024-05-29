@@ -12,6 +12,7 @@ const MultiCheckBox = (props) => {
                     </div>
                 </>
             }
+            <div className="wrapper">
             {
                 props.options.map((option) => {
                     let checked = false;
@@ -33,12 +34,17 @@ const MultiCheckBox = (props) => {
                                     name=       {option.name || 'basic-input'}
                                     value=      {option.value}
                                     checked=    {checked}
-                                    onChange={(e) => { props.onChange?.(e) }}
+                                    onChange={(e) => {
+                                        if (option.proSetting) {
+                                            return props.proChanged();
+                                        }
+                                        props.onChange?.(e)
+                                    }}
                                 />
                                 <label htmlFor={`${props.idPrefix}-${option.key}`}></label>
                                 {
-                    props.proSetting && <span className="admin-pro-tag">pro</span>
-                }
+                                    props.proSetting && <span className="admin-pro-tag">pro</span>
+                                }
                             </div>
                             {
                                 ! props.rightContent &&
@@ -47,15 +53,17 @@ const MultiCheckBox = (props) => {
                             {
                                 option.hints &&
                                 <span className={props.hintOuterClass}>
-                                    <div className={props.hintInnerClass}>
-                                        {option.hints}
-                                    </div>
+                                    {option.hints}
                                 </span>
+                            }
+                            {
+                                option.proSetting && <span className="admin-pro-tag">pro</span>
                             }
                         </div>
                     );
                 })
             }
+            </div>
             {
                 props.description &&
                 <p className={props.descClass} dangerouslySetInnerHTML= {{__html: props.description}}>
