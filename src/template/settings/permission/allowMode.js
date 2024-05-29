@@ -3,8 +3,8 @@ import { __ } from '@wordpress/i18n';
 export default {
     id: 'mode',
     priority: 60,
-    name: __("Mode", "woocommerce-catalog-enquiry"),
-    desc: __("Mode Management", "woocommerce-catalog-enquiry"),
+    name: __("Role-Based Permission", "woocommerce-catalog-enquiry"),
+    desc: __("Role-Based Permission", "woocommerce-catalog-enquiry"),
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal: [
