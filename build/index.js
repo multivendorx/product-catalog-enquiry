@@ -16374,7 +16374,8 @@ const CustomTable = props => {
     // per page option array. user should always provide.
     realtimeFilter,
     // filter filds for realtime filter.
-    typeCounts
+    typeCounts,
+    bulkActionComp
   } = props;
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false); // loading state varaible.
   const [totalRows, setTotalRows] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(defaultTotalRows); // total no of row in dataset.
@@ -16519,10 +16520,12 @@ const CustomTable = props => {
     },
     className: countInfo.key == typeCountActive ? 'type-count-active' : ''
   }, `${countInfo.name} (${countInfo.count})`))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "filter-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wrap-bulk-all-date"
   }, realtimeFilter && realtimeFilter.map(filter => {
     return filter.render(handleFilterChange, filterData[filter.name]);
-  })), loading ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(LoadingTable, null) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_data_table_component__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  })), bulkActionComp && bulkActionComp()), loading ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(LoadingTable, null) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_data_table_component__WEBPACK_IMPORTED_MODULE_1__["default"], {
     pagination: true,
     paginationServer: true,
     selectableRows: selectable,
@@ -16571,8 +16574,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_Dialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mui/material/Dialog */ "./node_modules/@mui/material/Dialog/Dialog.js");
 /* harmony import */ var _PopupContent_PopupContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../PopupContent/PopupContent */ "./src/components/PopupContent/PopupContent.jsx");
 /* harmony import */ var _formCustomizer_formCustomizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../formCustomizer/formCustomizer */ "./src/components/formCustomizer/formCustomizer.jsx");
-/* harmony import */ var _Inputs_Special_CatalogCustomizer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Inputs/Special/CatalogCustomizer */ "./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.jsx");
-/* harmony import */ var _Inputs_Special_GridTable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Inputs/Special/GridTable */ "./src/components/AdminLibrary/Inputs/Special/GridTable.jsx");
+/* harmony import */ var _CatalogCustomizer_CatalogCustomizer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../CatalogCustomizer/CatalogCustomizer */ "./src/components/CatalogCustomizer/CatalogCustomizer.jsx");
+/* harmony import */ var _GridTable_GridTable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../GridTable/GridTable */ "./src/components/GridTable/GridTable.jsx");
 
 
 
@@ -17163,7 +17166,9 @@ const DynamicForm = props => {
           break;
         case "section":
           input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs__WEBPACK_IMPORTED_MODULE_2__["default"].Section, {
-            wrapperClass: "setting-section-divider"
+            wrapperClass: "setting-section-divider",
+            value: inputField.desc,
+            hint: inputField.hint
           });
           break;
         case "blocktext":
@@ -17192,12 +17197,13 @@ const DynamicForm = props => {
           });
           break;
         case "catalog_customizer":
-          input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs_Special_CatalogCustomizer__WEBPACK_IMPORTED_MODULE_7__["default"], null);
+          input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CatalogCustomizer_CatalogCustomizer__WEBPACK_IMPORTED_MODULE_7__["default"], null);
           break;
         case "grid_table":
-          input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Inputs_Special_GridTable__WEBPACK_IMPORTED_MODULE_8__["default"], {
+          input = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_GridTable_GridTable__WEBPACK_IMPORTED_MODULE_8__["default"], {
             rows: inputField.rows,
-            columns: inputField.columns
+            columns: inputField.columns,
+            description: inputField.desc
           });
           break;
         case "form_customizer":
@@ -17294,6 +17300,11 @@ const BasicInput = props => {
     },
     onFocus: e => {
       props.onFocus?.(e);
+    }
+  }), props.parameter && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "parameter",
+    dangerouslySetInnerHTML: {
+      __html: props.parameter
     }
   }), props.proSetting && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "admin-pro-tag"
@@ -17540,7 +17551,9 @@ const MultiCheckBox = props => {
     onClick: e => {
       props.onMultiSelectDeselectChange?.(e);
     }
-  }, props.selectDeselectValue)), props.options.map(option => {
+  }, props.selectDeselectValue)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wrapper"
+  }, props.options.map(option => {
     let checked = false;
     if (props.value && props.value.length > 0) {
       checked = props.value.indexOf(option.value) >= 0;
@@ -17563,6 +17576,9 @@ const MultiCheckBox = props => {
       value: option.value,
       checked: checked,
       onChange: e => {
+        if (option.proSetting) {
+          return props.proChanged();
+        }
         props.onChange?.(e);
       }
     }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
@@ -17576,10 +17592,10 @@ const MultiCheckBox = props => {
       }
     }), option.hints && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
       className: props.hintOuterClass
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: props.hintInnerClass
-    }, option.hints)));
-  }), props.description && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    }, option.hints), option.proSetting && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+      className: "admin-pro-tag"
+    }, "pro"));
+  })), props.description && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: props.descClass,
     dangerouslySetInnerHTML: {
       __html: props.description
@@ -17773,7 +17789,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const SelectInput = props => {
   const optionsData = [];
-  let defaulValue = undefined;
+  let defaulValue = '';
   props.options.forEach((option, index) => {
     optionsData[index] = {
       value: option.value,
@@ -17786,6 +17802,8 @@ const SelectInput = props => {
   });
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: props.wrapperClass
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "select-input-section"
   }, props.selectDeselect && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: props.selectDeselectClass,
     onClick: e => {
@@ -17804,7 +17822,7 @@ const SelectInput = props => {
     isMulti: props.type === 'multi-select'
   }), props.proSetting && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "admin-pro-tag"
-  }, "pro"), props.description && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+  }, "pro")), props.description && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: props.descClass,
     dangerouslySetInnerHTML: {
       __html: props.description
@@ -18178,73 +18196,6 @@ const ButtonCustomizer = props => {
 
 /***/ }),
 
-/***/ "./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.jsx":
-/*!**************************************************************************!*\
-  !*** ./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.jsx ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _CatalogCustomizer_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CatalogCustomizer.scss */ "./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.scss");
-/* harmony import */ var _ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ButtonCustomizer */ "./src/components/AdminLibrary/Inputs/Special/ButtonCustomizer.jsx");
-
-
-
-
-const CatalogCustomizer = () => {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
-    className: "catelog-customizer"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "product-img"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: "https://rb.gy/owvfpe",
-    alt: ""
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "product-data"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
-    className: "product-name"
-  }, "V-Neck T-Shirt"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "drag-drop-component"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "additional-input"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    placeholder: "Additional input(optional)",
-    type: "text"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "product-price"
-  }, "\u20B915.00 \u2013 \u20B920.00"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "product-description"
-  }, "This is a variable product."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "additional-input"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    placeholder: "Additional input(optional)",
-    type: "text"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "add-to-cart-section"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
-    value: "1"
-  }, "1"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
-    value: "1"
-  }, "3"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
-    value: "1"
-  }, "2")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    className: "add-to-cart-button"
-  }, "Buy Now")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "custom-button"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "product-sku-category"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "SKU: ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "WOO-ALBUM")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Category: ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Music"))))));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CatalogCustomizer);
-
-/***/ }),
-
 /***/ "./src/components/AdminLibrary/Inputs/Special/ConnectSelect.jsx":
 /*!**********************************************************************!*\
   !*** ./src/components/AdminLibrary/Inputs/Special/ConnectSelect.jsx ***!
@@ -18346,48 +18297,6 @@ const ConnectSelect = props => {
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConnectSelect);
-
-/***/ }),
-
-/***/ "./src/components/AdminLibrary/Inputs/Special/GridTable.jsx":
-/*!******************************************************************!*\
-  !*** ./src/components/AdminLibrary/Inputs/Special/GridTable.jsx ***!
-  \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _GridTable_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GridTable.scss */ "./src/components/AdminLibrary/Inputs/Special/GridTable.scss");
-
-
-
-const GridTable = props => {
-  const {
-    rows,
-    columns
-  } = props;
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
-    className: "grid-table"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null), columns.map(element => {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, element.label);
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, rows.map(element => {
-    // console.log(element.options)
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, element.label), columns.map(column => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
-      key: column.key
-    }, element.options ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
-      name: "",
-      id: ""
-    }, element.options.map((option, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", null, option.label))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-      type: "checkbox"
-    }))));
-  }))));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GridTable);
 
 /***/ }),
 
@@ -18740,7 +18649,12 @@ __webpack_require__.r(__webpack_exports__);
 const Section = props => {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: props.wrapperClass
-  }, "\xA0"));
+  }, "\xA0", props.value && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, props.value), props.hint && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "section-hint",
+    dangerouslySetInnerHTML: {
+      __html: props.hint
+    }
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Section);
 
@@ -18951,22 +18865,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Support = () => {
-  const url = "https://www.youtube.com/embed/cgfeZH5z2dM?si=3zjG13RDOSiX2m1b";
+  const url = "https://www.youtube.com/embed/fL7wPVYopTU?si=BZeP1WwCxBSSoM7h";
   const [faqs, setFaqs] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
-    question: "Why am I not receiving any emails when a customer subscribes for an out-of-stock product?",
-    answer: "Please install a plugin like Email Log and perform a test subscription.",
+    question: "How do I resolve a timeout error when WordPress connects with Moodle?",
+    answer: "When encountering a timeout error during WordPress-Moodle communication, adjust timeout settings in your server configuration to accommodate longer communication durations.",
     open: true
   }, {
-    question: "Why is the out-of-stock form not appearing?",
-    answer: "There might be a theme conflict issue. To troubleshoot, switch to a default theme like Twenty Twenty-Four and check if the form appears.",
+    question: "How can I troubleshoot connection errors during Test connection?",
+    answer: "Navigate to the \"Log\" menu, where you can use the \"Log\" feature to troubleshoot connectivity issues between your store and Moodle. This tool helps identify necessary changes for resolution.",
     open: false
   }, {
-    question: "Does Product Stock Manager & Notifier support product variations?",
-    answer: "Yes, product variations are fully supported and editable from the Inventory Manager. Product Stock Manager & Notifier handles variable products with ease and uses an expandable feature to make managing variations clear and straightforward.",
+    question: "Why aren't my customers receiving enrollment emails?",
+    answer: "Install a plugin like Email Log to check if New Enrollment emails are logged. If logged, your email functionality is working fine; if not, contact your email server administrator for assistance.",
     open: false
   }, {
-    question: "Do you support Google reCaptcha for the out-of-stock form?",
-    answer: 'Yes, <a href="https://multivendorx.com/woocommerce-product-stock-manager-notifier-pro/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager" target="_blank">Product Stock Manager & Notifier Pro</a> has support for reCaptcha.',
+    question: "Can I set course expiration dates using MooWoodle?",
+    answer: 'Course-related functionalities, including setting expiration dates, are managed within Moodle itself; MooWoodle does not control these aspects.',
     open: false
   }]);
   const toggleFAQ = index => {
@@ -18987,7 +18901,7 @@ const Support = () => {
     className: "support-header-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
     className: "support-heading"
-  }, "Thank you for using Product Stock Manager & Notifier for WooCommerce"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+  }, "Thank you for using MooWoodle"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: "support-subheading"
   }, "We want to help you enjoy a wonderful experience with all of our products.")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "video-faq-wrapper"
@@ -19081,17 +18995,17 @@ const Tabs = props => {
     title: "Get in touch with Support",
     icon: "mail",
     description: "Reach out to the support team for assistance or guidance.",
-    link: "https://multivendorx.com/contact-us/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager"
+    link: "https://dualcube.com/forums/?utm_source=wordpress.org&utm_medium=freelandingpage&utm_campaign=MooWoodleFree"
   }, {
     title: "Explore Documentation",
     icon: "submission-message",
     description: "Understand the plugin and its settings.",
-    link: "https://multivendorx.com/docs/knowledgebase/products-stock-manager-notifier-for-woocommerce/?utm_source=WordPressAdmin&utm_medium=PluginSettings&utm_campaign=productsstockmanager"
+    link: "https://dualcube.com/knowledgebase/?utm_source=wordpress.org&utm_medium=freelandingpage&utm_campaign=MooWoodleFree"
   }, {
     title: "Contribute Here",
     icon: "support",
     description: "To participation in product enhancement.",
-    link: "https://github.com/multivendorx/woocommerce-product-stock-alert/issues"
+    link: "https://github.com/dualcube/moowoodle/issues"
   }];
   const showHideMenu = tab => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
@@ -19169,7 +19083,7 @@ const Tabs = props => {
     className: "logo-small",
     src: _assets_images_Brand_small_png__WEBPACK_IMPORTED_MODULE_2__,
     alt: "Logo"
-  }), menuCol ? null : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Catalog Enquiry")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }), menuCol ? null : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "MooWoodle")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "current-tab-lists-container"
   }, tabData.map(({
     type,
@@ -19381,6 +19295,136 @@ function banner() {
     className: "admin-font font-arrow-right"
   }))))) : '' : '');
 }
+
+/***/ }),
+
+/***/ "./src/components/CatalogCustomizer/CatalogCustomizer.jsx":
+/*!****************************************************************!*\
+  !*** ./src/components/CatalogCustomizer/CatalogCustomizer.jsx ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _CatalogCustomizer_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CatalogCustomizer.scss */ "./src/components/CatalogCustomizer/CatalogCustomizer.scss");
+/* harmony import */ var _AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../AdminLibrary/Inputs/Special/ButtonCustomizer */ "./src/components/AdminLibrary/Inputs/Special/ButtonCustomizer.jsx");
+/* harmony import */ var _SubTabSection_SubTabSection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../SubTabSection/SubTabSection */ "./src/components/SubTabSection/SubTabSection.jsx");
+
+
+
+
+
+const CatalogCustomizer = () => {
+  const [menu, setMenu] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    name: "Enquiry",
+    link: "hi",
+    id: 1,
+    icon: 'font-info',
+    setting: [{
+      name: 'name1',
+      id: 2,
+      value: 3,
+      description: "Allow backorder subscription"
+    }, {
+      name: 'name2',
+      id: 2,
+      value: 3,
+      description: "Allow backorder subscription"
+    }, {
+      name: 'name3',
+      id: 2,
+      value: 3,
+      description: "Allow backorder subscription"
+    }, {
+      name: 'name4',
+      id: 2,
+      value: 3,
+      description: "Allow backorder subscription"
+    }]
+  }, {
+    name: "Enquiry Cart",
+    link: "hi",
+    id: 2,
+    icon: 'font-store',
+    setting: [{
+      name: 'name1',
+      id: 2,
+      value: 3,
+      description: "Allow backorder subscription"
+    }, {
+      name: 'name2',
+      id: 2,
+      value: 3,
+      description: "Allow backorder subscription"
+    }]
+  }, {
+    name: "Quote",
+    link: "hi",
+    id: 3,
+    icon: 'font-payment',
+    setting: [{
+      name: 'name1',
+      id: 2,
+      value: 3,
+      description: "Allow backorder subscription"
+    }, {
+      name: 'name2',
+      id: 2,
+      value: 3,
+      description: "Allow backorder subscription"
+    }]
+  }]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SubTabSection_SubTabSection__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    menuitem: menu
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
+    className: "catelog-customizer"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "product-img"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: "https://rb.gy/owvfpe",
+    alt: ""
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "product-data"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
+    className: "product-name"
+  }, "V-Neck T-Shirt"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "drag-drop-component"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "additional-input"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    placeholder: "Additional input(optional)",
+    type: "text"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "product-price"
+  }, "\u20B915.00 \u2013 \u20B920.00"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "product-description"
+  }, "This is a variable product."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "additional-input"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    placeholder: "Additional input(optional)",
+    type: "text"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "add-to-cart-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
+    value: "1"
+  }, "1"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
+    value: "1"
+  }, "3"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
+    value: "1"
+  }, "2")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "add-to-cart-button"
+  }, "Buy Now")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "custom-button"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_AdminLibrary_Inputs_Special_ButtonCustomizer__WEBPACK_IMPORTED_MODULE_2__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "product-sku-category"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "SKU: ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "WOO-ALBUM")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Category: ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Music"))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CatalogCustomizer);
 
 /***/ }),
 
@@ -19656,7 +19700,8 @@ const EnquiryDetails = props => {
       fetchData();
     });
   };
-  console.log(enquiry);
+
+  // console.log(enquiry)
   // console.log(enquiryDetails)
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -19924,6 +19969,52 @@ const EnquiryMessages = props => {
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EnquiryMessages);
+
+/***/ }),
+
+/***/ "./src/components/GridTable/GridTable.jsx":
+/*!************************************************!*\
+  !*** ./src/components/GridTable/GridTable.jsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _GridTable_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GridTable.scss */ "./src/components/GridTable/GridTable.scss");
+
+
+
+
+const GridTable = props => {
+  const {
+    rows,
+    columns,
+    description
+  } = props;
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, description && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "settings-metabox-description"
+  }, description), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
+    className: "grid-table"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null), columns.map(element => {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, element.label);
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, rows.map(element => {
+    // console.log(element.options)
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, element.label), columns.map(column => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
+      key: column.key
+    }, element.options ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
+      name: "",
+      id: ""
+    }, element.options.map((option, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", null, option.label))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      type: "checkbox"
+    }))));
+  }))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GridTable);
 
 /***/ }),
 
@@ -20431,6 +20522,98 @@ const Settings = () => {
 
 /***/ }),
 
+/***/ "./src/components/SubTabSection/SubTabSection.jsx":
+/*!********************************************************!*\
+  !*** ./src/components/SubTabSection/SubTabSection.jsx ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _SubTabSection_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubTabSection.scss */ "./src/components/SubTabSection/SubTabSection.scss");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+
+
+
+
+const SubTabSection = ({
+  menuitem
+}) => {
+  const [menuIndex, setMenuIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1);
+  const [metaMenu, setMetaMenu] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(menuitem[0]);
+  const [menuOpen, setMenuOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const buttonRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  const handleMenu = (e, index, meta) => {
+    e.preventDefault();
+    setMenuIndex(index);
+    setMetaMenu(meta);
+  };
+  const handleMenuOpen = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  // useEffect(() => {
+  //     if (menuOpen) {
+  //     document.body.addEventListener("click", (event) => {
+  //         console.log("body")
+  //         if (!buttonRef?.current?.contains(event.target)) {
+  //             console.log("hello")
+  //             setMenuOpen(false);
+  //         }
+  //     })
+  //     }
+  // }, [])
+
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "tab-section"
+  }, menuitem.map((menu, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    key: index,
+    className: `tab-section-menu ${menu.id === menuIndex ? 'active' : ''}`,
+    onClick: e => handleMenu(e, menu.id, menu)
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: `admin-font ${menu.icon}`
+  })), menu.name))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ref: buttonRef,
+    className: `tab-menu-setting-section ${menuOpen ? 'active' : ''}`,
+    onClick: handleMenuOpen
+  }, menuOpen ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "tab-menu-setting-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "tab-heading"
+  }, metaMenu.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "setting-wrapper-section"
+  }, metaMenu.setting?.map((setting, index) => {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "tab-menu-setting-item"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+      className: "setting-title"
+    }, setting.name, " ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+      title: setting.description,
+      className: "admin-font font-info"
+    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "toggle-checkbox-content"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      type: "checkbox",
+      id: setting.id
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+      htmlFor: setting.id
+    })));
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+    to: '',
+    className: "advanced-setting-btn"
+  }, "Advanced settings")) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: `tab-slide-btn admin-font ${metaMenu.icon}`
+  })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SubTabSection);
+
+/***/ }),
+
 /***/ "./src/components/formCustomizer/formCustomizer.jsx":
 /*!**********************************************************!*\
   !*** ./src/components/formCustomizer/formCustomizer.jsx ***!
@@ -20445,6 +20628,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _FormCustomizer_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormCustomizer.scss */ "./src/components/formCustomizer/FormCustomizer.scss");
+/* harmony import */ var _SubTabSection_SubTabSection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../SubTabSection/SubTabSection */ "./src/components/SubTabSection/SubTabSection.jsx");
+
 
 
 
@@ -20545,7 +20730,20 @@ const FormCustomizer = props => {
     key: 'captcha',
     desc: 'Captcha'
   }];
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  const [menu, setMenu] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    name: "Pro",
+    link: "hi",
+    id: 1,
+    icon: 'font-store'
+  }, {
+    name: "Free",
+    link: "hi",
+    id: 2,
+    icon: 'font-info'
+  }]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SubTabSection_SubTabSection__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    menuitem: menu
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "enquery-form-fields"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "fields-header"
@@ -21502,11 +21700,118 @@ __webpack_require__.r(__webpack_exports__);
   desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Tools", "woocommerce-catalog-enquiry"),
   icon: 'font-settings',
   submitUrl: 'save_enquiry',
+<<<<<<< HEAD
+  modal: [
+  // {
+  //     key: 'product_galary_page',
+  //     type: 'radio',
+  //     label: __("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry"),
+  //     desc: __("", "woocommerce-catalog-enquiry"),
+  //     select_deselect: true,
+  //     options: [
+  //         {
+  //             key: "product_price",
+  //             label: __('Product Price', 'woocommerce-catalog-enquiry'),
+  //             value: "product_price"
+  //         },
+  //         {
+  //             key: "add_to_cart",
+  //             label: __('Add-To-Cart', 'woocommerce-catalog-enquiry'),
+  //             value: "add_to_cart"
+  //         },
+  //         {
+  //             key: "enquiry_button",
+  //             label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
+  //             value: "enquiry_button"
+  //         }
+  //     ],
+  //     proSetting: true,
+  // },
+  // {
+  //     key: 'product_page',
+  //     type: 'radio',
+  //     label: __("Product Page", "woocommerce-catalog-enquiry"),
+  //     desc: __("", "woocommerce-catalog-enquiry"),
+  //     options: [
+  //         {
+  //             key: "product_price",
+  //             label: __('Product Price', 'woocommerce-catalog-enquiry'),
+  //             value: "product_price"
+  //         },
+  //         {
+  //             key: "add_to_cart",
+  //             label: __('Add-To-Cart', 'woocommerce-catalog-enquiry'),
+  //             value: "add_to_cart"
+  //         },
+  //         {
+  //             key: "enquiry_button",
+  //             label: __('Enquiry Button', 'woocommerce-catalog-enquiry'),
+  //             value: "enquiry_button"
+  //         }
+  //     ]
+  // },
+  {
+    key: 'grid_table',
+    type: 'grid_table',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
+    classes: 'gridTable',
+    rows: [{
+      key: "product_galary_page",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Gallery Page (Shop, Categoty etc)", "woocommerce-catalog-enquiry")
+    }, {
+      key: "product_page",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Product Page", "woocommerce-catalog-enquiry")
+    }],
+    columns: [{
+      key: "product_price",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Product Price', 'woocommerce-catalog-enquiry')
+    }, {
+      key: "add_to_cart",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add-To-Cart', 'woocommerce-catalog-enquiry')
+    }, {
+      key: "enquiry_button",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enquiry Button', 'woocommerce-catalog-enquiry')
+    }]
+  }, {
+    key: 'separator_content',
+    type: 'section',
+    label: "",
+    desc: "Automatic mode",
+    hint: "Initiate the <b>real-time synchronization</b> direction between your WordPress and Moodle sites.<br>When a new user is added, their profile will be synchronized between WordPress and Moodle according to the Profile Information Mapping settings.<br>For an existing user, if they update their profile and the updated data matches any criteria set in the 'Profile Information Mapping', their information will also be synchronized between WordPress and Moodle."
+  }, {
+    key: 'grid_table',
+    type: 'grid_table',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Grid Table", "woocommerce-catalog-enquiry"),
+    classes: 'gridTable',
+    rows: [{
+      key: "logged_out",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Logged out users', 'woocommerce-catalog-enquiry')
+    }, {
+      key: "logged_in",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Logged in users', 'woocommerce-catalog-enquiry')
+    }, {
+      key: "all_users",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('All users', 'woocommerce-catalog-enquiry')
+    }],
+    columns: [{
+      key: "catalog",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Catalog", "woocommerce-catalog-enquiry")
+    }, {
+      key: "enquiry",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enquiry", "woocommerce-catalog-enquiry")
+    }, {
+      key: "quote",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", "woocommerce-catalog-enquiry")
+    }]
+=======
   modal: [{
     key: "custom_css_product_page",
     type: "textarea",
     desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Put your custom css here, to customize the enquiry form.", "woocommerce-catalog-enquiry"),
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Addional CSS", "woocommerce-catalog-enquiry")
+>>>>>>> e3dd4b236cb4f65db9b0c91b2d0f01b8758d2cd1
   }]
 });
 
@@ -44576,36 +44881,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.scss":
-/*!***************************************************************************!*\
-  !*** ./src/components/AdminLibrary/Inputs/Special/CatalogCustomizer.scss ***!
-  \***************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
 /***/ "./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss":
 /*!***********************************************************************!*\
   !*** ./src/components/AdminLibrary/Inputs/Special/ConnectSelect.scss ***!
   \***********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./src/components/AdminLibrary/Inputs/Special/GridTable.scss":
-/*!*******************************************************************!*\
-  !*** ./src/components/AdminLibrary/Inputs/Special/GridTable.scss ***!
-  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -44654,10 +44933,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/components/CatalogCustomizer/CatalogCustomizer.scss":
+/*!*****************************************************************!*\
+  !*** ./src/components/CatalogCustomizer/CatalogCustomizer.scss ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./src/components/EnquiryMessages/enquiryMessages.scss":
 /*!*************************************************************!*\
   !*** ./src/components/EnquiryMessages/enquiryMessages.scss ***!
   \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/components/GridTable/GridTable.scss":
+/*!*************************************************!*\
+  !*** ./src/components/GridTable/GridTable.scss ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -44684,6 +44989,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************!*\
   !*** ./src/components/PopupContent/popupContent.scss ***!
   \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/components/SubTabSection/SubTabSection.scss":
+/*!*********************************************************!*\
+  !*** ./src/components/SubTabSection/SubTabSection.scss ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";

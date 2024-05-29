@@ -1,12 +1,13 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './FormCustomizer.scss'
+import SubTabSection from '../SubTabSection/SubTabSection';
 
 const FormCustomizer = (props) => {
     const { values, proSetting, onChange } = props;
-    const settingChange = useRef( false );
+    const settingChange = useRef(false);
     const [formFieldsData, setFromFieldsData] = useState(values || []);
     useEffect(() => {
-        if ( settingChange.current ) {
+        if (settingChange.current) {
             onChange(formFieldsData);
             settingChange.current = false;
         }
@@ -16,11 +17,11 @@ const FormCustomizer = (props) => {
     }
     const activeDeactiveFields = (fieldKey, activeStatus) => {
         settingChange.current = true;
-        if ( getFields(fieldKey) ) {
+        if (getFields(fieldKey)) {
             setFromFieldsData((prevData) => {
                 return prevData.map((data) => {
                     if (data.key === fieldKey) {
-                        return { ... data, active: activeStatus }
+                        return { ...data, active: activeStatus }
                     }
                     return data;
                 })
@@ -33,11 +34,11 @@ const FormCustomizer = (props) => {
     }
     const updateFieldLabel = (fieldKey, labelValue) => {
         settingChange.current = true;
-        if ( getFields(fieldKey) ) {
+        if (getFields(fieldKey)) {
             setFromFieldsData((prevData) => {
                 return prevData.map((data) => {
                     if (data.key === fieldKey) {
-                        return { ... data, label: labelValue }
+                        return { ...data, label: labelValue }
                     }
                     return data;
                 })
@@ -86,8 +87,15 @@ const FormCustomizer = (props) => {
             desc: 'Captcha',
         }
     ]
+
+    const [menu, setMenu] = useState([
+        { name: "Pro", link: "hi", id: 1, icon: 'font-store' },
+        { name: "Free", link: "hi", id: 2, icon: 'font-info' },
+    ]);
+
     return (
         <>
+            <SubTabSection menuitem={menu} />
             <div className='enquery-form-fields'>
                 <div className='fields-header'>
                     <h3>Field Name</h3>
@@ -99,18 +107,18 @@ const FormCustomizer = (props) => {
                         formFields.map((fields, index) => {
                             return (
                                 <div className='fields-row' key={index}>
-                                    <div className='fields-row-name'>{ fields.desc }</div>
+                                    <div className='fields-row-name'>{fields.desc}</div>
                                     <div>
                                         <div className='toggle-checkbox-content'>
-                                        <input
-                                            id={index}
-                                            type='checkbox'
-                                            onChange={(e) => {
-                                                activeDeactiveFields(fields.key, e.target.checked);
-                                            }}
-                                            checked={getFields(fields.key) ? getFields(fields.key).active : false }
-                                        />
-                                        <label htmlFor={index}></label>
+                                            <input
+                                                id={index}
+                                                type='checkbox'
+                                                onChange={(e) => {
+                                                    activeDeactiveFields(fields.key, e.target.checked);
+                                                }}
+                                                checked={getFields(fields.key) ? getFields(fields.key).active : false}
+                                            />
+                                            <label htmlFor={index}></label>
                                         </div>
                                     </div>
                                     <div>

@@ -44,5 +44,5 @@ export default {
     Section,
     Seperator,
     Table,
-    WpEditor
+    WpEditor,
 };

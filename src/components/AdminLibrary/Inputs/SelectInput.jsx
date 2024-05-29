@@ -2,7 +2,7 @@ import Select from 'react-select';
 
 const SelectInput = (props) => {
     const optionsData = [];
-    let defaulValue = undefined;
+    let defaulValue = '';
 
     props.options.forEach((option, index) => {
         optionsData[index] = {
@@ -18,6 +18,7 @@ const SelectInput = (props) => {
     return (
         <>
             <div className={props.wrapperClass}>
+                <div className='select-input-section'>
                 {
                     props.selectDeselect &&
                     <>
@@ -37,9 +38,10 @@ const SelectInput = (props) => {
                     onClick= {(e) => { props.onClick?.(e) }}
                     isMulti={props.type === 'multi-select'}
                 ></Select>
-                 {
+                {
                     props.proSetting && <span className="admin-pro-tag">pro</span>
                 }
+                </div>
                 {
                     props.description &&
                     <p className={props.descClass} dangerouslySetInnerHTML={{ __html: props.description }} >
