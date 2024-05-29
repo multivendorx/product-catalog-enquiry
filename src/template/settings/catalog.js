@@ -55,5 +55,17 @@ export default {
             },
             proSetting: true,
         },
+        {
+            key: 'is_hide_product_price',
+            type: 'checkbox',
+            label: __( "Hide Product Price", 'woocommerce-catalog-enquiry' ),
+            options: [
+                {
+                    key: "is_hide_product_price",
+                    label: __('Enable this option to hide product price', 'woocommerce-catalog-enquiry'),
+                    value: "is_hide_product_price"
+                }
+            ]
+        }
     ]
 };

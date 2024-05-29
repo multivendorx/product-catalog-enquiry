@@ -52,7 +52,7 @@ class Admin {
             __( 'Settings', 'woocommerce-catalog-enquiry' ), 
             __( 'Settings', 'woocommerce-catalog-enquiry' ), 
             'manage_woocommerce', 
-            'catalog#&tab=settings&subtab=store_display', 
+            'catalog#&tab=settings&subtab=catalog', 
             '__return_null' );
         
         add_submenu_page( 

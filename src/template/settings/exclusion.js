@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 
 export default {
     id: 'enquiry_quote_exclusion',
-    priority: 60,
+    priority: 40,
     name: __("Exclusion", "woocommerce-catalog-enquiry"),
     desc: __("Exclusion Management", "woocommerce-catalog-enquiry"),
     icon: 'font-settings',
@@ -84,6 +84,41 @@ export default {
                 {
                     key: "quote_exclusion",
                     label: __("Quote Exclusion", "woocommerce-catalog-enquiry")
+                }
+            ],
+        },
+        {
+            key: 'grid_table',
+            type: 'grid_table',
+            label: __("Grid Table", "woocommerce-catalog-enquiry"),
+            desc: __("Grid Table", "woocommerce-catalog-enquiry"),
+            classes: 'gridTable',
+            rows: [
+                {
+                    key: "logged_out",
+                    label: __('Logged out users', 'woocommerce-catalog-enquiry'),
+                },
+                {
+                    key: "logged_in",
+                    label: __('Logged in users', 'woocommerce-catalog-enquiry'),
+                },
+                {
+                    key: "all_users",
+                    label: __('All users', 'woocommerce-catalog-enquiry'),
+                }
+            ],
+            columns: [
+                {
+                    key: "catalog",
+                    label: __("Catalog", "woocommerce-catalog-enquiry")
+                },
+                {
+                    key: "enquiry",
+                    label: __("Enquiry", "woocommerce-catalog-enquiry")
+                },
+                {
+                    key: "quote",
+                    label: __("Quote", "woocommerce-catalog-enquiry")
                 }
             ],
         }
