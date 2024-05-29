@@ -95,10 +95,10 @@ const CatalogCustomizer = () => {
                             <button className='add-to-cart-button'>Buy Now</button>
                         </div>
                         <div className='custom-button'>
-                            <ButtonCustomizer />
-                            <ButtonCustomizer />
-                            <ButtonCustomizer />
-                            <ButtonCustomizer />
+                            <ButtonCustomizer  text="enquiry"/>
+                            <ButtonCustomizer  text="Add to enquiry cart"/>
+                            <ButtonCustomizer  text="Add to quote"/>
+            
                         </div>
                     </div>
                     <div className='product-sku-category'>

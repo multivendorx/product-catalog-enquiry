@@ -256,6 +256,7 @@ const Customizer = (props) => {
                         className="PB-range-slider"
                         type="text"
                         value={setting.button_text}
+                        
                         onChange={(e) => props.onChange(e, "button_text")}
                       />
                     </div>
@@ -367,6 +368,7 @@ const Customizer = (props) => {
   );
 };
 const ButtonCustomizer = (props) => {
+  console.log(props)
   const { onChange } = props;
   const [hoverOn, setHoverOn] = useState(false);
   const [buttonHoverOn, setButtonHoverOn] = useState(false);
@@ -417,7 +419,8 @@ const ButtonCustomizer = (props) => {
             setButtonHoverOn(false);
           }}
         >
-          {setting.button_text}
+          {/* {setting.button_text} */}
+          {props.text}
         </button>
         {hoverOn && (
           <div className="btn-customizer">

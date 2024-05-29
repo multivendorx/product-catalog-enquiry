@@ -32,29 +32,6 @@ export default {
         //     ]
         // },
         {
-            key: 'is_page_redirect',
-            type: 'checkbox',
-            label: __( "Redirect after Enquiry form Submission", 'woocommerce-catalog-enquiry' ),
-            options: [
-                {
-                    key: "is_page_redirect",
-                    label: __('Enable this to redirect user to another page after successful enquiry submission.', 'woocommerce-catalog-enquiry'),
-                    value: "is_page_redirect"
-                }
-            ]
-        },
-        {
-            key: 'redirect_page_id',
-            dependent: {
-                key: "is_page_redirect",
-                set: true
-            },
-            type: 'radio',
-            label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
-            desc: __( 'Select page where user will be redirected after successful enquiry.', 'woocommerce-catalog-enquiry' ),
-            options: appLocalizer.pages_array,
-        },
-        {
             key: 'is_disable_popup',
             type: 'checkbox',
             label: __( "Display Enquiry form via popup", 'woocommerce-catalog-enquiry' ),
@@ -92,22 +69,15 @@ export default {
             ],
             proSetting: true,
         },
-        {
-            key: 'set_enquiry_cart_page',
-            type: 'select',
-            label: __("Set Enquiry Cart Page", "woocommerce-catalog-enquiry"),
-            desc: __("Select the enquiry cart page", "woocommerce-catalog-enquiry"),
-            options: [],
-            proSetting: true,
-        },
-        {
-            key: 'redirect_page',
-            type: 'select',
-            label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
-            desc: __( 'Select page where user will be redirected.', 'woocommerce-catalog-enquiry' ),
-            options: appLocalizer.pages_array,
-            proSetting: true,
-        },
+        
+        // {
+        //     key: 'redirect_page',
+        //     type: 'select',
+        //     label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
+        //     desc: __( 'Select page where user will be redirected.', 'woocommerce-catalog-enquiry' ),
+        //     options: appLocalizer.pages_array,
+        //     proSetting: true,
+        // },
         {
             key: 'is_enable_out_of_stock',
             type: 'checkbox',
