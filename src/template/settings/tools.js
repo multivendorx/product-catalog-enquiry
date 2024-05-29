@@ -14,5 +14,11 @@ export default {
             desc: __("Put your custom css here, to customize the enquiry form.", "woocommerce-catalog-enquiry"),
             label: __("Addional CSS", "woocommerce-catalog-enquiry"),
         },
+        {
+            key: "",
+            type: "text",
+            desc: __("", "woocommerce-catalog-enquiry"),
+            label: __("Page Setup", "woocommerce-catalog-enquiry"),
+        },
     ]
 }
