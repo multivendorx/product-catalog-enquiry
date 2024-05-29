@@ -7,9 +7,36 @@ import SubTabSection from '../SubTabSection/SubTabSection';
 const CatalogCustomizer = () => {
 
     const [menu, setMenu] = useState([
-        { name: "Enquiry", link: "hi", id: 1, icon: 'font-info' },
-        { name: "Enquiry cart", link: "hi", id: 2, icon: 'font-payment' },
-        { name: "Quote", link: "hi", id: 3, icon: 'font-store' },
+        {
+            name: "Enquiry", link: "hi", id: 1, icon: 'font-info',
+            setting: [
+                {
+                    id: 1,
+                    id: 2,
+                    id: 3,
+                }
+            ]
+        },
+        {
+            name: "Enquiry cart", link: "hi", id: 2, icon: 'font-payment',
+            setting: [
+                {
+                    id: 1,
+                    id: 2,
+                    id: 3,
+                }
+            ]
+        },
+        {
+            name: "Quote", link: "hi", id: 3, icon: 'font-store',
+            setting: [
+                {
+                    id: 1,
+                    id: 2,
+                    id: 3,
+                }
+            ]
+        },
     ]);
 
     return (

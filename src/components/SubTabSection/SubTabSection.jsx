@@ -28,12 +28,14 @@ const SubTabSection = ({ menuitem }) => {
             </div>
             <div className='tab-menu-setting-section'>
                 <div className='tab-menu-setting-wrapper'>
-                    <p>{metaMenu.name}</p>
-                    <div className='tab-menu-setting-item'>
-                        <p>Setting 1</p>
-                        <div className='toggle-checkbox-content'>
-                            <input type="checkbox" id="checkbox" />
-                            <label htmlFor="checkbox"></label>
+                    <p className='tab-heading'>{metaMenu.name}</p>
+                    <div>
+                        <div className='tab-menu-setting-item'>
+                            <p>Setting 1</p>
+                            <div className='toggle-checkbox-content'>
+                                <input type="checkbox" id="checkbox" />
+                                <label htmlFor="checkbox"></label>
+                            </div>
                         </div>
                     </div>
                 </div>
