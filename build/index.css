@@ -238,6 +238,7 @@ input[type=radio] {
   position: absolute;
   margin-top: 0.5rem;
   padding-bottom: 3rem;
+  top: 100%;
   z-index: 1;
 }
 .settings-input-content .btn-wrapper .btn-customizer .btn-customizer-menu {
@@ -1056,9 +1057,9 @@ span.stock-manager-pro-tag {
   gap: 0.75rem;
   flex-wrap: wrap;
 }
-.catalog-customizer-wrapper .catelog-customizer .product-data .custom-button button {
-  flex: 1 0 40%;
-  width: 50%;
+.catalog-customizer-wrapper .catelog-customizer .product-data .custom-button .btn-wrapper {
+  flex: 1 0 30%;
+  width: 30%;
   height: 39px;
   display: flex;
   align-items: center;
@@ -1124,6 +1125,9 @@ span.stock-manager-pro-tag {
   flex-basis: 0;
   font-weight: 500;
 }
+.gridTable .settings-input-content .grid-table thead tr th:first-child {
+  max-width: 150px;
+}
 .gridTable .settings-input-content .grid-table tbody {
   width: 100%;
 }
@@ -1144,6 +1148,10 @@ span.stock-manager-pro-tag {
   flex-grow: 1;
   flex-shrink: 0;
   flex-basis: 0;
+  padding: 0 1rem;
+}
+.gridTable .settings-input-content .grid-table tbody tr td:first-child {
+  max-width: 150px;
 }
 .gridTable .settings-input-content .grid-table tbody tr td input[type=checkbox] {
   width: -moz-fit-content;
@@ -1360,7 +1368,6 @@ span.stock-manager-pro-tag {
   background: #fff;
   max-width: 75.6rem;
   width: 100%;
-  overflow: hidden;
 }
 .general-wrapper .middle-container-wrapper .middle-child-container .tab-content .tab-description-start {
   padding: 1.83rem 1.83rem 0;
@@ -2145,7 +2152,8 @@ span.stock-manager-pro-tag {
   align-items: flex-start;
   justify-content: flex-start;
 }
-.rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .table-row-custom:has(.action-section) .action-section .action-btn button, .rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .table-row-custom:has(.action-section) .action-section .action-btn a {
+.rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .table-row-custom:has(.action-section) .action-section .action-btn button,
+.rdt_Table .rdt_TableBody .rdt_TableRow .rdt_TableCell .table-row-custom:has(.action-section) .action-section .action-btn a {
   background: transparent;
   font-size: 0.75rem;
   font-weight: 500;
@@ -2234,6 +2242,133 @@ span.stock-manager-pro-tag {
   .rdt_Pagination {
     display: flex !important;
   }
+}
+/*!************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/components/QuoteRequests/quoteRequests.scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************************/
+.free-reports-download-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+.free-reports-download-section .section-heading {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  font-weight: 400;
+  text-align: center;
+}
+.free-reports-download-section button {
+  display: block;
+  margin-right: 1rem;
+  padding: 0.504rem 1.26rem 0.63rem;
+  font-size: 1.008rem;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #65438f;
+  border-radius: 0.315rem;
+  position: relative;
+  overflow: hidden;
+}
+.free-reports-download-section button a {
+  color: #fff;
+}
+.free-reports-download-section button:hover::before {
+  transform: perspective(0.315rem) rotateX(0) rotateY(0);
+}
+.free-reports-download-section button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: perspective(0.315rem) rotateX(2deg) rotateY(2deg);
+  transition: transform 0.3s;
+  pointer-events: none;
+}
+.free-reports-download-section .description {
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.admin-subscriber-list .admin-page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  position: relative;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.admin-subscriber-list .admin-page-title p {
+  font-size: 1.5rem;
+}
+.admin-subscriber-list .admin-page-title .download-btn-subscriber-list {
+  border-radius: 0.25rem;
+  background-color: #65438f;
+  padding: 0.5rem 1rem;
+}
+.admin-subscriber-list .admin-page-title .download-btn-subscriber-list a {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.admin-subscriber-list .admin-page-title .download-btn-subscriber-list a .dashicons-before::before {
+  padding: 0;
+}
+.admin-subscriber-list .selectable-table .admin-table-wrapper-filter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 0.875rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+.admin-subscriber-list .selectable-table .admin-table-wrapper-filter > div {
+  cursor: pointer;
+}
+.admin-subscriber-list .selectable-table .admin-table-wrapper-filter > div:hover {
+  color: #65438f;
+}
+.admin-subscriber-list .subscriber-bulk-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+.admin-subscriber-list .subscriber-bulk-action label {
+  font-size: 0.875rem;
+  width: 8.19rem;
+}
+.admin-subscriber-list .subscriber-bulk-action select {
+  max-width: 9.45rem;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  background-color: transparent !important;
+  border: 0.115rem solid rgba(0, 0, 0, 0.125) !important;
+  border-radius: 0.25rem !important;
+  color: rgb(44, 51, 56);
+}
+.admin-subscriber-list .subscriber-bulk-action select:focus {
+  box-shadow: none;
+}
+.admin-subscriber-list .subscriber-bulk-action button {
+  border-radius: 0.25rem;
+  background-color: #65438f;
+  padding: 0.65rem 1.5rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 /*!***************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/react-date-range/dist/styles.css ***!
@@ -2834,7 +2969,8 @@ span.stock-manager-pro-tag {
   font-style: normal;
   font-display: block;
 }
-[class^=font-], [class*=" font-"] {
+[class^=font-],
+[class*=" font-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "admin-font" !important;
   speak: never;
@@ -3207,6 +3343,72 @@ span.stock-manager-pro-tag {
   list-style: none;
   position: relative;
 }
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input::-moz-placeholder {
+  color: transparent;
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input::placeholder {
+  color: transparent;
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input:focus::-moz-placeholder {
+  color: rgb(131, 128, 128);
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input:focus::placeholder {
+  color: rgb(131, 128, 128);
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input:not(:-moz-placeholder-shown) {
+  background-color: #fff;
+  width: 130px;
+  cursor: none;
+  padding: 18px 10px 18px 15px;
+  box-shadow: none;
+  outline: none;
+  border: none;
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input:focus,
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input:not(:placeholder-shown) {
+  background-color: #fff;
+  width: 130px;
+  cursor: none;
+  padding: 18px 10px 18px 15px;
+  box-shadow: none;
+  outline: none;
+  border: none;
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .icon {
+  position: absolute;
+  font-size: 1.25rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  color: #9397ab;
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input:not(:-moz-placeholder-shown) + .icon {
+  z-index: 0;
+  border: none;
+  left: 0;
+}
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input:focus + .icon,
+.container .chatting-container .chat-wrapper .header .chat-more-option ul li .input-container .input:not(:placeholder-shown) + .icon {
+  z-index: 0;
+  border: none;
+  left: 0;
+}
 .container .chatting-container .chat-wrapper .header .chat-more-option ul li button {
   height: 40px;
   width: 40px;
@@ -3239,7 +3441,11 @@ span.stock-manager-pro-tag {
 }
 .container .chatting-container .chat-wrapper .chatting-main-container::-webkit-scrollbar {
   margin: 0;
-  width: 0;
+  width: 5px;
+}
+.container .chatting-container .chat-wrapper .chatting-main-container::-webkit-scrollbar-thumb {
+  margin: 0;
+  background-color: rgba(204, 204, 204, 0.262745098);
 }
 .container .chatting-container .chat-wrapper .chatting-main-container .wrapper {
   margin: 0;
@@ -3274,6 +3480,14 @@ span.stock-manager-pro-tag {
 .container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box.receive .message-box-wrapper .chat-content-wrapper .chat-content .content {
   background: #eff5fb;
 }
+.container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box.receive .message-box-wrapper .chat-content-wrapper .chat-content .content .reaction-view {
+  background: #eff5fb;
+  left: auto;
+  margin-left: auto;
+  right: 100%;
+  border-radius: 0.25rem;
+  margin-right: 0.15rem;
+}
 .container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box.receive .message-box-wrapper .chat-content-wrapper .chat-content .content:before {
   content: "";
   position: absolute;
@@ -3285,6 +3499,13 @@ span.stock-manager-pro-tag {
   border: 5px solid #eff5fb;
   border-right-color: transparent;
   border-top-color: transparent;
+}
+.container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box.receive .message-box-wrapper .chat-content-wrapper .chat-content .section-reaction.active {
+  display: flex !important;
+}
+.container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box.receive .message-box-wrapper .chat-content-wrapper .chat-content .section-reaction .reaction-wrapper {
+  left: auto !important;
+  right: 0 !important;
 }
 .container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box .message-box-wrapper {
   display: flex;
@@ -3318,6 +3539,15 @@ span.stock-manager-pro-tag {
   width: -moz-fit-content;
   width: fit-content;
 }
+.container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box .message-box-wrapper .chat-content-wrapper .chat-content .content .reaction-view {
+  position: absolute;
+  background-color: #f8f9fa;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  left: 100%;
+  margin-left: 0.15rem;
+}
 .container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box .message-box-wrapper .chat-content-wrapper .chat-content .content:before {
   content: "";
   position: absolute;
@@ -3340,6 +3570,9 @@ span.stock-manager-pro-tag {
   gap: 0.75rem;
   transition: all 0.3s linear;
 }
+.container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box .message-box-wrapper .chat-content-wrapper .chat-content .section-reaction.active {
+  display: flex;
+}
 .container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box .message-box-wrapper .chat-content-wrapper .chat-content .section-reaction button {
   font-size: 1rem;
   background: transparent;
@@ -3347,6 +3580,30 @@ span.stock-manager-pro-tag {
   padding: 0;
   border: none;
   cursor: pointer;
+}
+.container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box .message-box-wrapper .chat-content-wrapper .chat-content .section-reaction .reaction-wrapper {
+  position: absolute;
+  top: 1.25rem;
+  left: 0;
+}
+.container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box .message-box-wrapper .chat-content-wrapper .chat-content .section-reaction .chat-text-control-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: #ffffff;
+  padding: 0.5rem 1rem;
+  position: absolute;
+  width: 10rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.125);
+  top: 2rem;
+  left: -2rem;
+  z-index: 1;
+}
+.container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box .message-box-wrapper .chat-content-wrapper .chat-content .section-reaction .chat-text-control-wrapper button {
+  padding: 0.25rem 0rem !important;
+  font-size: 0.875rem !important;
+  text-align: left;
 }
 .container .chatting-container .chat-wrapper .chatting-main-container .wrapper .message-box .chat-time {
   font-size: 0.75rem;
@@ -3375,8 +3632,9 @@ span.stock-manager-pro-tag {
 }
 .container .chatting-container .chat-controls .wrapper .attachment .attachment-wrapper {
   display: flex;
+  position: relative;
 }
-.container .chatting-container .chat-controls .wrapper .attachment .attachment-wrapper button {
+.container .chatting-container .chat-controls .wrapper .attachment .attachment-wrapper .option-btn {
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -3392,6 +3650,14 @@ span.stock-manager-pro-tag {
   transition: all 0.3s linear;
   border: none;
   outline: none;
+}
+.container .chatting-container .chat-controls .wrapper .attachment .attachment-wrapper .emoji-picker-container {
+  position: absolute;
+  bottom: 70px;
+  left: 0;
+}
+.container .chatting-container .chat-controls .wrapper .attachment .attachment-wrapper .emoji-picker-container .epr-search-container > input {
+  padding-left: 2rem;
 }
 .container .chatting-container .chat-controls .wrapper .typing-section {
   flex: 1 0 0%;

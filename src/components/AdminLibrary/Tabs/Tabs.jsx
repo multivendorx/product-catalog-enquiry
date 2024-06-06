@@ -36,7 +36,7 @@ const Tabs = (props) => {
           {menuCol
             ? null
             : !appLocalizer.pro_active &&
-              tab.proDependent && <span class="admin-pro-tag">Pro</span>}
+            tab.proDependent && <span class="admin-pro-tag">Pro</span>}
         </div>
         <div>
           <p className="menu-name">{menuCol ? null : tab.name}</p>
@@ -136,9 +136,8 @@ const Tabs = (props) => {
 
         {BannerSection && <BannerSection />}
         <div
-          className={`middle-container-wrapper ${
-            props.horizontally ? "horizontal-tabs" : "vertical-tabs"
-          }`}
+          className={`middle-container-wrapper ${props.horizontally ? "horizontal-tabs" : "vertical-tabs"
+            }`}
         >
           <div
             className={`${menuCol ? "showMenu" : ""} middle-child-container`}
@@ -147,7 +146,7 @@ const Tabs = (props) => {
               <div className="brand">
                 <img className="logo" src={menuCol ? BrandSmall : Brand} alt="Logo" />
                 <img className="logo-small" src={BrandSmall} alt="Logo" />
-                {menuCol ? null : <p>MooWoodle</p>}
+                {menuCol ? null : <p>Product Catalog Enquiry</p>}
               </div>
               <div className="current-tab-lists-container">
                 {tabData.map(({ type, content }) => {
@@ -161,9 +160,8 @@ const Tabs = (props) => {
                       {showHideMenu(content[0].content)}
                       {
                         <div
-                          className={`subtab-wrapper ${menuCol && "show"} ${
-                            openedSubtab == content[0].content.id && "active"
-                          }`}
+                          className={`subtab-wrapper ${menuCol && "show"} ${openedSubtab == content[0].content.id && "active"
+                            }`}
                         >
                           {content.slice(1).map(({ type, content }) => {
                             return showTabSection(content);
