@@ -1,52 +1,63 @@
 import React from 'react';
+import Select from 'react-select';
 import './GridTable.scss';
-import './GridTable.scss';
-
 const GridTable = (props) => {
-    const { rows, columns, description } = props;
+    const { rows, columns, onChange, setting } = props;
     return (
         <>
-            {description && <p className='settings-metabox-description'>{description}</p>}
             <table className='grid-table'>
                 <thead>
                     <tr>
                         <th></th>
                         {
-                            columns.map((element) => {
-                                return <th>{element.label}</th>
+                            columns.map((row) => {
+                                return <th>{row.label}</th>
                             })
                         }
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        rows.map((element) => {
-                            // console.log(element.options)
+                        rows.map((row) => {
+                            // console.log(row.options)
                             return (
                                 <tr>
-                                    <td>{element.label}</td>
-                                    {columns.map((column) => (
-                                        <td key={column.key}>
-                                            {element.options ? (
-
-                                                <select name="" id="" >
-                                                    {element.options.map((option, index) => (
-
-                                                        <option>
-                                                            {option.label}
-                                                        </option>
-                                                    ))}
-                                                </select>
-
-                                            ) : (
-                                                <input type="checkbox" />
-                                            )}
-                                        </td>
-                                    ))}
-
+                                    <td >{row.label}</td>
+                                    {columns.map((column) => {
+                                        // Find key and value for each cell.
+                                        let key = column.key + "_" + row.key;
+                                        let value = setting[key] || [];
+                                        return (
+                                            <td id='grid-table-cell' className='grid-table-cell-class' key={column.key}>
+                                                {
+                                                    row.options &&
+                                                    <Select
+                                                        value={value}
+                                                        onChange={(newValue) => {
+                                                            onChange(key, newValue);
+                                                        }}
+                                                        options={row.options}
+                                                        isMulti
+                                                    />
+                                                }
+                                                {
+                                                    !row.options &&
+                                                    <input
+                                                        placeholder='select'
+                                                        type="checkbox"
+                                                        onChange={(e) => {
+                                                            let key = column.key + '_' + row.key;
+                                                            if (e.target.checked) {
+                                                                onChange(key, e.target.checked);
+                                                            }
+                                                        }}
+                                                    />
+                                                }
+                                            </td>
+                                        )
+                                    })}
                                 </tr>
                             );
-
                         })
                     }
                 </tbody>
@@ -54,5 +65,4 @@ const GridTable = (props) => {
         </>
     )
 }
-
 export default GridTable;

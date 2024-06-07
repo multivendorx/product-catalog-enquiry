@@ -7,7 +7,7 @@ import Popoup from "../PopupContent/PopupContent";
 import CustomTable, {
   TableCell,
 } from "../AdminLibrary/CustomTable/CustomTable";
-// import "./subscribersList.scss";
+import './quoteRequests.scss';
 
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main style file
@@ -25,7 +25,7 @@ export default function QuotesList() {
   const [subscribersStatus, setSubscribersStatus] = useState(null);
   const [openDatePicker, setOpenDatePicker] = useState(false);
 
-  const handleDateOpen = ()=>{
+  const handleDateOpen = () => {
     setOpenDatePicker(!openDatePicker);
   }
 
@@ -78,11 +78,11 @@ export default function QuotesList() {
     );
   };
 
-  const filterForCSV = ( datas ) => {
-    if ( selectedRows.length ) {
+  const filterForCSV = (datas) => {
+    if (selectedRows.length) {
       datas = selectedRows;
-    } 
-    return datas.map(({order, date, status, total}) => { return {order, date, status, total} } );
+    }
+    return datas.map(({ order, date, status, total }) => { return { order, date, status, total } });
   }
 
   useEffect(() => {
@@ -95,11 +95,11 @@ export default function QuotesList() {
 
   useEffect(() => {
     document.body.addEventListener("click", (event) => {
-        if (! dateRef?.current?.contains(event.target) ) {
-          setOpenDatePicker(false);
-        }
+      if (!dateRef?.current?.contains(event.target)) {
+        setOpenDatePicker(false);
+      }
     })
-}, [])
+  }, [])
 
   const realtimeFilter = [
     {
@@ -107,11 +107,11 @@ export default function QuotesList() {
       render: (updateFilter, filterValue) => {
         const [inputValue, setInputValue] = useState('');
         const [suggestions, setSuggestions] = useState([]);
-  
+
         const handleChange = async (e) => {
           const { value } = e.target;
           setInputValue(value);
-  
+
           // Fetch suggestions when input length is greater than or equal to 2
           if (value.length >= 2) {
             const response = await axios.get(`${appLocalizer.apiUrl}/catalog/v1/customer-names`);
@@ -127,11 +127,11 @@ export default function QuotesList() {
             // Clear suggestions when input length is less than 2
             setSuggestions([]);
           }
-  
+
           // Update filter value
           updateFilter("productNameField", value);
         };
-  
+
         return (
           <>
             <div className="admin-header-search-section">
@@ -165,17 +165,17 @@ export default function QuotesList() {
       render: (updateFilter, filterValue) => (
         <>
           <div className="admin-header-search-section">
-            <select 
+            <select
               name="statusField"
               placeholder={__("All Statuses", "woocommerce-catalog-enquiry")}
               onChange={(e) => updateFilter(e.target.name, e.target.value)}
               value={filterValue || ""}
             >
-            <option value="">All statuses</option>
-            <option value="wc-quote-new">New Quote Request</option>
-            <option value="wc-quote-expired">Expired Quote</option>
-            <option value="wc-quote-rejected">Rejected Quote</option>
-            </select> 
+              <option value="">All statuses</option>
+              <option value="wc-quote-new">New Quote Request</option>
+              <option value="wc-quote-expired">Expired Quote</option>
+              <option value="wc-quote-rejected">Rejected Quote</option>
+            </select>
           </div>
         </>
       ),
@@ -185,28 +185,30 @@ export default function QuotesList() {
       render: (updateFilter, value) => (
         <div ref={dateRef}>
           <div className="admin-header-search-section">
-            <input value={`${selectedRange[0].startDate.toLocaleDateString()} - ${selectedRange[0].endDate.toLocaleDateString()}`} onClick={()=>handleDateOpen()} className="date-picker-input-custom" type="text" placeholder={__("DD/MM/YYYY", "woocommerce-catalog-enquiry")} />
+            <input value={`${selectedRange[0].startDate.toLocaleDateString()} - ${selectedRange[0].endDate.toLocaleDateString()}`} onClick={() => handleDateOpen()} className="date-picker-input-custom" type="text" placeholder={__("DD/MM/YYYY", "woocommerce-catalog-enquiry")} />
           </div>
           {openDatePicker &&
-            <DateRangePicker
-              ranges={selectedRange}
-              months={1}
-              direction="vertical"
-              scroll={{ enabled: true }}
-              maxDate={ new Date() }
-              shouldDisableDate={date => isAfter(date, new Date())}
-              onChange={(dates) => {
-                if (dates.selection) {
-                  dates = dates.selection;
-                  dates.endDate?.setHours(23, 59, 59, 999)
-                  setSelectedRange([dates])
-                  updateFilter("date", {
-                    start_date: dates.startDate,
-                    end_date: dates.endDate,
-                  });
-                }
-              }}
-            />
+            <div className="date-picker-section-wrapper">
+              <DateRangePicker
+                ranges={selectedRange}
+                months={1}
+                direction="vertical"
+                scroll={{ enabled: true }}
+                maxDate={new Date()}
+                shouldDisableDate={date => isAfter(date, new Date())}
+                onChange={(dates) => {
+                  if (dates.selection) {
+                    dates = dates.selection;
+                    dates.endDate?.setHours(23, 59, 59, 999)
+                    setSelectedRange([dates])
+                    updateFilter("date", {
+                      start_date: dates.startDate,
+                      end_date: dates.endDate,
+                    });
+                  }
+                }}
+              />
+            </div>
           }
         </div>
       ),
@@ -217,9 +219,9 @@ export default function QuotesList() {
   const columns = [
     {
       name: __("Order", "woocommerce-catalog-enquiry"),
-      cell: (row) => 
+      cell: (row) =>
         <TableCell title="Order" >
-          <p>{ row.order }</p> 
+          <p>{row.order}</p>
         </TableCell>,
     },
     {
@@ -241,7 +243,7 @@ export default function QuotesList() {
 
   return (
     <div>
-      { ! appLocalizer.pro_active ? (
+      {!appLocalizer.pro_active ? (
         <div>
           <Dialog
             className="admin-module-popup"
@@ -276,29 +278,29 @@ export default function QuotesList() {
                 filename={"Quotes.csv"}
                 className="admin-btn btn-purple"
               >
-               <div className="wp-menu-image dashicons-before dashicons-download"></div>
+                <div className="wp-menu-image dashicons-before dashicons-download"></div>
                 {__("Download CSV", "woocommerce-catalog-enquiry")}
               </CSVLink>
             </div>
           </div>
 
-            {
-                <CustomTable
-                data={data}
-                columns={columns}
-                selectable = {true}
-                handleSelect = {(selectRows) => {
-                  setSelectedRows(selectRows);
-                }}
-                handlePagination={requestApiForData}
-                defaultRowsParPage={10}
-                defaultTotalRows={totalRows}
-                perPageOption={[10, 25, 50]}
-                realtimeFilter={realtimeFilter}
-                typeCounts={subscribersStatus}
-              />
-            }
-          </div>
+          {
+            <CustomTable
+              data={data}
+              columns={columns}
+              selectable={true}
+              handleSelect={(selectRows) => {
+                setSelectedRows(selectRows);
+              }}
+              handlePagination={requestApiForData}
+              defaultRowsParPage={10}
+              defaultTotalRows={totalRows}
+              perPageOption={[10, 25, 50]}
+              realtimeFilter={realtimeFilter}
+              typeCounts={subscribersStatus}
+            />
+          }
+        </div>
       )}
     </div>
   );

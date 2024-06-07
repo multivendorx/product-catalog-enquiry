@@ -51,6 +51,10 @@ $color-active: #65438f;
                         flex-shrink: 0;
                         flex-basis: 0;
                         font-weight: 500;
+
+                        &:first-child {
+                            max-width: 150px;
+                        }
                     }
                 }
             }
@@ -75,6 +79,11 @@ $color-active: #65438f;
                         flex-grow: 1;
                         flex-shrink: 0;
                         flex-basis: 0;
+                        padding: 0 1rem;
+
+                        &:first-child {
+                            max-width: 150px;
+                        }
 
                         input[type=checkbox] {
                             width: fit-content;

@@ -357,8 +357,9 @@ $color-active: #65438f;
                 transition: all 0.3s linear;
                 align-items: flex-start;
                 justify-content: flex-start;
-                
-                button, a {
+
+                button,
+                a {
                   background: transparent;
                   font-size: 0.75rem;
                   font-weight: 500;
