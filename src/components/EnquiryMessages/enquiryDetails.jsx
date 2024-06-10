@@ -7,9 +7,11 @@ import EmojiPicker from 'emoji-picker-react';
 const EnquiryDetails = (props) => {
     const { enquiry, onDelete } = props;
     const [enquiryDetails, setEnquiryDetails] = useState([]);
+
     const scrollDiv = useRef(null);
     const [message, setMessage] = useState('');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [SelectEmoji, setSelectEmoji] = useState(null);
     const [reactionOpen, setReactionOpen] = useState(null);
     const [chatTextBtnOpen, setChatTextBtnOpen] = useState(null);
     const [file, setFile] = useState(null);
@@ -147,12 +149,17 @@ const EnquiryDetails = (props) => {
                 emoji: emojiObject.emoji,
             },
         }).then((response) => {
-            });
+            fetchData();
+            setSelectEmoji(emojiObject.emoji);
+            setReactionOpen(null);
+        });
         // console.log(emojiObject.names)
         console.log(emojiObject.emoji)
         console.log(id)
 
     }
+
+    
 
     // const buttonRef = useRef();
     // useEffect(() => {
@@ -224,13 +231,14 @@ const EnquiryDetails = (props) => {
                                                             <i className="admin-font font-check" />
                                                         </div>
                                                         <div className='reaction-view'>
-                                                            😆
+                                                            {enquiryDetail.reaction !== null ? enquiryDetail.reaction : '😆'}
                                                         </div>
+
                                                     </div>
                                                     <div className={`${(reactionOpen === index || chatTextBtnOpen === index) ? 'active' : ''} section-reaction`}>
                                                         {reactionOpen === index &&
                                                             <div className='reaction-wrapper'>
-                                                                <EmojiPicker allowExpandReactions={false} reactionsDefaultOpen={true} onEmojiClick={onReactionClick} />
+                                                                <EmojiPicker allowExpandReactions={false} reactionsDefaultOpen={true} onEmojiClick={(event, emojiObject) => onReactionClick(enquiryDetail.id, event, emojiObject)} />
                                                             </div>
                                                         }
                                                         {chatTextBtnOpen === index &&

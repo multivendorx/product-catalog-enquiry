@@ -28,7 +28,12 @@ const App = () => {
         }
     });
     
-    return <ModuleProvider modules = {appLocalizer.active_modules}><Route/></ModuleProvider> 
+    return (
+    <>
+    <ModuleProvider modules = {appLocalizer.active_modules}><Route/></ModuleProvider>
+    </>
+
+    )
    
 }
 

@@ -31,18 +31,31 @@ export default {
         //         }
         //     ]
         // },
-        {
-            key: 'is_disable_popup',
-            type: 'checkbox',
-            label: __( "Display Enquiry form via popup", 'woocommerce-catalog-enquiry' ),
-            options: [
-                {
-                    key: "is_disable_popup",
-                    label: __('By default the form will be displayed via popup. Enable this, if you want to display the form below the product description.', 'woocommerce-catalog-enquiry'),
-                    value: "is_disable_popup"
-                }
-            ]
-        },
+        
+        // {
+        //     key: 'redirect_page_id',
+        //     dependent: {
+        //         key: "is_page_redirect",
+        //         set: true
+        //     },
+        //     type: 'select',
+        //     label:  __( 'Set Redirect Page', 'woocommerce-catalog-enquiry' ),
+        //     desc: __( 'Select page where user will be redirected after successful enquiry.', 'woocommerce-catalog-enquiry' ),
+        //     options: appLocalizer.pages_array,
+        // },
+
+        // {
+        //     key: 'is_disable_popup',
+        //     type: 'checkbox',
+        //     label: __( "Display Enquiry form via popup", 'woocommerce-catalog-enquiry' ),
+        //     options: [
+        //         {
+        //             key: "is_disable_popup",
+        //             label: __('By default the form will be displayed via popup. Enable this, if you want to display the form below the product description.', 'woocommerce-catalog-enquiry'),
+        //             value: "is_disable_popup"
+        //         }
+        //     ]
+        // },
         {
             key: 'is_enable_add_to_cart',
             type: 'checkbox',
@@ -56,19 +69,19 @@ export default {
             ],
             proSetting: true,
         },
-        {
-            key: 'is_enable_multiple_product_enquiry',
-            type: 'checkbox',
-            label: __( "Enable Multiple Enquiry Cart", 'woocommerce-catalog-enquiry' ),
-            options: [
-                {
-                    key: "is_enable_multiple_product_enquiry",
-                    label: __(`Enable this checkbox to allow multiple product enquiry via enquiry cart. Also multiple enquiry product displays on the cart ${ appLocalizer.widget_url }`, 'woocommerce-catalog-enquiry'),
-                    value: "is_enable_multiple_product_enquiry"
-                }
-            ],
-            proSetting: true,
-        },
+        // {
+        //     key: 'is_enable_multiple_product_enquiry',
+        //     type: 'checkbox',
+        //     label: __( "Enable Multiple Enquiry Cart", 'woocommerce-catalog-enquiry' ),
+        //     options: [
+        //         {
+        //             key: "is_enable_multiple_product_enquiry",
+        //             label: __(`Enable this checkbox to allow multiple product enquiry via enquiry cart. Also multiple enquiry product displays on the cart ${ appLocalizer.widget_url }`, 'woocommerce-catalog-enquiry'),
+        //             value: "is_enable_multiple_product_enquiry"
+        //         }
+        //     ],
+        //     proSetting: true,
+        // },
         
         // {
         //     key: 'redirect_page',
@@ -106,6 +119,6 @@ export default {
                     value: "notify_me_button"
                 }
             ]
-        }
+        },
     ]
 };
