@@ -45,5 +45,13 @@ export default {
             options: appLocalizer.pages_array,
             proSetting: true,
         },
+        {
+            key: 'set_request_quote_page',
+            type: 'select',
+            label: __("Set Request Quote Page", "woocommerce-catalog-enquiry"),
+            desc: __("Select the request quote page", "woocommerce-catalog-enquiry"),
+            options: appLocalizer.pages_array,
+            proSetting: true,
+        },
     ]
 }

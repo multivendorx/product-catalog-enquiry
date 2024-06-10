@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './SubTabSection.scss';
 import { Link } from 'react-router-dom';
 
-const SubTabSection = ({ menuitem }) => {
+const SubTabSection = ({ menuitem, currentTab, SetCurrentTab }) => {
     const [menuIndex, setMenuIndex] = useState(1);
     const [metaMenu, setMetaMenu] = useState(menuitem[0]);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -12,7 +12,8 @@ const SubTabSection = ({ menuitem }) => {
     const handleMenu = (e, index, meta) => {
         e.preventDefault();
         setMenuIndex(index);
-        setMetaMenu(meta)
+        setMetaMenu(meta);
+        SetCurrentTab(meta.id)
     }
 
     const handleMenuOpen = () => {

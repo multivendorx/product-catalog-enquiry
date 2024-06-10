@@ -9,7 +9,7 @@ const CartComponents = ( { enquiry } ) => {
             <div className="container-wrapper">
                 {enquiry.product.map((items, index)=>{
                     return (
-                        <Products productKey={index} productItems={items} />
+                        <Products productKey={index} productItems={items} quantity={enquiry.quantity}/>
                     )
                 })}
             </div>

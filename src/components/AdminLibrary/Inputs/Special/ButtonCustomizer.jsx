@@ -368,7 +368,7 @@ const Customizer = (props) => {
   );
 };
 const ButtonCustomizer = (props) => {
-  console.log(props)
+  // console.log(props)
   const { onChange } = props;
   const [hoverOn, setHoverOn] = useState(false);
   const [buttonHoverOn, setButtonHoverOn] = useState(false);

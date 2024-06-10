@@ -499,11 +499,6 @@ const DynamicForm = (props) => {
 
         case "select":
           let options = inputField.options;
-          // Check if option present in applocalizer.
-          if (typeof options === "string") {
-            options = appLocalizer[options];
-          }
-
           input = (
             <CustomInput.SelectInput
               wrapperClass="form-select-field-wrapper"
@@ -513,9 +508,10 @@ const DynamicForm = (props) => {
               options={options}
               value={value}
               proSetting={isProSetting(inputField.proSetting)}
-              onChange={(e, data) => {
+              onChange={(data) => {
                 if (!proSettingChanged(inputField.proSetting)) {
-                  handleChange(e, inputField.key, "single", "select", data);
+                  settingChanged.current = true;
+                  updateSetting(inputField.key, data.value)
                 }
               }}
             />

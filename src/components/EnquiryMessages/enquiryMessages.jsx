@@ -6,11 +6,7 @@ import "./enquiryMessages.scss";
 const EnquiryMessages = (props) => {
     const [enquiryLists, setEnquiryLists] = useState([]);
     const [selectedEnquiry, setSelectedEnquiry] = useState(null);
-
-    const handleEnquiryClick = (enquiry) => {
-        setSelectedEnquiry(enquiry);
-    };
-    // console.log(selectedEnquiry)
+    const [filterValue, SetFilterValue] = useState('');
 
     useEffect(() => {
         axios({
@@ -19,18 +15,56 @@ const EnquiryMessages = (props) => {
         }).then((response) => {
             setEnquiryLists(response.data);
         });
-
-        // const fetchData = async () => {
-        //     try {
-        //         const response = await axios.get(`${appLocalizer.apiUrl}/catalog/v1/get-enquiry-list`);
-        //         // console.log(response.data)
-        //         setEnquiryLists(response.data);
-        //     } catch (error) {
-        //         console.error('Error fetching enquiry:', error);
-        //     }
-        // };
-        // fetchData(); 
     }, []);
+
+    const handleEnquiryClick = (enquiry) => {
+        setSelectedEnquiry(enquiry);
+    };
+
+    const handleSearch = (e) => {
+        SetFilterValue(e.target.value)
+
+    };
+
+    const productContain = (productList, filter) => {
+        return productList.find((product)=> {
+            console.log(product)
+            if (product.name.includes(filterValue)) {
+                return true;
+            }
+
+            if (product.sku.includes(filterValue)) {
+                return true;
+            }
+            return false;
+        });
+    };
+
+    const getFilterEnquiryList = () => {
+        if (!filterValue) {
+            return enquiryLists;
+        }
+
+        return enquiryLists.filter((enquiryList)=> {
+            if (enquiryList.id == filterValue ) {
+                return true
+            }
+
+            if (enquiryList.name == filterValue ) {
+                return true
+            }
+
+            if ( productContain(enquiryList.product, filterValue)) {
+                return true;
+            }
+
+            return false;
+        });
+        // return [...enquiryLists];
+    };
+
+    console.log(enquiryLists)
+
     return (
         <div className="container">
             <div className="chat-list">
@@ -38,13 +72,14 @@ const EnquiryMessages = (props) => {
                     <div className="header-container">
                         <div className="header-heading">
                             <h1>MultivendorX</h1>
-                            <span className="total-message">(50)</span>
+                            <span className="total-message">({enquiryLists.length})</span>
                         </div>
                         <div className="search-option">
                             <input
                                 className="search-input"
                                 type="text"
                                 placeholder="Search here..."
+                                onChange={(e) => handleSearch(e)}
                             />
                             <button className="search-btn">
                                 <i className="admin-font font-search" />
@@ -56,7 +91,7 @@ const EnquiryMessages = (props) => {
                     <h5 className="recent-message">Recent Message</h5>
                     <div className="chat-container-wrapper">
                         <ul>
-                            {enquiryLists.map((enquiry, index) => (
+                            {getFilterEnquiryList().map((enquiry, index) => (
                                 <li>
                                     <button className="chat-item active" onClick={() => handleEnquiryClick(enquiry)}>
                                         <div className="chat-item-container">

@@ -35,7 +35,7 @@ const Profile = ({ showProfile, handleProfile, enquiry }) => {
             <div className='title'>All products</div>
               <div className='products-container'>
                 {enquiry.product.map((items, index)=>{
-                  return <Products productKey={index} productItems={items} />
+                  return <Products productKey={index} productItems={items} quantity={enquiry.quantity} />
                 })}
               </div>
           </div>
