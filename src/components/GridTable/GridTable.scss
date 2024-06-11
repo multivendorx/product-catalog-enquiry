@@ -135,6 +135,296 @@ $color-active: #65438f;
                         .transition {
                             transition: 300ms linear;
                         }
+
+
+                        .grid-table-main-container {
+                            position: relative;
+                            max-width: 250px;
+                            width: 100%;
+
+                            .main-container {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 0.5rem;
+
+                                .selected-container {
+                                    border: 0.115rem solid rgba(0, 0, 0, 0.125);
+                                    border-radius: 0;
+                                    height: 40px;
+                                    padding: 0.5rem 0.5rem;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    gap: 0.25rem;
+                                    background-color: $color-white;
+                                    position: relative;
+                                    width: 100%;
+
+                                    .selected-items-container {
+                                        display: flex;
+                                        height: 100%;
+                                        align-items: center;
+                                        justify-content: flex-start;
+                                        gap: 0.25rem;
+                                        max-width: calc(100% - 40px);
+                                        flex-wrap: wrap;
+                                        overflow: hidden;
+
+                                        .selected-items {
+                                            max-width: 80px;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: space-between;
+                                            gap: 0.25rem;
+                                            padding: 0.15rem 0.25rem;
+                                            border-radius: 0.25rem;
+                                            font-size: 0.75rem;
+                                            background: #f2eeee;
+
+                                            span {
+                                                text-overflow: ellipsis;
+                                                overflow: hidden;
+                                            }
+
+                                            button {
+                                                background: transparent;
+                                                padding: 0;
+                                            }
+                                        }
+                                    }
+
+                                    .container-items-controls {
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        width: 40px;
+
+                                        .clear-all-data {
+                                            background: transparent;
+                                            border-radius: 50%;
+                                            transition: all 0.3s linear;
+                                            cursor: pointer;
+                                            width: 20px;
+                                            height: 20px;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            padding: 0;
+                                            font-size: 0.75rem;
+
+                                            &:hover {
+                                                background-color: $body-background;
+                                            }
+                                        }
+
+                                        .open-modal {
+                                            width: 20px;
+                                            height: 20px;
+                                            border-radius: 50%;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            padding: 0;
+                                            font-size: 0.65rem;
+                                            color: $color-white;
+                                            background: #65438f;
+                                            cursor: pointer;
+                                        }
+                                    }
+
+
+                                }
+
+                                .selected-input {
+                                    position: relative;
+
+                                    input {
+                                        background: $color-white;
+                                        margin: 0;
+
+                                        &:focus {
+                                            outline: none;
+                                        }
+                                    }
+
+                                    span {
+                                        position: absolute;
+                                        top: 7px;
+                                        right: 5px;
+
+                                        i {
+                                            font-size: 1.15rem;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .option-container {
+                                position: absolute;
+                                top: 105%;
+                                z-index: 8;
+                                width: 100%;
+                                background: #fff;
+                                display: flex;
+                                padding: 0.5rem;
+                                border: 0.115rem solid rgba(0, 0, 0, 0.125);
+                                flex-direction: column;
+                                gap: 0.25rem;
+
+                                .options-item {
+                                    cursor: pointer;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .main-modal-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 1px solid red;
+        background-color: rgba($color: #000000, $alpha: 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+
+        .wrapper {
+            max-width: 500px;
+            height: 400px;
+            width: 100%;
+            background-color: $color-white;
+            border-radius: 0.25rem;
+            padding: 1.25rem;
+
+            .wrapper-heading {
+                padding-bottom: 0.5rem;
+                border-bottom: 0.115rem solid rgba(0, 0, 0, 0.125);
+
+                h1 {
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                }
+            }
+
+            .wrapper-content-container {
+                padding-top: 1.25rem;
+
+                .modal-content-section {
+                    position: relative;
+                    width: 100%;
+
+                    .modal-main-content-section {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
+
+                        .container-controls {
+                            border: 0.115rem solid rgba(0, 0, 0, 0.125);
+                            border-radius: 0;
+                            height: 40px;
+                            padding: 0.5rem 0.5rem;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            gap: 0.25rem;
+                            background-color: #fff;
+                            position: relative;
+                            width: 100%;
+
+                            .items-container {
+                                display: flex;
+                                height: 100%;
+                                align-items: center;
+                                justify-content: flex-start;
+                                gap: 0.25rem;
+                                max-width: calc(100% - 40px);
+                                flex-wrap: wrap;
+                                overflow: hidden;
+
+                                .selected-items {
+                                    max-width: 80px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    gap: 0.25rem;
+                                    padding: 0.15rem 0.25rem;
+                                    border-radius: 0.25rem;
+                                    font-size: 0.75rem;
+                                    background: #f2eeee;
+
+                                    button {
+                                        background: transparent;
+                                        padding: 0;
+                                    }
+
+                                    span {
+                                        text-overflow: ellipsis;
+                                        overflow: hidden;
+                                    }
+                                }
+                            }
+
+                            .controls-section {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                width: 40px;
+
+                                button {
+                                    background: transparent;
+                                    border-radius: 50%;
+                                    transition: all 0.3s linear;
+                                    cursor: pointer;
+                                    width: 20px;
+                                    height: 20px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    padding: 0;
+                                    font-size: 0.75rem;
+                                }
+                            }
+                        }
+
+                        .select-div {
+                            position: relative;
+
+                            input {
+                                background: #fff;
+                                margin: 0;
+                            }
+
+                            span {
+                                position: absolute;
+                                top: 7px;
+                                right: 5px;
+
+                                i {
+                                    font-size: 1.15rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .selectable-option {
+                        position: absolute;
+                        top: 105%;
+                        z-index: 8;
+                        width: 100%;
+                        background: #fff;
+                        display: flex;
+                        padding: 0.5rem;
+                        border: 0.115rem solid rgba(0, 0, 0, 0.125);
+                        flex-direction: column;
+                        gap: 0.25rem;
                     }
                 }
             }
