@@ -119,8 +119,7 @@ const EnquiryMessages = (props) => {
                     </div>
                 </div>
             </div>
-            {selectedEnquiry && <EnquiryDetails enquiry={selectedEnquiry} />
-            }
+            {selectedEnquiry && <EnquiryDetails enquiry={selectedEnquiry} />}
         </div>
     );
 }

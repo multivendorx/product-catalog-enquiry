@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 
 export default {
-    id: 'mode',
+    id: 'role_based_permission',
     priority: 60,
     name: __("Role-Based Permission", "woocommerce-catalog-enquiry"),
     desc: __("Role-Based Permission", "woocommerce-catalog-enquiry"),

@@ -3,15 +3,15 @@ namespace CatalogEnquiry\catalog;
 use CatalogEnquiry\Utill;
 class Module {
     public function __construct() {
-        $catalog_mode_user_type = Catalog()->setting->get_setting( 'for_user_type' );
+        // $catalog_mode_user_type = Catalog()->setting->get_setting( 'for_user_type' );
 
-        if ($catalog_mode_user_type == 'all_users') {
+        // if ($catalog_mode_user_type == 'all_users') {
             add_action('init', [$this, 'main' ], 10);
-        } else if ($catalog_mode_user_type == 'logged_out' && !is_user_logged_in()) {
-            add_action('init', [$this, 'main' ], 10);
-        } else if ($catalog_mode_user_type == 'logged_in' && is_user_logged_in()) {
-            add_action('init', [$this, 'main' ], 10);
-        }
+        // } else if ($catalog_mode_user_type == 'logged_out' && !is_user_logged_in()) {
+        //     add_action('init', [$this, 'main' ], 10);
+        // } else if ($catalog_mode_user_type == 'logged_in' && is_user_logged_in()) {
+        //     add_action('init', [$this, 'main' ], 10);
+        // }
     }
 
     function main() {
@@ -21,7 +21,7 @@ class Module {
         add_action('template_redirect', [$this, 'redirect_cart_checkout_page' ], 10);
 
 		add_action('woocommerce_single_product_summary', [$this, 'display_description_box'], 35);
-		add_action('woocommerce_single_product_summary', [$this, 'display_button'], 35);
+		// add_action('woocommerce_single_product_summary', [$this, 'display_button'], 35);
         add_action('woocommerce_single_product_summary', [$this, 'add_variation_product'], 29);
 
         // $display_desc = Catalog()->setting->get_setting( 'display_description' );

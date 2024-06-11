@@ -28,10 +28,6 @@ const EnquiryNavbar = (props) => {
         setShowProfile(!showProfile);
     };
 
-    const handleMsgSearch = (e) => {
-        console.log(e)
-    }
-
     return (
         <>
             <div className="header">
@@ -54,7 +50,7 @@ const EnquiryNavbar = (props) => {
                     <ul>
                         <li className="chat-more-option-item">
                             <div class="input-container">
-                                <input placeholder="Search..." class="input" type="text"  onChange={(e) => handleMsgSearch(e)} />
+                                <input placeholder="Search..." class="input" type="text"  onChange={(e) => { props.onChange?.(e) }} />
                                 <i className="admin-font icon font-search" />
                             </div>
                         </li>

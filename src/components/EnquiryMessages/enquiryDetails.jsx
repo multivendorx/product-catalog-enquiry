@@ -7,7 +7,7 @@ import EmojiPicker from 'emoji-picker-react';
 const EnquiryDetails = (props) => {
     const { enquiry, onDelete } = props;
     const [enquiryDetails, setEnquiryDetails] = useState([]);
-
+    const [searchValue, SetSearchValue] = useState('');
     const scrollDiv = useRef(null);
     const [message, setMessage] = useState('');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -154,30 +154,54 @@ const EnquiryDetails = (props) => {
             setReactionOpen(null);
         });
         // console.log(emojiObject.names)
-        console.log(emojiObject.emoji)
-        console.log(id)
+        // console.log(emojiObject.emoji)
+        // console.log(id)
 
     }
 
-    
+    const handleMsgSearch = (e) => {
+        SetSearchValue(e.target.value);
+        console.log(e.target.value)
+    }
 
-    // const buttonRef = useRef();
-    // useEffect(() => {
-    //     document.body.addEventListener("click", (event) => {
-    //     if (!buttonRef?.current.contains(event.target)) {
-    //         setChatTextBtnOpen(null);
-    //     }
-    //     })
-    // },[])
+    const handleDeleteThisMsg = (id, msg) => {
+        console.log(id)
+        console.log(msg)
+        axios({
+            method: "post",
+            url: `${appLocalizer.apiUrl}/catalog/v1/delete-msg`,
+            data: {
+                msgId: id,
+                msg: msg,
+            },
+        }).then((response) => {
+            fetchData();
+        });
+
+    };
+
+    const getFilterEnquiryDetails = () => {
+        if (!searchValue) {
+            return enquiryDetails;
+        }
+
+        return enquiryDetails.filter((enquiryDetail)=> {
+            if (enquiryDetail.msg.includes(searchValue)) {
+                return true;
+            }
+            return false;
+        });
+        // return [...enquiryDetails];
+    };
 
     return (
         <>
             <div className="chatting-container">
                 <div className="chat-wrapper">
-                    <EnquiryNavbar enquiry={enquiry} />
+                    <EnquiryNavbar enquiry={enquiry}  onChange={(e) => handleMsgSearch(e)} />
                     <div className="chatting-main-container" ref={scrollDiv} >
                         <ul className="wrapper" >
-                            {enquiryDetails.map((enquiryDetail, index) => (
+                            {getFilterEnquiryDetails().map((enquiryDetail, index) => (
                                 <>
                                 {enquiryDetail.admin_msg ? (
                                     <li key={index} className="send message-box">
@@ -193,7 +217,7 @@ const EnquiryDetails = (props) => {
                                                             <i className="admin-font font-check" />
                                                         </div>
                                                         <div className='reaction-view'>
-                                                            😆
+                                                            {enquiryDetail.reaction !== null ? enquiryDetail.reaction : '😆'}
                                                         </div>
                                                     </div>
                                                     <div className={`${(reactionOpen === index || chatTextBtnOpen === index) ? 'active' : ''} section-reaction`}>
@@ -205,7 +229,7 @@ const EnquiryDetails = (props) => {
                                                         {chatTextBtnOpen === index &&
                                                             <div className='chat-text-control-wrapper'>
                                                                 <button onClick={() => handleReplyOnThis(enquiryDetail.id, enquiryDetail.msg)}>Reply on this</button>
-                                                                <button>Delete this message</button>
+                                                                <button onClick={() => handleDeleteThisMsg(enquiryDetail.id, enquiryDetail.msg)}>Delete this message</button>
                                                             </div>
                                                         }
                                                         <button onClick={() => handleReactionOpen(index)}>
@@ -244,7 +268,7 @@ const EnquiryDetails = (props) => {
                                                         {chatTextBtnOpen === index &&
                                                             <div className='chat-text-control-wrapper'>
                                                                 <button onClick={() => handleReplyOnThis(enquiryDetail.id, enquiryDetail.msg)}>Reply on this</button>
-                                                                <button>Delete this message</button>
+                                                                <button onClick={() => handleDeleteThisMsg(enquiryDetail.id, enquiryDetail.msg)}>Delete this message</button>
                                                             </div>
                                                         }
                                                         <button onClick={() => handleReactionOpen(index)}>

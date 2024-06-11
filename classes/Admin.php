@@ -153,7 +153,7 @@ class Admin
         // Get all tab setting's database value
         $settings_databases_value = $active_modules = [];
         $active_modules = Catalog()->modules->get_active_modules();
-        $tabs_names = ['store_display', 'catalog', 'enquiry_general', 'enquiry_multiple_cart', 'enquiry_out_of_stock', 'enquiry_button_management', 'enquiry_exclusion', 'enquiry_form_customization', 'quote_general'];
+        $tabs_names = ['enquiry_catalog_customization', 'catalog', 'enquiry_general', 'enquiry_form_customization', 'enquiry_quote_exclusion', 'role_based_customization', 'tools', 'quote_general'];
         foreach ($tabs_names as $tab_name) {
             $settings_databases_value[$tab_name] = Catalog()->setting->get_option('catalog_' . $tab_name . '_settings');
         }
