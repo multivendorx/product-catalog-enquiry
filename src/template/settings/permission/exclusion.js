@@ -78,6 +78,10 @@ export default {
             ],
             columns: [
                 {
+                    key: "catalog_exclusion",
+                    label: __("Catalog Exclusion", "woocommerce-catalog-enquiry")
+                },
+                {
                     key: "enquiry_exclusion",
                     label: __("Enquiry Exclusion", "woocommerce-catalog-enquiry")
                 },

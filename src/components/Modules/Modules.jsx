@@ -38,32 +38,32 @@ const Modules = () => {
         <div className="module-option-row">
           {modulesArray.map((module) => (
             <div className="module-list-item">
-                { module.pro_module && <span className="admin-pro-tag">Pro</span> }
-                <div className="module-icon">
-                  <i className={`font ${module.icon}`}></i>
-                </div>
+              {module.pro_module && <span className="admin-pro-tag">Pro</span>}
+              <div className="module-icon">
+                <i className={`font ${module.icon}`}></i>
+              </div>
 
-                <div className="card-meta">
-                  <div className="meta-name">{module.name}</div>
-                  <p className="meta-description"> {module.desc} </p>
+              <div className="card-meta">
+                <div className="meta-name">{module.name}</div>
+                <p className="meta-description"> {module.desc} </p>
+              </div>
+              <div className="card-footer">
+                <div className="card-support">
+                  <button className="card-support-btn">Docs</button>
+                  <button className="card-support-btn">Setting</button>
                 </div>
-                <div className="card-footer">
-                 <div className="card-support">
-                    <button className="card-support-btn">Docs</button>
-                    <button className="card-support-btn">Setting</button>
-                 </div>
-                  <div className="toggle-checkbox-content">
-                    <input
-                      type="checkbox"
-                      className="woo-toggle-checkbox"
-                      id={`toggle-switch-${module.id}`}
-                      checked={modules.includes(module.id)}
-                      onChange={(e) => handleOnChange(e, module.id)}
-                    />
-                    <label htmlFor={`toggle-switch-${module.id}`} className="toggle-switch-is_hide_cart_checkout"></label>
-                  </div>
+                <div className="toggle-checkbox-content">
+                  <input
+                    type="checkbox"
+                    className="woo-toggle-checkbox"
+                    id={`toggle-switch-${module.id}`}
+                    checked={modules.includes(module.id)}
+                    onChange={(e) => handleOnChange(e, module.id)}
+                  />
+                  <label htmlFor={`toggle-switch-${module.id}`} className="toggle-switch-is_hide_cart_checkout"></label>
                 </div>
               </div>
+            </div>
           ))}
         </div>
       </div>
