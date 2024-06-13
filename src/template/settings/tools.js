@@ -4,7 +4,7 @@ export default {
     id: 'tools',
     priority: 50,
     name: __("Tools", "woocommerce-catalog-enquiry"),
-    desc: __("Tools", "woocommerce-catalog-enquiry"),
+    desc: __("Review all system logs and errors", "woocommerce-catalog-enquiry"),
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal : [

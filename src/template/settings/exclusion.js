@@ -3,8 +3,8 @@ import { __ } from '@wordpress/i18n';
 export default {
     id: 'enquiry_quote_exclusion',
     priority: 40,
-    name: __("Exclusion Management", "woocommerce-catalog-enquiry"),
-    desc: __("Exclusion Management", "woocommerce-catalog-enquiry"),
+    name: __("Exclusion Configuration Hub", "woocommerce-catalog-enquiry"),
+    desc: __("Configure exclusions for catalog viewing, inquiry submissions, and quote requests based on user roles and product attributes.", "woocommerce-catalog-enquiry"),
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal: [
