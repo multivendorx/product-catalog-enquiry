@@ -253,22 +253,6 @@
                     vertical-align: middle;
                     border-radius: 50%;
                   }
-
-                  .user-status {
-                    width: 10px;
-                    height: 10px;
-                    background-color: #adb5bd;
-                    border-radius: 50%;
-                    border: 2px solid #fff;
-                    position: absolute;
-                    right: 0;
-                    left: auto;
-                    bottom: 0;
-
-                    &.online {
-                      background-color: #06d6a0;
-                    }
-                  }
                 }
 
                 .chat-meta {

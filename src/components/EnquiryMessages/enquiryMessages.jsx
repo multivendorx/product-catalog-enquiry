@@ -97,7 +97,6 @@ const EnquiryMessages = (props) => {
                                         <div className="chat-item-container">
                                             <div className="chat-img">
                                                 <img src="https://shorturl.at/gGILQ" alt="" />
-                                                <span className="user-status online" />
                                             </div>
                                             <div className="chat-meta">
                                                 <p className="enquiry-id">#{enquiry.id}</p>
