@@ -19503,15 +19503,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _enquiryMessages__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enquiryMessages */ "./src/components/EnquiryMessages/enquiryMessages.jsx");
+
 
 
 const EnquiryControlsBtn = ({
   enquiry
 }) => {
+  // console.log(enquiry)
+  const handleDeleteEnq = id => {
+    console.log(id);
+    axios({
+      method: "post",
+      url: `${appLocalizer.apiUrl}/catalog/v1/delete-enquiry`,
+      data: {
+        id: id
+      }
+    }).then(response => {
+      (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_enquiryMessages__WEBPACK_IMPORTED_MODULE_1__["default"], null);
+    });
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
     className: "enquiry-control-btn"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    className: "control-btn"
+    className: "control-btn",
+    onClick: e => {
+      handleDeleteEnq(enquiry.id);
+    }
   }, "Delete Enquiry")));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EnquiryControlsBtn);
@@ -19677,6 +19695,7 @@ const EnquiryDetails = props => {
     onDelete
   } = props;
   const [enquiryDetails, setEnquiryDetails] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [searchValue, SetSearchValue] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const scrollDiv = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [showEmojiPicker, setShowEmojiPicker] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
@@ -19815,31 +19834,52 @@ const EnquiryDetails = props => {
       setReactionOpen(null);
     });
     // console.log(emojiObject.names)
-    console.log(emojiObject.emoji);
-    console.log(id);
+    // console.log(emojiObject.emoji)
+    // console.log(id)
   };
-
-  // const buttonRef = useRef();
-  // useEffect(() => {
-  //     document.body.addEventListener("click", (event) => {
-  //     if (!buttonRef?.current.contains(event.target)) {
-  //         setChatTextBtnOpen(null);
-  //     }
-  //     })
-  // },[])
-
+  const handleMsgSearch = e => {
+    SetSearchValue(e.target.value);
+    console.log(e.target.value);
+  };
+  const handleDeleteThisMsg = (id, msg) => {
+    console.log(id);
+    console.log(msg);
+    (0,axios__WEBPACK_IMPORTED_MODULE_4__["default"])({
+      method: "post",
+      url: `${appLocalizer.apiUrl}/catalog/v1/delete-msg`,
+      data: {
+        msgId: id,
+        msg: msg
+      }
+    }).then(response => {
+      fetchData();
+    });
+  };
+  const getFilterEnquiryDetails = () => {
+    if (!searchValue) {
+      return enquiryDetails;
+    }
+    return enquiryDetails.filter(enquiryDetail => {
+      if (enquiryDetail.msg.includes(searchValue)) {
+        return true;
+      }
+      return false;
+    });
+    // return [...enquiryDetails];
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chatting-container"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chat-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_enquiryNavbar_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    enquiry: enquiry
+    enquiry: enquiry,
+    onChange: e => handleMsgSearch(e)
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "chatting-main-container",
     ref: scrollDiv
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     className: "wrapper"
-  }, enquiryDetails.map((enquiryDetail, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, enquiryDetail.admin_msg ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+  }, getFilterEnquiryDetails().map((enquiryDetail, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, enquiryDetail.admin_msg ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
     key: index,
     className: "send message-box"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -19863,9 +19903,9 @@ const EnquiryDetails = props => {
     className: "status"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "admin-font font-check"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })), enquiryDetail.reaction !== null && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "reaction-view"
-  }, "\uD83D\uDE06")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, enquiryDetail.reaction)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `${reactionOpen === index || chatTextBtnOpen === index ? 'active' : ''} section-reaction`
   }, reactionOpen === index && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "reaction-wrapper"
@@ -19877,7 +19917,9 @@ const EnquiryDetails = props => {
     className: "chat-text-control-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: () => handleReplyOnThis(enquiryDetail.id, enquiryDetail.msg)
-  }, "Reply on this"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, "Delete this message")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, "Reply on this"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    onClick: () => handleDeleteThisMsg(enquiryDetail.id, enquiryDetail.msg)
+  }, "Delete this message")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: () => handleReactionOpen(index)
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "admin-font font-smile-o"
@@ -19906,9 +19948,9 @@ const EnquiryDetails = props => {
     className: "status"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "admin-font font-check"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })), enquiryDetail.reaction !== null && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "reaction-view"
-  }, enquiryDetail.reaction !== null ? enquiryDetail.reaction : '😆')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, enquiryDetail.reaction)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `${reactionOpen === index || chatTextBtnOpen === index ? 'active' : ''} section-reaction`
   }, reactionOpen === index && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "reaction-wrapper"
@@ -19920,7 +19962,9 @@ const EnquiryDetails = props => {
     className: "chat-text-control-wrapper"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: () => handleReplyOnThis(enquiryDetail.id, enquiryDetail.msg)
-  }, "Reply on this"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, "Delete this message")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, "Reply on this"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    onClick: () => handleDeleteThisMsg(enquiryDetail.id, enquiryDetail.msg)
+  }, "Delete this message")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: () => handleReactionOpen(index)
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "admin-font font-smile-o"
@@ -19942,7 +19986,10 @@ const EnquiryDetails = props => {
     className: "option-btn"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     htmlFor: "file"
-  }, "upload"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-attachment"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    className: "attachment-upload-input",
     type: "file",
     name: "",
     id: "file",
@@ -19959,20 +20006,28 @@ const EnquiryDetails = props => {
     autoFocusSearch: false,
     Theme: 'auto',
     skinTonesDisabled: true
-  })))), reply && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    dangerouslySetInnerHTML: {
-      __html: reply
-    }
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "typing-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
     name: "reply_msg",
     id: "reply_msg",
     value: message,
     onChange: e => setMessage(e.target.value)
-  }), file && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "File selected: ", file.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }), reply && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "reply-text-preview"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    dangerouslySetInnerHTML: {
+      __html: reply
+    }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-close"
+  }))), file && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "attachment-details-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, file.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: handleDeleteFile
-  }, "Delete"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-close"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "send"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "message-send-btn",
@@ -20154,9 +20209,6 @@ const EnquiryNavbar = props => {
     setShowControlsBtn(false);
     setShowProfile(!showProfile);
   };
-  const handleMsgSearch = e => {
-    console.log(e);
-  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "header"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -20189,7 +20241,9 @@ const EnquiryNavbar = props => {
     placeholder: "Search...",
     class: "input",
     type: "text",
-    onChange: e => handleMsgSearch(e)
+    onChange: e => {
+      props.onChange?.(e);
+    }
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "admin-font icon font-search"
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
@@ -20246,6 +20300,45 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const SelectModal = () => {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", {
+    className: "main-modal-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
+    className: "wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wrapper-heading"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", null, "Enquiry Exclusion for user role")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wrapper-content-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
+    className: "modal-content-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", {
+    className: "modal-main-content-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "container-controls"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
+    className: "items-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "selected-items"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Administrator"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    class: "admin-font font-close"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "controls-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    class: "clear-all-data"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    class: "admin-font font-close"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "select-div"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "text"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    class: "admin-font font-keyboard_arrow_down"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "selectable-option"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "options-item"
+  }, "Administrator")))))));
+};
 const Select = props => {
   const {
     values,
@@ -20262,7 +20355,7 @@ const Select = props => {
   // State variable for store option
   const [options, setOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(option || []);
 
-  // State variable for selec modal open
+  // State variable for select modal open
   const [modalOpen, setModelOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
 
   // State variable for track when search started for async sync
@@ -20271,7 +20364,7 @@ const Select = props => {
   // State variable for filter on options
   const [filter, setFilter] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
 
-  // Ref variable for setting changeed
+  // Ref variable for setting changed
   const settingChanged = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
 
   // Get the options
@@ -20337,7 +20430,7 @@ const Select = props => {
     });
   };
 
-  // Trigger onchage event when selected value changed
+  // Trigger onchange event when selected value changed
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (settingChanged.current) {
       settingChanged.current = false;
@@ -20349,28 +20442,33 @@ const Select = props => {
       setOptions(options);
     });
   }, [filter, option, selectedValues]);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, selectedValues.map(value => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, value.label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", {
+    className: "grid-table-main-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
+    className: "main-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "selected-container"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "selected-items-container"
+  }, selectedValues.map(value => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "selected-items"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, value.label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "",
     onClick: event => {
       event.preventDefault();
       removeSelectedValues(value);
     }
-  }, "clear")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    className: "",
-    placeholder: "Select...",
-    value: filter,
-    onChange: event => {
-      event.preventDefault();
-      settingChanged.current = true;
-      setFilter(event.target.value);
-    }
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-close"
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "container-items-controls"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "open-modal",
     onClick: event => {
       event.preventDefault();
       setModelOpen(!modalOpen);
     }
-  }, "open"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, "+9"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "clear-all-data",
     onClick: event => {
       event.preventDefault();
@@ -20378,11 +20476,28 @@ const Select = props => {
       clearSelectedValues();
       setModelOpen(false);
     }
-  }, "close")), (modalOpen || filter) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-close"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "selected-input"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    className: "",
+    placeholder: "Select...",
+    value: filter,
+    onChange: event => {
+      event.preventDefault();
+      settingChanged.current = true;
+      setFilter(event.target.value);
+    },
+    onFocus: () => setModelOpen(true)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-keyboard_arrow_down"
+  })))), (modalOpen || filter) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "option-container",
     name: "",
     id: ""
   }, options.map(option => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "",
+    className: "options-item",
     value: option.value,
     onClick: event => {
       event.preventDefault();
@@ -21580,7 +21695,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
   id: 'catalog',
   name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Catalog", "woocommerce-catalog-enquiry"),
-  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enable catalog module", "woocommerce-catalog-enquiry"),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Convert your e-commerce site into a catalog, enabling product browsing without direct online purchasing, ideal for showcasing and inquiries.", "woocommerce-catalog-enquiry"),
   icon: 'font-mail',
   doc_link: '',
   settings_link: '',
@@ -21588,7 +21703,7 @@ __webpack_require__.r(__webpack_exports__);
 }, {
   id: 'enquiry',
   name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enquiry", "woocommerce-catalog-enquiry"),
-  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enable enquiry module", "woocommerce-catalog-enquiry"),
+  desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Integrate an enquiry button, connecting customers directly for enhanced engagement and streamlined communication.", "woocommerce-catalog-enquiry"),
   icon: 'font-mail',
   doc_link: '',
   settings_link: '',
@@ -21925,7 +22040,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  id: 'mode',
+  id: 'role_based_permission',
   priority: 60,
   name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Role-Based Permission", "woocommerce-catalog-enquiry"),
   desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Role-Based Permission", "woocommerce-catalog-enquiry"),
@@ -22047,6 +22162,9 @@ __webpack_require__.r(__webpack_exports__);
       options: appLocalizer.all_product_cat
     }],
     columns: [{
+      key: "catalog_exclusion",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Catalog Exclusion", "woocommerce-catalog-enquiry")
+    }, {
       key: "enquiry_exclusion",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Enquiry Exclusion", "woocommerce-catalog-enquiry")
     }, {
@@ -22097,7 +22215,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  id: 'quote',
+  id: 'quote_general',
   priority: 40,
   name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", "woocommerce-catalog-enquiry"),
   desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Quote", "woocommerce-catalog-enquiry"),
