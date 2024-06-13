@@ -3,8 +3,8 @@ import { __ } from '@wordpress/i18n';
 export default {
     id: 'all_settings',
     priority: 20,
-    name: __("Settings", "woocommerce-catalog-enquiry"),
-    desc: __("Modify settings", "woocommerce-catalog-enquiry"),
+    name: __("Quotation & Product Catalog Controller", "woocommerce-catalog-enquiry"),
+    desc: __("Setup Catalog mode with integrated enquiry and quote management.", "woocommerce-catalog-enquiry"),
     icon: 'font-settings',
     submitUrl: 'save_enquiry',
     modal: [
@@ -12,7 +12,7 @@ export default {
             key: 'separator_content',
             type: 'section',
             desc: __("Catalog", "woocommerce-catalog-enquiry"),
-            hint: __("Modify settings to control user access, catalog design.", "woocommerce-catalog-enquiry"),
+            //hint: __("Modify settings to control user access, catalog design.", "woocommerce-catalog-enquiry"),
         },
         {
             key: 'is_hide_cart_checkout',
@@ -54,7 +54,7 @@ export default {
             key: 'separator_content',
             type: 'section',
             desc: __("Enquiry", "woocommerce-catalog-enquiry"),
-            hint: __("Enquiry", "woocommerce-catalog-enquiry"),
+            //hint: __("Enquiry", "woocommerce-catalog-enquiry"),
         },
         {
             key: 'display_enquiry_button_user_type',
@@ -125,7 +125,7 @@ export default {
             key: 'separator_content',
             type: 'section',
             desc: __("Quote", "woocommerce-catalog-enquiry"),
-            hint: __("Quote", "woocommerce-catalog-enquiry"),
+            //hint: __("Quote", "woocommerce-catalog-enquiry"),
         },
         {
             key: 'display_quote_button_user_type',
