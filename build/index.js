@@ -19903,9 +19903,9 @@ const EnquiryDetails = props => {
     className: "status"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "admin-font font-check"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })), enquiryDetail.reaction !== null && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "reaction-view"
-  }, enquiryDetail.reaction !== null ? enquiryDetail.reaction : '😆')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, enquiryDetail.reaction)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `${reactionOpen === index || chatTextBtnOpen === index ? 'active' : ''} section-reaction`
   }, reactionOpen === index && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "reaction-wrapper"
@@ -19948,9 +19948,9 @@ const EnquiryDetails = props => {
     className: "status"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "admin-font font-check"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })), enquiryDetail.reaction !== null && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "reaction-view"
-  }, enquiryDetail.reaction !== null ? enquiryDetail.reaction : '😆')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, enquiryDetail.reaction)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `${reactionOpen === index || chatTextBtnOpen === index ? 'active' : ''} section-reaction`
   }, reactionOpen === index && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "reaction-wrapper"
@@ -19986,7 +19986,10 @@ const EnquiryDetails = props => {
     className: "option-btn"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     htmlFor: "file"
-  }, "upload"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-attachment"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    className: "attachment-upload-input",
     type: "file",
     name: "",
     id: "file",
@@ -20003,20 +20006,28 @@ const EnquiryDetails = props => {
     autoFocusSearch: false,
     Theme: 'auto',
     skinTonesDisabled: true
-  })))), reply && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    dangerouslySetInnerHTML: {
-      __html: reply
-    }
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "typing-section"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
     name: "reply_msg",
     id: "reply_msg",
     value: message,
     onChange: e => setMessage(e.target.value)
-  }), file && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "File selected: ", file.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }), reply && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "reply-text-preview"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    dangerouslySetInnerHTML: {
+      __html: reply
+    }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-close"
+  }))), file && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "attachment-details-section"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, file.name), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: handleDeleteFile
-  }, "Delete"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "admin-font font-close"
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "send"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "message-send-btn",
@@ -22148,7 +22159,7 @@ __webpack_require__.r(__webpack_exports__);
     }, {
       key: "tag_list",
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tag', 'woocommerce-catalog-enquiry'),
-      options: appLocalizer.all_product_tag
+      options: appLocalizer.all_product_cat
     }],
     columns: [{
       key: "catalog_exclusion",

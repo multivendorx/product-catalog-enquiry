@@ -185,7 +185,7 @@ const EnquiryDetails = (props) => {
             return enquiryDetails;
         }
 
-        return enquiryDetails.filter((enquiryDetail)=> {
+        return enquiryDetails.filter((enquiryDetail) => {
             if (enquiryDetail.msg.includes(searchValue)) {
                 return true;
             }
@@ -198,92 +198,95 @@ const EnquiryDetails = (props) => {
         <>
             <div className="chatting-container">
                 <div className="chat-wrapper">
-                    <EnquiryNavbar enquiry={enquiry}  onChange={(e) => handleMsgSearch(e)} />
+                    <EnquiryNavbar enquiry={enquiry} onChange={(e) => handleMsgSearch(e)} />
                     <div className="chatting-main-container" ref={scrollDiv} >
                         <ul className="wrapper" >
                             {getFilterEnquiryDetails().map((enquiryDetail, index) => (
                                 <>
-                                {enquiryDetail.admin_msg ? (
-                                    <li key={index} className="send message-box">
-                                        <div className="message-box-wrapper">
-                                            <div className="sender-img">
-                                                <img src="https://shorturl.at/gGILQ" alt="" />
-                                            </div>
-                                            <div className="chat-content-wrapper">
-                                                <div className="chat-content">
-                                                    <div className="content">
-                                                        <div dangerouslySetInnerHTML={{ __html: enquiryDetail.msg }} />
-                                                        <div className="status">
-                                                            <i className="admin-font font-check" />
-                                                        </div>
-                                                        <div className='reaction-view'>
-                                                            {enquiryDetail.reaction !== null ? enquiryDetail.reaction : '😆'}
-                                                        </div>
-                                                    </div>
-                                                    <div className={`${(reactionOpen === index || chatTextBtnOpen === index) ? 'active' : ''} section-reaction`}>
-                                                        {reactionOpen === index &&
-                                                            <div className='reaction-wrapper'>
-                                                                <EmojiPicker allowExpandReactions={false} reactionsDefaultOpen={true}  onEmojiClick={(event, emojiObject) => onReactionClick(enquiryDetail.id, event, emojiObject)}/>
-                                                            </div>
-                                                        }
-                                                        {chatTextBtnOpen === index &&
-                                                            <div className='chat-text-control-wrapper'>
-                                                                <button onClick={() => handleReplyOnThis(enquiryDetail.id, enquiryDetail.msg)}>Reply on this</button>
-                                                                <button onClick={() => handleDeleteThisMsg(enquiryDetail.id, enquiryDetail.msg)}>Delete this message</button>
-                                                            </div>
-                                                        }
-                                                        <button onClick={() => handleReactionOpen(index)}>
-                                                            <i className="admin-font font-smile-o" />
-                                                        </button>
-                                                        <button onClick={() => handleChatTextBtnOpen(index)}>
-                                                            <i className="admin-font font-more-vertical" />
-                                                        </button>
-                                                    </div>
+                                    {enquiryDetail.admin_msg ? (
+                                        <li key={index} className="send message-box">
+                                            <div className="message-box-wrapper">
+                                                <div className="sender-img">
+                                                    <img src="https://shorturl.at/gGILQ" alt="" />
                                                 </div>
-                                                <div className="chat-time">{enquiryDetail.date}</div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                ) : (
-                                    <li key={index} className="receive message-box">
-                                        <div className="message-box-wrapper">
-                                            <div className="chat-content-wrapper">
-                                                <div className="chat-content">
-                                                    <div className="content">
-                                                        <div dangerouslySetInnerHTML={{ __html: enquiryDetail.msg }} />
-                                                        <div className="status">
-                                                            <i className="admin-font font-check" />
-                                                        </div>
-                                                        <div className='reaction-view'>
-                                                            {enquiryDetail.reaction !== null ? enquiryDetail.reaction : '😆'}
-                                                        </div>
-
-                                                    </div>
-                                                    <div className={`${(reactionOpen === index || chatTextBtnOpen === index) ? 'active' : ''} section-reaction`}>
-                                                        {reactionOpen === index &&
-                                                            <div className='reaction-wrapper'>
-                                                                <EmojiPicker allowExpandReactions={false} reactionsDefaultOpen={true} onEmojiClick={(event, emojiObject) => onReactionClick(enquiryDetail.id, event, emojiObject)} />
+                                                <div className="chat-content-wrapper">
+                                                    <div className="chat-content">
+                                                        <div className="content">
+                                                            <div dangerouslySetInnerHTML={{ __html: enquiryDetail.msg }} />
+                                                            <div className="status">
+                                                                <i className="admin-font font-check" />
                                                             </div>
-                                                        }
-                                                        {chatTextBtnOpen === index &&
-                                                            <div className='chat-text-control-wrapper'>
-                                                                <button onClick={() => handleReplyOnThis(enquiryDetail.id, enquiryDetail.msg)}>Reply on this</button>
-                                                                <button onClick={() => handleDeleteThisMsg(enquiryDetail.id, enquiryDetail.msg)}>Delete this message</button>
-                                                            </div>
-                                                        }
-                                                        <button onClick={() => handleReactionOpen(index)}>
-                                                            <i className="admin-font font-smile-o" />
-                                                        </button>
-                                                        <button onClick={() => handleChatTextBtnOpen(index)}>
-                                                            <i className="admin-font font-more-vertical" />
-                                                        </button>
+                                                            {enquiryDetail.reaction !== null &&
+                                                                <button className='reaction-view'>
+                                                                    {enquiryDetail.reaction}
+                                                                </button>
+                                                            }
+                                                        </div>
+                                                        <div className={`${(reactionOpen === index || chatTextBtnOpen === index) ? 'active' : ''} section-reaction`}>
+                                                            {reactionOpen === index &&
+                                                                <div className='reaction-wrapper'>
+                                                                    <EmojiPicker allowExpandReactions={false} reactionsDefaultOpen={true} onEmojiClick={(event, emojiObject) => onReactionClick(enquiryDetail.id, event, emojiObject)} />
+                                                                </div>
+                                                            }
+                                                            {chatTextBtnOpen === index &&
+                                                                <div className='chat-text-control-wrapper'>
+                                                                    <button onClick={() => handleReplyOnThis(enquiryDetail.id, enquiryDetail.msg)}>Reply on this</button>
+                                                                    <button onClick={() => handleDeleteThisMsg(enquiryDetail.id, enquiryDetail.msg)}>Delete this message</button>
+                                                                </div>
+                                                            }
+                                                            <button onClick={() => handleReactionOpen(index)}>
+                                                                <i className="admin-font font-smile-o" />
+                                                            </button>
+                                                            <button onClick={() => handleChatTextBtnOpen(index)}>
+                                                                <i className="admin-font font-more-vertical" />
+                                                            </button>
+                                                        </div>
                                                     </div>
+                                                    <div className="chat-time">{enquiryDetail.date}</div>
                                                 </div>
-                                                <div className="chat-time">{enquiryDetail.date}</div>
                                             </div>
-                                        </div>
-                                    </li>
-                                )}
+                                        </li>
+                                    ) : (
+                                        <li key={index} className="receive message-box">
+                                            <div className="message-box-wrapper">
+                                                <div className="chat-content-wrapper">
+                                                    <div className="chat-content">
+                                                        <div className="content">
+                                                            <div dangerouslySetInnerHTML={{ __html: enquiryDetail.msg }} />
+                                                            <div className="status">
+                                                                <i className="admin-font font-check" />
+                                                            </div>
+                                                            {enquiryDetail.reaction !== null && (
+                                                                <button className='reaction-view'>
+                                                                    {enquiryDetail.reaction}
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                        <div className={`${(reactionOpen === index || chatTextBtnOpen === index) ? 'active' : ''} section-reaction`}>
+                                                            {reactionOpen === index &&
+                                                                <div className='reaction-wrapper'>
+                                                                    <EmojiPicker allowExpandReactions={false} reactionsDefaultOpen={true} onEmojiClick={(event, emojiObject) => onReactionClick(enquiryDetail.id, event, emojiObject)} />
+                                                                </div>
+                                                            }
+                                                            {chatTextBtnOpen === index &&
+                                                                <div className='chat-text-control-wrapper'>
+                                                                    <button onClick={() => handleReplyOnThis(enquiryDetail.id, enquiryDetail.msg)}>Reply on this</button>
+                                                                    <button onClick={() => handleDeleteThisMsg(enquiryDetail.id, enquiryDetail.msg)}>Delete this message</button>
+                                                                </div>
+                                                            }
+                                                            <button onClick={() => handleReactionOpen(index)}>
+                                                                <i className="admin-font font-smile-o" />
+                                                            </button>
+                                                            <button onClick={() => handleChatTextBtnOpen(index)}>
+                                                                <i className="admin-font font-more-vertical" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div className="chat-time">{enquiryDetail.date}</div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    )}
                                 </>
                             ))}
                         </ul>
@@ -294,9 +297,10 @@ const EnquiryDetails = (props) => {
                         <div className="attachment">
                             <div className="attachment-wrapper">
                                 <button className='option-btn'>
-                                    {/* <i className="admin-font font-dots-three-horizontal" /> */}
-                                    <label htmlFor="file">upload</label>
-                                    <input type="file" name="" id="file" onChange={handleFileChange} />
+                                    <label htmlFor="file">
+                                        <i className="admin-font font-attachment" />
+                                    </label>
+                                    <input className='attachment-upload-input' type="file" name="" id="file" onChange={handleFileChange} />
                                 </button>
                                 <button onClick={toggleEmojiPicker} className='option-btn'>
                                     <i className="admin-font font-smile-o" />
@@ -313,17 +317,19 @@ const EnquiryDetails = (props) => {
                                 )}
                             </div>
                         </div>
-                        { reply && (
-                            <div dangerouslySetInnerHTML={{ __html: reply }}
-                            /> 
-                        )}
                         <div className="typing-section">
                             <textarea name="reply_msg" id="reply_msg" value={message}
                                 onChange={(e) => setMessage(e.target.value)} />
+                            {reply && (
+                                <div className='reply-text-preview'>
+                                    <p dangerouslySetInnerHTML={{ __html: reply }}></p>
+                                    <button><i className='admin-font font-close'></i></button>
+                                </div>
+                            )}
                             {file && (
-                                <div>
-                                    <p>File selected: {file.name}</p>
-                                    <button onClick={handleDeleteFile}>Delete</button>
+                                <div className='attachment-details-section'>
+                                    <p>{file.name}</p>
+                                    <button onClick={handleDeleteFile}><i className='admin-font font-close'></i></button>
                                 </div>
                             )}
                         </div>
@@ -333,7 +339,7 @@ const EnquiryDetails = (props) => {
                     </div>
                 </div>
             </div>
-            
+
         </>
     );
 }

@@ -868,3 +868,48 @@ array (
   'button_border_radious' => '',
 )
 -------------------------------------
+array (
+  'button_text' => '',
+  'button_link' => '',
+  'alert_text_color' => '',
+  'button_background_color' => '',
+  'button_border_color' => '',
+  'button_text_color' => '',
+  'button_background_color_onhover' => '',
+  'button_text_color_onhover' => '',
+  'button_border_color_onhover' => '',
+  'button_font_size' => '',
+  'button_border_size' => '',
+  'button_border_radious' => '',
+)
+-------------------------------------
+array (
+  'button_text' => '',
+  'button_link' => '',
+  'alert_text_color' => '',
+  'button_background_color' => '',
+  'button_border_color' => '',
+  'button_text_color' => '',
+  'button_background_color_onhover' => '',
+  'button_text_color_onhover' => '',
+  'button_border_color_onhover' => '',
+  'button_font_size' => '',
+  'button_border_size' => '',
+  'button_border_radious' => '',
+)
+-------------------------------------
+array (
+  'button_text' => '',
+  'button_link' => '',
+  'alert_text_color' => '',
+  'button_background_color' => '',
+  'button_border_color' => '',
+  'button_text_color' => '',
+  'button_background_color_onhover' => '',
+  'button_text_color_onhover' => '',
+  'button_border_color_onhover' => '',
+  'button_font_size' => '',
+  'button_border_size' => '',
+  'button_border_radious' => '',
+)
+-------------------------------------

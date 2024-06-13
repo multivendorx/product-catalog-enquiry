@@ -27,7 +27,7 @@ const EnquiryMessages = (props) => {
     };
 
     const productContain = (productList, filter) => {
-        return productList.find((product)=> {
+        return productList.find((product) => {
             console.log(product)
             if (product.name.includes(filterValue)) {
                 return true;
@@ -45,16 +45,16 @@ const EnquiryMessages = (props) => {
             return enquiryLists;
         }
 
-        return enquiryLists.filter((enquiryList)=> {
-            if (enquiryList.id == filterValue ) {
+        return enquiryLists.filter((enquiryList) => {
+            if (enquiryList.id == filterValue) {
                 return true
             }
 
-            if (enquiryList.name == filterValue ) {
+            if (enquiryList.name == filterValue) {
                 return true
             }
 
-            if ( productContain(enquiryList.product, filterValue)) {
+            if (productContain(enquiryList.product, filterValue)) {
                 return true;
             }
 
