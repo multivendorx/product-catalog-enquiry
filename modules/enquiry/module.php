@@ -27,15 +27,15 @@ class Module {
 
     function main() {
         if ($this->available_for == '') {
-            // $display_enquiry_button = Catalog()->setting->get_setting( 'display_enquiry_button_user_type' );
+            $display_enquiry_button = Catalog()->setting->get_setting( 'display_enquiry_button_user_type' );
 
-            // if ($display_enquiry_button == 'all_users') {
+            if ($display_enquiry_button == 'all_users') {
                 add_action('woocommerce_single_product_summary', [ $this, 'add_form_for_enquiry'], 10);
-            // } else if ($display_enquiry_button == 'logged_out' && !is_user_logged_in()) {
-            //     add_action('woocommerce_single_product_summary', [ $this, 'add_form_for_enquiry'], 10);
-            // } else if ($display_enquiry_button == 'logged_in' && is_user_logged_in()) {
-            //     add_action('woocommerce_single_product_summary', [ $this, 'add_form_for_enquiry'], 10);
-            // }
+            } else if ($display_enquiry_button == 'logged_out' && !is_user_logged_in()) {
+                add_action('woocommerce_single_product_summary', [ $this, 'add_form_for_enquiry'], 10);
+            } else if ($display_enquiry_button == 'logged_in' && is_user_logged_in()) {
+                add_action('woocommerce_single_product_summary', [ $this, 'add_form_for_enquiry'], 10);
+            }
             add_action('wp_ajax_save_enquiry_send_mail', [$this, 'save_enquiry_send_mail']);
 
             add_action( 'woocommerce_single_product_summary', array($this, 'catalog_woocommerce_template_single'), 5 );
