@@ -12,6 +12,7 @@ import Popoup from "../../PopupContent/PopupContent";
 import FormCustomizer from "../../formCustomizer/formCustomizer";
 import CatalogCustomizer from "../../CatalogCustomizer/CatalogCustomizer";
 import GridTable from "../../GridTable/GridTable";
+import PopupPluginDependency from "../../PopupContent/PopupPluginDependency";
 
 // Variable for controll coldown effect submit time
 const PENALTY = 10;
@@ -24,6 +25,7 @@ const DynamicForm = (props) => {
   const [countryState, setCountryState] = useState([]);
   const settingChanged = useRef(false);
   const [modelOpen, setModelOpen] = useState(false);
+  const [modelPluginOpen, setModelPluginOpen] = useState(false);
 
   const counter = useRef(0);
   const counterId = useRef(0);
@@ -605,6 +607,9 @@ const DynamicForm = (props) => {
               value={value}
               proSetting={isProSetting(inputField.proSetting)}
               onChange={(e) => {
+                if (inputField.dependent) {
+                  setModelPluginOpen(true)
+                }
                 if (!proSettingChanged(inputField.proSetting)) {
                   handleChange(e, inputField.key, "multiple");
                 }
@@ -757,6 +762,9 @@ const DynamicForm = (props) => {
   const handleModelClose = () => {
     setModelOpen(false);
   };
+  const handleModelPopupClose = () => {
+    setModelPluginOpen(false);
+  };
 
   return (
     <>
@@ -772,6 +780,18 @@ const DynamicForm = (props) => {
             onClick={handleModelClose}
           ></span>
           <Popoup />
+        </Dialog>
+        <Dialog
+          className="admin-module-popup"
+          open={modelPluginOpen}
+          onClose={handleModelPopupClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <span
+            className="admin-font font-cross"
+            onClick={handleModelPopupClose}
+          ></span>
+          <PopupPluginDependency />
         </Dialog>
         {successMsg && (
           <div className="admin-notice-display-title">

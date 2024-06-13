@@ -38,7 +38,6 @@ const EnquiryNavbar = (props) => {
                     <button onClick={handleProfile} className="chat-meta-data">
                         <div className="chat-img">
                             <img src="https://shorturl.at/gGILQ" alt="" />
-                            <span className="user-status online" />
                         </div>
                         <div className="chat-meta">
                             <p className="enquery-id">#{enquiry.id}</p>
@@ -50,7 +49,7 @@ const EnquiryNavbar = (props) => {
                     <ul>
                         <li className="chat-more-option-item">
                             <div class="input-container">
-                                <input placeholder="Search..." class="input" type="text"  onChange={(e) => { props.onChange?.(e) }} />
+                                <input placeholder="Search..." class="input" type="text" onChange={(e) => { props.onChange?.(e) }} />
                                 <i className="admin-font icon font-search" />
                             </div>
                         </li>

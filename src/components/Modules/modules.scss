@@ -19,7 +19,6 @@ $color-active: #65438f;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    max-width: 900px;
     gap: 1rem;
     width: 100%;
     flex-wrap: wrap;
@@ -27,16 +26,21 @@ $color-active: #65438f;
     .module-list-item {
       border-radius: 0.25rem;
       box-shadow: 0 0 1rem rgba($color: #000000, $alpha: 0.125);
-      flex: 1 0 230px;
+      flex: 1 0 300px;
       padding-top: 1.5rem;
-      width: 250px;
+      max-width: 320px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
       background-color: $color-white;
       overflow: hidden;
+      min-height: 278px;
       position: relative;
+
+      @media screen and (max-width: 768px) {
+        max-width: 100%;
+      }
 
       .admin-pro-tag {
         right: 1.25rem;
@@ -70,6 +74,7 @@ $color-active: #65438f;
 
         .meta-description {
           font-size: 0.875rem;
+          min-height: 84px;
         }
       }
 
