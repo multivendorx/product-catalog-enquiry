@@ -2,8 +2,8 @@ import { __ } from '@wordpress/i18n';
 
 export default {
     id: 'enquiry_quote_exclusion',
-    priority: 55,
-    name: __("Exclusion", "woocommerce-catalog-enquiry"),
+    priority: 40,
+    name: __("Exclusion Management", "woocommerce-catalog-enquiry"),
     desc: __("Exclusion Management", "woocommerce-catalog-enquiry"),
     icon: 'font-settings',
     submitUrl: 'save_enquiry',

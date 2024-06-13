@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 
 export default {
     id: 'tools',
-    priority: 60,
+    priority: 50,
     name: __("Tools", "woocommerce-catalog-enquiry"),
     desc: __("Tools", "woocommerce-catalog-enquiry"),
     icon: 'font-settings',

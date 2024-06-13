@@ -50,7 +50,7 @@ class Admin
             __('Settings', 'woocommerce-catalog-enquiry'),
             __('Settings', 'woocommerce-catalog-enquiry'),
             'manage_woocommerce',
-            'catalog#&tab=settings&subtab=catalog',
+            'catalog#&tab=settings&subtab=all_settings',
             '__return_null'
         );
 
@@ -155,7 +155,7 @@ class Admin
         // Get all tab setting's database value
         $settings_databases_value = $active_modules = [];
         $active_modules = Catalog()->modules->get_active_modules();
-        $tabs_names = ['enquiry_catalog_customization', 'catalog', 'enquiry_general', 'enquiry_form_customization', 'enquiry_quote_exclusion', 'role_based_customization', 'tools', 'quote_general'];
+        $tabs_names = ['enquiry_catalog_customization', 'all_settings', 'enquiry_form_customization', 'enquiry_quote_exclusion', 'tools'];
         foreach ($tabs_names as $tab_name) {
             $settings_databases_value[$tab_name] = Catalog()->setting->get_option('catalog_' . $tab_name . '_settings');
         }
