@@ -27,17 +27,6 @@ class Admin
             50
         );
 
-        if (apply_filters('mvx_catalog_add_query', false)) {
-            add_submenu_page(
-                'catalog',
-                __('Customer Queries', 'woocommerce-catalog-enquiry'),
-                __('Customer Queries', 'woocommerce-catalog-enquiry'),
-                'manage_woocommerce',
-                'catalog#&tab=customer&subtab=queries',
-                '__return_null'
-            );
-        }
-
         add_submenu_page(
             'catalog',
             __('Enquiry Messages', 'woocommerce-catalog-enquiry'),
@@ -96,7 +85,7 @@ class Admin
     public function catalog_admin_enqueue_scripts()
     {
         // global $Woocommerce_Catalog_Enquiry;
-        $pages_array = $role_array = $all_users = $all_products = $all_product_cat = [];
+        $pages_array = $role_array = $all_users = $all_products = $all_product_cat = $all_product_tag = [];
         $pages = get_pages();
         if ($pages) {
             foreach ($pages as $page) {
@@ -150,6 +139,19 @@ class Admin
                 }
             }
         }
+
+        $args_tag = array('hide_empty' => false,);
+        $tags = get_terms( 'product_tag', $args_tag );
+        if ($tags) {
+            foreach ($tags as $tag) {
+                $all_product_tag[] = array(
+                    'value' => $tag->term_id,
+                    'label' => $tag->name,
+                    'key' => $tag->term_id,
+                );
+            }
+        } 
+        
         // Get all tab setting's database value
         $settings_databases_value = $active_modules = [];
         $active_modules = Catalog()->modules->get_active_modules();
@@ -168,6 +170,7 @@ class Admin
                 'all_users' => $all_users,
                 'all_products' => $all_products,
                 'all_product_cat' => $all_product_cat,
+                'all_product_tag' => $all_product_tag,
                 'settings_databases_value' => $settings_databases_value,
                 'active_modules' => $active_modules,
                 'nonce' => wp_create_nonce('wp_rest'),

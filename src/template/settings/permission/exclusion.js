@@ -73,7 +73,7 @@ export default {
                 {
                     key: "tag_list",
                     label: __('Tag', 'woocommerce-catalog-enquiry'),
-                    options: appLocalizer.all_product_cat
+                    options: appLocalizer.all_product_tag
                 }
             ],
             columns: [
