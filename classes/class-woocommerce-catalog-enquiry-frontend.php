@@ -451,7 +451,7 @@ class Woocommerce_Catalog_Enquiry_Frontend {
                 if (!$product->managing_stock() && !$product->is_in_stock()) {
                     ?>
                     <br/>
-                    <button class="woocommerce-catalog-enquiry-btn button woocommerce-catalog-enquiry-custom-button-enquiry <?php if ($this->settings_button && isset($this->settings_button['is_button']) && mvx_catalog_get_settings_value($this->settings_button['is_button'], 'checkbox') == 'Enable') echo 'custom_enquiry_buttons_css_new'; else echo ''; ?>" href="#responsive"><?php echo esc_html($enquiry_button_text); ?></button>
+                    <button id="product-enquiry-button" class="woocommerce-catalog-enquiry-btn button woocommerce-catalog-enquiry-custom-button-enquiry <?php if ($this->settings_button && isset($this->settings_button['is_button']) && mvx_catalog_get_settings_value($this->settings_button['is_button'], 'checkbox') == 'Enable') echo 'custom_enquiry_buttons_css_new'; else echo ''; ?>" href="#responsive"><?php echo esc_html($enquiry_button_text); ?></button>
                     <?php
                     
                 } else {
@@ -461,7 +461,7 @@ class Woocommerce_Catalog_Enquiry_Frontend {
             } else {
                 ?>
                 <br/>
-                <button class="woocommerce-catalog-enquiry-btn button demo btn btn-primary btn-large <?php if ($this->settings_button && isset($this->settings_button['is_button']) && mvx_catalog_get_settings_value($this->settings_button['is_button'], 'checkbox') == 'Enable') echo 'custom_enquiry_buttons_css_new'; else echo ''; ?>" style="margin-top:15px;" href="#responsive"><?php echo esc_html($enquiry_button_text); ?></button>
+                <button id="product-enquiry-button" class="woocommerce-catalog-enquiry-btn button demo btn btn-primary btn-large <?php if ($this->settings_button && isset($this->settings_button['is_button']) && mvx_catalog_get_settings_value($this->settings_button['is_button'], 'checkbox') == 'Enable') echo 'custom_enquiry_buttons_css_new'; else echo ''; ?>" style="margin-top:15px;" href="#responsive"><?php echo esc_html($enquiry_button_text); ?></button>
                 <?php
             } ?>
             <input type="hidden" name="product_name_for_enquiry" id="product-name-for-enquiry" value="<?php echo get_post_field('post_title', $post->ID); ?>" />
