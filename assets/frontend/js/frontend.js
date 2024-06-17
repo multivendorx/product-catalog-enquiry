@@ -99,6 +99,10 @@ jQuery( document ).ready( function ( $ ) {
 		}
 	);
 
+	var hideCap = document.getElementById('hideCap').value;
+	console.log(hideCap);
+
+
 	$( '#woocommerce-submit-enquiry' ).on( 'click', function () {
 		var name = document.getElementById( 'woocommerce-user-name' ).value;
 		var email = document.getElementById( 'woocommerce-user-email' ).value;
@@ -191,7 +195,7 @@ jQuery( document ).ready( function ( $ ) {
 					.focus();
 				return false;
 			}
-			if ( captcha && captcha.value != catalog_enquiry_front.captcha ) {
+			if ( captcha && captcha.value != hideCap ) {
 				document.getElementById( 'msg-for-enquiry-error' ).innerHTML =
 					catalog_enquiry_front.error_levels.captcha_valid;
 				document
